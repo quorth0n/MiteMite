@@ -46,12 +46,6 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
 
-        // subscribe here (rather than in onTakeView() so that we don't receive
-        // a stickied event every time the motherfucker takes the view.
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().registerSticky(this);
-        }
-
         if (savedState != null) {
             lastAnime = savedState.getParcelable(LAST_ANIME_BUNDLE_KEY);
         }
@@ -61,6 +55,10 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
     @Override
     protected void onTakeView(AnimeFragment view) {
         super.onTakeView(view);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().registerSticky(this);
+        }
+
         view.updateRefreshing();
         if (lastAnime != null) {
             if (lastAnime.getEpisodes() != null) {
@@ -235,12 +233,7 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
 
     public void downloadOrStream (Video video, boolean download) {
         if (download) {
-            DownloadManager downloadManager = (DownloadManager) getView().getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(video.getUrl()));
-            request.setTitle(video.getTitle());
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-            downloadManager.enqueue(request);
-            // NEED TO USE BROADCAST RECEIVERS TO HANDLE CLICKS ON THE NOTIFICATION
+            GeneralUtils.download((DownloadManager) getView().getActivity().getSystemService(Context.DOWNLOAD_SERVICE), video.getUrl());
         } else {
             postIntent(video.getUrl());
         }

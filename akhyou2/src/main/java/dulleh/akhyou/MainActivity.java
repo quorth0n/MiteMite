@@ -1,7 +1,9 @@
 package dulleh.akhyou;
 
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +17,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import de.greenrobot.event.EventBus;
 import dulleh.akhyou.Anime.AnimeFragment;
 import dulleh.akhyou.Models.Anime;
@@ -24,6 +28,7 @@ import dulleh.akhyou.Utils.AdapterClickListener;
 import dulleh.akhyou.Utils.Events.OpenAnimeEvent;
 import dulleh.akhyou.Utils.Events.SettingsItemSelectedEvent;
 import dulleh.akhyou.Utils.Events.SnackbarEvent;
+import dulleh.akhyou.Utils.GeneralUtils;
 import nucleus.factory.RequiresPresenter;
 import nucleus.view.NucleusAppCompatActivity;
 
@@ -273,6 +278,21 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
             favouritesList.setAdapter(drawerAdapter);
             drawerAdapter.notifyDataSetChanged();
         }
+    }
+
+    public void promptForUpdate (String updateLink) {
+        new MaterialDialog.Builder(this)
+                .title(getString(R.string.update_title))
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+                        GeneralUtils.download((DownloadManager) getSystemService(DOWNLOAD_SERVICE), updateLink);
+                    }
+                })
+                .positiveText(getString(R.string.update))
+                .negativeText(getString(R.string.cancel))
+                .show();
     }
 
 }

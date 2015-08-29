@@ -118,6 +118,40 @@ public class MainPresenter extends RxPresenter<MainActivity>{
             EventBus.getDefault().postSticky(new SearchEvent("Hyouka"));
             mainActivity.requestFragment(MainActivity.SEARCH_FRAGMENT);
         }
+        checkForUpdate();
+    }
+
+    private void checkForUpdate () {
+        Observable.defer(new Func0<Observable<String>>() {
+            @Override
+            public Observable<String> call() {
+                return Observable.just(mainModel.isUpdateAvailable());
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(deliver())
+                .subscribe(new Subscriber<String>() {
+
+                    @Override
+                    public void onNext(String s) {
+                        if (s != null) {
+                            getView().promptForUpdate(s);
+                        }
+                        this.unsubscribe();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        postError(e);
+                        this.unsubscribe();
+                    }
+
+                });
     }
 
     public void onEvent (FavouriteEvent event) {

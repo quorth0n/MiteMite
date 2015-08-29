@@ -7,6 +7,8 @@
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">Close drawer</string>
     <string name="imageContentDesc">Anime poster</string>
+    <string name="update_title">There is an update available!</string>
+    <string name="update">UPDATE</string>
 
     <string name="licences_preference_title">Licences</string>
     <string name="licences_preference_summary">Thank you to these great open source projects.</string>

@@ -1,5 +1,8 @@
 package dulleh.akhyou.Utils;
 
+import android.app.DownloadManager;
+import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -71,6 +74,14 @@ public class GeneralUtils {
                     .replace("|", "%7C")
                     .replace("\"", "%22");
         }
+    }
+
+    public static void download (DownloadManager downloadManager, String url) {
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.setTitle(url);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        downloadManager.enqueue(request);
+        //TODO: NEED TO USE BROADCAST RECEIVERS TO HANDLE CLICKS ON THE NOTIFICATION
     }
 
     public static String formatError (Throwable e) {

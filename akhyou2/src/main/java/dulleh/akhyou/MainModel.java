@@ -2,15 +2,24 @@ package dulleh.akhyou;
 
 import android.content.SharedPreferences;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import de.greenrobot.event.EventBus;
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Utils.Events.FavouriteEvent;
 import dulleh.akhyou.Utils.Events.LastAnimeEvent;
+import dulleh.akhyou.Utils.Events.SnackbarEvent;
 import dulleh.akhyou.Utils.GeneralUtils;
+import rx.exceptions.OnErrorThrowable;
 
 public class MainModel {
     private static final String FAVOURITES_PREF = "favourites_preference";
@@ -157,6 +166,22 @@ public class MainModel {
 
     private Anime deserializeAnime (String serializedAnime) {
         return GeneralUtils.deserializeAnime(serializedAnime);
+    }
+
+    public String isUpdateAvailable() {
+        String versionName = BuildConfig.VERSION_NAME;
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            JsonNode rootNode = objectMapper.readValue(GeneralUtils.getWebPage("https://api.github.com/gists/d67e3b97a672e8c3f544"), JsonNode.class);
+            if (!rootNode.get("description").textValue().equals(versionName)) {
+                return rootNode.get("files").get("latestRelease").get("content").textValue();
+            } else {
+                return null;
+            }
+        } catch (IOException io) {
+            throw OnErrorThrowable.from(new Throwable("Checking update failed."));
+        }
     }
 
 }
