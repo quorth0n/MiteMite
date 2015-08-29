@@ -1,11 +1,11 @@
 # Akhyou!  
-**An anime streaming app for Android.** 
+**An anime streaming app for Android. APK COMING SOON**
 
 ![Akhyou! Logo Large](/AKHYOU-FINAL-LOGO.png "AKHYOU!")
 
 Akhyou! is a material design android app in beta that scrapes streaming sites to provide users with an ad-free *intuitive* method of streaming and downloading the anime of their choice to the media player of their choice. Currently it scrapes two anime streaming sites but is built to be expandable. Upcoming features include *scrobbling* to [MyAnimeList](http://myanimelist.net/) / [Hummingbird.me](https://hummingbird.me/), enhanced browsing (new releases, genres, etc.) and a *proper* anime details screen.  
 
-There are no plans to release Akhyou! on the Play store in the future.  
+There are no plans to release Akhyou! on the Play store in the future.
 
 ![Akhyou! Search Showcase](/captures/showcase_search_small.png "AKHYOU!") ![Akhyou! Episodes Showcase](/captures/showcase_episodes_small.png "AKHYOU!")
 ![Akhyou! Anime Showcase](/captures/showcase_anime_small.png "AKHYOU!") ![Akhyou! Favourites Showcase](/captures/showcase_favourites_small.png "AKHYOU!")
