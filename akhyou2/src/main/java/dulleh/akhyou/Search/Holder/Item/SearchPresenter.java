@@ -48,7 +48,6 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
     @Override
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
-        subscribe();
 
         if (savedState != null) {
             setProviderType(savedState.getInt(SearchHolderFragment.PROVIDER_TYPE_KEY, 0));
@@ -64,6 +63,7 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
     @Override
     protected void onTakeView(SearchFragment view) {
         super.onTakeView(view);
+        subscribe();
         view.updateRefreshing();
     }
 
