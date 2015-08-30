@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 
 import java.util.List;
@@ -233,7 +234,7 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
 
     public void downloadOrStream (Video video, boolean download) {
         if (download) {
-            GeneralUtils.download((DownloadManager) getView().getActivity().getSystemService(Context.DOWNLOAD_SERVICE), video.getUrl(), video.getUrl());
+            GeneralUtils.download((AppCompatActivity) getView().getActivity(), (DownloadManager) getView().getActivity().getSystemService(Context.DOWNLOAD_SERVICE), video.getUrl(), video.getUrl());
         } else {
             postIntent(video.getUrl());
         }

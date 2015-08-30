@@ -1,9 +1,10 @@
 package dulleh.akhyou.Utils;
 
 import android.app.DownloadManager;
-import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.OkHttpClient;
@@ -16,16 +17,11 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import de.greenrobot.event.EventBus;
 import dulleh.akhyou.MainApplication;
 import dulleh.akhyou.Models.Anime;
-import dulleh.akhyou.Models.BasicObservableable;
-import dulleh.akhyou.Models.HummingbirdApi;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
+import dulleh.akhyou.Utils.Events.SnackbarEvent;
 import rx.exceptions.OnErrorThrowable;
-import rx.functions.Func0;
-import rx.schedulers.Schedulers;
 
 public class GeneralUtils {
 
@@ -76,12 +72,18 @@ public class GeneralUtils {
         }
     }
 
-    public static void download (DownloadManager downloadManager, String url, String title) {
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+    public static void download (AppCompatActivity activity, DownloadManager downloadManager, String url, String title) {
+        /*DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setTitle(title);
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        downloadManager.enqueue(request);
-        //TODO: NEED TO USE BROADCAST RECEIVERS TO HANDLE CLICKS ON THE NOTIFICATION
+        downloadManager.enqueue(request);*/
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        if (intent.resolveActivity(activity.getPackageManager()) != null) {
+            activity.startActivity(intent);
+        } else {
+            EventBus.getDefault().post(new SnackbarEvent("No app to open this link."));
+        }
     }
 
     public static String formatError (Throwable e) {

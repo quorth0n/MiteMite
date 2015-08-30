@@ -25,6 +25,8 @@ public class MainModel {
     private static final String FAVOURITES_PREF = "favourites_preference";
     private static final String LAST_ANIME_PREF = "last_anime_preference";
 
+    private static final String LATEST_RELEASE_LINK = "https://github.com/dulleh/akhyou/blob/master/akhyou-latest.apk?raw=true";
+
     private SharedPreferences sharedPreferences;
     // The key is the anime url.
     private HashMap<String, Anime> favouritesMap;
@@ -175,7 +177,8 @@ public class MainModel {
         try {
             JsonNode rootNode = objectMapper.readValue(GeneralUtils.getWebPage("https://api.github.com/gists/d67e3b97a672e8c3f544"), JsonNode.class);
             if (!rootNode.get("description").textValue().equals(versionName)) {
-                return rootNode.get("files").get("latestRelease").get("content").textValue();
+                //return rootNode.get("files").get("latestRelease").get("content").textValue();
+                return LATEST_RELEASE_LINK;
             } else {
                 return null;
             }

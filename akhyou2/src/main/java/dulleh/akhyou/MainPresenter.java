@@ -1,7 +1,9 @@
 package dulleh.akhyou;
 
+import android.app.DownloadManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import java.util.List;
 
@@ -201,6 +203,10 @@ public class MainPresenter extends RxPresenter<MainActivity>{
     public void postError (Throwable e) {
         e.printStackTrace();
         EventBus.getDefault().post(new SnackbarEvent(GeneralUtils.formatError(e)));
+    }
+
+    public void downloadUpdate (String url) {
+        GeneralUtils.download(getView(), (DownloadManager) getView().getSystemService(AppCompatActivity.DOWNLOAD_SERVICE), url, "akhyou-latest.apk");
     }
 
 }
