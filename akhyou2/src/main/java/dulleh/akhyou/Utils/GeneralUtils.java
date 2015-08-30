@@ -80,7 +80,6 @@ public class GeneralUtils {
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setTitle(title);
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.allowScanningByMediaScanner();
         downloadManager.enqueue(request);
         //TODO: NEED TO USE BROADCAST RECEIVERS TO HANDLE CLICKS ON THE NOTIFICATION
     }
