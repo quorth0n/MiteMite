@@ -287,7 +287,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         super.onPositive(dialog);
-                        GeneralUtils.download((DownloadManager) getSystemService(DOWNLOAD_SERVICE), updateLink);
+                        GeneralUtils.download((DownloadManager) getSystemService(DOWNLOAD_SERVICE), updateLink, "akhyou-latest.apk");
                     }
                 })
                 .positiveText(getString(R.string.update))
