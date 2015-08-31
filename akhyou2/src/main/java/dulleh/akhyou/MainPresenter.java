@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -35,9 +36,11 @@ public class MainPresenter extends RxPresenter<MainActivity>{
         super.onCreate(savedState);
 
         EventBus.getDefault().register(this);
-
-        if (savedState != null && mainModel != null) {
-            mainModel.setFavourites(savedState.getParcelableArrayList(FAVOURITES_KEY));
+        if (savedState != null && mainModel != null ) {
+            ArrayList<Anime> favourites = savedState.getParcelableArrayList(FAVOURITES_KEY);
+            if (favourites != null) {
+                mainModel.setFavourites(favourites);
+            }
         }
     }
 

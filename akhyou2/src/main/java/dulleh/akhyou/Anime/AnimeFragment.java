@@ -162,7 +162,9 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
     public void onDestroy() {
         super.onDestroy();
         setToolbarTitle(null);
-        searchView.setOnQueryTextListener(null);
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(null);
+        }
         MainApplication.getRefWatcher(getActivity()).watch(this);
     }
 
