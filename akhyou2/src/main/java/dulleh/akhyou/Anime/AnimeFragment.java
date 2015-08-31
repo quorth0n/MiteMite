@@ -128,15 +128,13 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
         drawerCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                final Boolean isInFavourites = getPresenter().isInFavourites();
-                if (isInFavourites != null) {
-                    // This is to ignore that first time the check box is changed.
-                    // Should have just set the listener in setAnime ;-;
-                    if (!b && isInFavourites) {
-                        getPresenter().onFavouriteCheckedChanged(false);
-                    } else if (b && !isInFavourites) {
-                        getPresenter().onFavouriteCheckedChanged(true);
-                    }
+                // This is to ignore that first time the check box is changed.
+                // Should have just set the listener in setAnime ;-;
+                boolean isInFavourites = isInFavourites(getPresenter().lastAnime);
+                if (!b && isInFavourites) {
+                    getPresenter().onFavouriteCheckedChanged(false);
+                } else if (b && !isInFavourites) {
+                    getPresenter().onFavouriteCheckedChanged(true);
                 } else {
                     getPresenter().setNeedToGiveFavourite(true);
                 }
@@ -205,7 +203,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
 
     }
 
-    public void setAnime (Anime anime, boolean isInFavourites) {
+    public void setAnime (Anime anime) {
         episodesAdapter.setAnime(anime.getEpisodes());
         setToolbarTitle(anime.getTitle());
 
@@ -240,18 +238,29 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
         drawerStatus.setText(anime.getStatus());
 
         // CHECK IF IN FAVOURITES
-        drawerCheckBox.setChecked(isInFavourites);
+        drawerCheckBox.setChecked(isInFavourites(anime));
         getPresenter().setNeedToGiveFavourite(false);
 
         updateRefreshing();
     }
+
+    // returns false if it cannot check.
+    public boolean isInFavourites(Anime anime) {
+        try {
+            return ((MainActivity) getActivity()).getPresenter().getModel().isInFavourites(anime.getUrl());
+        } catch (IllegalStateException e) {
+            getPresenter().postError(e);
+            return false;
+        }
+    }
+
 
     public void notifyAdapter () {
         episodesAdapter.notifyDataSetChanged();
     }
 
     public void updateRefreshing () {
-        if (getPresenter().isRefreshing) {
+        if (!isRefreshing() && getPresenter().isRefreshing) {
             TypedValue typedValue = new TypedValue();
             getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typedValue, true);
             refreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typedValue.resourceId));

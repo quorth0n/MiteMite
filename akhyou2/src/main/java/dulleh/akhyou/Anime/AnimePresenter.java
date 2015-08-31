@@ -39,7 +39,7 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
     private Subscription videoSubscription;
     private AnimeProvider animeProvider;
 
-    private Anime lastAnime;
+    Anime lastAnime;
     public boolean isRefreshing;
     private static boolean needToGiveFavouriteState = false;
 
@@ -62,15 +62,18 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
 
         view.updateRefreshing();
         if (lastAnime != null) {
+
             if (lastAnime.getEpisodes() != null) {
-                view.setAnime(lastAnime, isInFavourites());
+                view.setAnime(lastAnime);
             } else if (lastAnime.getTitle() != null) {
                 view.setToolbarTitle(lastAnime.getTitle());
             }
-        }
-        if (needToGiveFavouriteState) {
-            view.setFavouriteChecked(isInFavourites());
-            needToGiveFavouriteState = false;
+
+            if (needToGiveFavouriteState) {
+                view.setFavouriteChecked(view.isInFavourites(lastAnime));
+                needToGiveFavouriteState = false;
+            }
+
         }
     }
 
@@ -114,10 +117,10 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
                     try {
                         anime.setProviderType(GeneralUtils.determineProviderType(anime.getUrl()));
                         setAnimeProvider(anime);
-                        break;
                     } catch (Exception e) {
                         postError(e);
                     }
+                    break;
             }
         } else {
             try {
@@ -131,20 +134,14 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
     }
 
     public void onEvent (OpenAnimeEvent event) {
-        if (animeProvider ==  null) {
-
-            if (lastAnime == null) {
-                lastAnime = setAnimeProvider(event.anime);
-            } else if (!event.anime.getProviderType().equals(lastAnime.getProviderType())) {
-                lastAnime = setAnimeProvider(event.anime);
-            }
-
+        if (lastAnime == null || !event.anime.getProviderType().equals(lastAnime.getProviderType())) {
+            lastAnime = setAnimeProvider(event.anime);
         } else {
             lastAnime = event.anime;
         }
 
         if (lastAnime != null && lastAnime.getEpisodes() != null) {
-            getView().setAnime(lastAnime, isInFavourites());
+            getView().setAnime(lastAnime);
             fetchAnime(true);
         } else {
             fetchAnime(false);
@@ -153,7 +150,7 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
 
     public void fetchAnime (boolean updateCached) {
         isRefreshing = true;
-        if (getView() != null && !getView().isRefreshing()) {
+        if (getView() != null) {
             getView().updateRefreshing();
         }
 
@@ -178,7 +175,7 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
                     public void onNext(Anime anime) {
                         lastAnime = anime;
                         isRefreshing = false;
-                        getView().setAnime(lastAnime, isInFavourites());
+                        getView().setAnime(lastAnime);
                         EventBus.getDefault().post(new LastAnimeEvent(lastAnime));
                         this.unsubscribe();
                     }
@@ -198,18 +195,6 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
                     }
 
                 });
-    }
-
-    // getView() must not be null
-    public Boolean isInFavourites() {
-        try {
-            //TODO: THIS IS TERRIBLE. >>> FIND A BETTER WAY
-            // PLEASE TELL ME THERE'S A BETTER WAY ;-;
-            return ((MainActivity) getView().getActivity()).getPresenter().getModel().isInFavourites(lastAnime.getUrl());
-        } catch (Exception e) {
-            postError(e);
-            return null; // CAUSES NULL POINTER EXCEPTION
-        }
     }
 
     public void setNeedToGiveFavourite (boolean bool) {

@@ -112,7 +112,7 @@ public class SearchFragment extends NucleusSupportFragment<SearchPresenter> impl
     }
 
     public void updateRefreshing () {
-        if (getPresenter().isRefreshing) {
+        if (!isRefreshing() && getPresenter().isRefreshing) {
             TypedValue typedValue = new TypedValue();
             getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typedValue, true);
             refreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typedValue.resourceId));

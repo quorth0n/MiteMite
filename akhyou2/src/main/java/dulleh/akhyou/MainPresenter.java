@@ -36,8 +36,7 @@ public class MainPresenter extends RxPresenter<MainActivity>{
 
         EventBus.getDefault().register(this);
 
-        if (savedState != null) {
-            //favouritesList = savedState.getParcelableArrayList(FAVOURITES_KEY);
+        if (savedState != null && mainModel != null) {
             mainModel.setFavourites(savedState.getParcelableArrayList(FAVOURITES_KEY));
         }
     }

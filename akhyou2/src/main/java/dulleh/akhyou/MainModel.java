@@ -83,7 +83,12 @@ public class MainModel {
 
     public ArrayList<Anime> getFavourites () {
         if (favouritesMap != null) {
-            ArrayList<Anime> favourites = new ArrayList<Anime>();
+            ArrayList<Anime> favourites = new ArrayList<>();
+            favourites.addAll(favouritesMap.values());
+            return favourites;
+        } else if (sharedPreferences != null) {
+            refreshFavouritesList();
+            ArrayList<Anime> favourites = new ArrayList<>();
             favourites.addAll(favouritesMap.values());
             return favourites;
         }
@@ -100,13 +105,14 @@ public class MainModel {
         editor.apply();
     }
 
-    public boolean isInFavourites (String url)  throws Exception{
-        if (favouritesMap != null) {
-            if (favouritesMap.containsKey(url)) return true;
-        } else {
-            throw new Exception("Failed to parse favourites.");
+    public boolean isInFavourites (String url)  throws IllegalStateException {
+        if (favouritesMap == null && sharedPreferences != null) {
+            refreshFavouritesList();
         }
-        return false;
+        if (favouritesMap != null) {
+            return (favouritesMap.containsKey(url));
+        }
+        throw new IllegalStateException("Can't find favourites.");
     }
 
     public void addOrRemoveFromFavourites (FavouriteEvent event) throws Exception{
