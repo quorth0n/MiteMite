@@ -10,17 +10,20 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import dulleh.akhyou.MainActivity;
+import dulleh.akhyou.MainModel;
 import dulleh.akhyou.R;
 
 public class SettingsFragment extends Fragment {
     private SharedPreferences sharedPreferences;
-    private String THEME_PREFERENCE;
+    public static final String THEME_PREFERENCE = "theme_preference";
     private CharSequence[] themeTitles;
     private static final String lastToolbarTitleBundleKey = "LTT";
     private String lastToolbarTitle;
@@ -29,7 +32,6 @@ public class SettingsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        THEME_PREFERENCE = getString(R.string.theme_preference_key);
         themeTitles = getResources().getStringArray(R.array.theme_entries);
         setHasOptionsMenu(true);
     }
@@ -71,6 +73,23 @@ public class SettingsFragment extends Fragment {
                         .show();
             }
 
+        });
+
+        boolean shouldAutoUpdateVal = sharedPreferences.getBoolean(MainModel.AUTO_UPDATE_PREF, true);
+        RelativeLayout autoUpdateItem = (RelativeLayout) view.findViewById(R.id.auto_update_preference_item);
+        CheckBox autoUpdateCheckBox = (CheckBox) autoUpdateItem.findViewById(R.id.preference_check_box);
+        TextView autoUpdateSummary = (TextView) autoUpdateItem.findViewById(R.id.preference_summary_text);
+        autoUpdateSummary.setText(autoUpdateSummaryUpdate(shouldAutoUpdateVal));
+        autoUpdateCheckBox.setChecked(shouldAutoUpdateVal);
+        autoUpdateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(MainModel.AUTO_UPDATE_PREF,  b);
+                editor.apply();
+
+                autoUpdateSummary.setText(autoUpdateSummaryUpdate(b));
+            }
         });
 
         RelativeLayout licencesItem = (RelativeLayout) view.findViewById(R.id.licences_preference_item);
@@ -180,6 +199,14 @@ public class SettingsFragment extends Fragment {
             }
         }
         return null;
+    }
+
+    private String autoUpdateSummaryUpdate (boolean bool) {
+        if (bool) {
+            return getString(R.string.auto_update_prefernce_true_summary);
+        } else {
+            return getString(R.string.auto_update_preference_false_summary);
+        }
     }
 
 }

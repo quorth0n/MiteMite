@@ -113,7 +113,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
 
     private void setTheme () {
         sharedPreferences = getPreferences(MODE_PRIVATE);
-        int themePref = sharedPreferences.getInt(getString(R.string.theme_preference_key), -1);
+        int themePref = sharedPreferences.getInt(SettingsFragment.THEME_PREFERENCE, -1);
 
         switch (themePref) {
             case 1:
@@ -277,14 +277,14 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
         }
     }
 
-    public void promptForUpdate (String updateLink) {
+    public void promptForUpdate (String newUpdateVersion) {
         new MaterialDialog.Builder(this)
-                .title(getString(R.string.update_title))
+                .title(getString(R.string.update_title) + " " + newUpdateVersion)
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         super.onPositive(dialog);
-                        getPresenter().downloadUpdate(updateLink);
+                        getPresenter().downloadUpdate(MainModel.AUTO_UPDATE_PREF);
                     }
                 })
                 .positiveText(getString(R.string.update))

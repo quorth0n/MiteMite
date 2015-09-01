@@ -170,39 +170,40 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+        if (getView() != null) {
+            super.onCreateOptionsMenu(menu, inflater);
 
-        MenuItem searchItem = menu.findItem(R.id.search_item);
+            MenuItem searchItem = menu.findItem(R.id.search_item);
 
-        if (searchItem == null) {
-            inflater.inflate(R.menu.search_menu, menu);
-            searchItem = menu.findItem(R.id.search_item);
-        }
+            if (searchItem == null) {
+                inflater.inflate(R.menu.search_menu, menu);
+                searchItem = menu.findItem(R.id.search_item);
+            }
 
-        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+            searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
-        searchView.setQueryHint(getString(R.string.search_item));
-        searchView.setIconifiedByDefault(true);
-        searchView.setIconified(true);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                if (!query.isEmpty()) {
-                    EventBus.getDefault().post(new SearchSubmittedEvent(query));
-                    searchView.clearFocus();
-                    refreshLayout.requestFocus();
+            searchView.setQueryHint(getString(R.string.search_item));
+            searchView.setIconifiedByDefault(true);
+            searchView.setIconified(true);
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    if (!query.isEmpty()) {
+                        EventBus.getDefault().post(new SearchSubmittedEvent(query));
+                        searchView.clearFocus();
+                        refreshLayout.requestFocus();
+                    }
+                    return true;
                 }
-                return true;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-        searchView.clearFocus();
-        refreshLayout.requestFocus();
-
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
+                }
+            });
+            searchView.clearFocus();
+            refreshLayout.requestFocus();
+        }
     }
 
     public void setAnime (Anime anime) {

@@ -13,7 +13,10 @@
     <string name="licences_preference_title">Licences</string>
     <string name="licences_preference_summary">Thank you to these great open source projects.</string>
 
-    <string name="theme_preference_key">theme_preference</string>
+    <string name="auto_update_preference_title">Auto-update?</string>
+    <string name="auto_update_prefernce_true_summary">Yes</string>
+    <string name="auto_update_preference_false_summary">No</string>
+
     <string name="theme_preference_title">Theme</string>
     <string name="theme_dialog_title">Themes</string>
 

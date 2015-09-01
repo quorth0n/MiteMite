@@ -122,7 +122,9 @@ public class MainPresenter extends RxPresenter<MainActivity>{
             EventBus.getDefault().postSticky(new SearchEvent("Hyouka"));
             mainActivity.requestFragment(MainActivity.SEARCH_FRAGMENT);
         }
-        checkForUpdate();
+        if (mainModel.shouldAutoUpdate()) {
+            checkForUpdate();
+        }
     }
 
     private void checkForUpdate () {

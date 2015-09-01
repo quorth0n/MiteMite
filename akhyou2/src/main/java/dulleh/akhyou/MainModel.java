@@ -24,6 +24,7 @@ import rx.exceptions.OnErrorThrowable;
 public class MainModel {
     private static final String FAVOURITES_PREF = "favourites_preference";
     private static final String LAST_ANIME_PREF = "last_anime_preference";
+    public static final String AUTO_UPDATE_PREF = "should_auto_update_preference";
 
     private static final String LATEST_RELEASE_LINK = "https://github.com/dulleh/akhyou/blob/master/akhyou-latest.apk?raw=true";
 
@@ -176,15 +177,21 @@ public class MainModel {
         return GeneralUtils.deserializeAnime(serializedAnime);
     }
 
+    public boolean shouldAutoUpdate() {
+        return sharedPreferences.getBoolean(AUTO_UPDATE_PREF, true);
+    }
+
+    // returns update's version
     public String isUpdateAvailable() {
         String versionName = BuildConfig.VERSION_NAME;
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             JsonNode rootNode = objectMapper.readValue(GeneralUtils.getWebPage("https://api.github.com/gists/d67e3b97a672e8c3f544"), JsonNode.class);
-            if (!rootNode.get("description").textValue().equals(versionName)) {
+            String newUpdateVersion = rootNode.get("description").textValue();
+            if (!newUpdateVersion.equals(versionName)) {
                 //return rootNode.get("files").get("latestRelease").get("content").textValue();
-                return LATEST_RELEASE_LINK;
+                return newUpdateVersion;
             } else {
                 return null;
             }

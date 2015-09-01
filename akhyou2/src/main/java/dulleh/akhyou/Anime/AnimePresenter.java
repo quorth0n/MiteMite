@@ -47,7 +47,7 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
 
-        if (savedState != null) {
+        if (savedState != null && savedState.containsKey(LAST_ANIME_BUNDLE_KEY)) {
             lastAnime = savedState.getParcelable(LAST_ANIME_BUNDLE_KEY);
         }
 
@@ -88,8 +88,10 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
     @Override
     protected void onSave(Bundle state) {
         super.onSave(state);
-        state.putParcelable(LAST_ANIME_BUNDLE_KEY, lastAnime);
-        EventBus.getDefault().post(new LastAnimeEvent(lastAnime));
+        if (lastAnime != null && lastAnime.getEpisodes() != null) {
+            state.putParcelable(LAST_ANIME_BUNDLE_KEY, lastAnime);
+            EventBus.getDefault().post(new LastAnimeEvent(lastAnime));
+        }
     }
 
     private void unsubscribe () {
