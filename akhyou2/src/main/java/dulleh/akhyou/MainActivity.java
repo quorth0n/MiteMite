@@ -284,7 +284,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         super.onPositive(dialog);
-                        getPresenter().downloadUpdate(MainModel.AUTO_UPDATE_PREF);
+                        getPresenter().downloadUpdate(MainModel.LATEST_RELEASE_LINK);
                     }
                 })
                 .positiveText(getString(R.string.update))

@@ -26,7 +26,8 @@ public class MainModel {
     private static final String LAST_ANIME_PREF = "last_anime_preference";
     public static final String AUTO_UPDATE_PREF = "should_auto_update_preference";
 
-    private static final String LATEST_RELEASE_LINK = "https://github.com/dulleh/akhyou/blob/master/akhyou-latest.apk?raw=true";
+    private static final String LATEST_VERSION_LINK = "https://api.github.com/gists/d67e3b97a672e8c3f544";
+    public static final String LATEST_RELEASE_LINK = "https://github.com/dulleh/akhyou/blob/master/akhyou-latest.apk?raw=true";
 
     private SharedPreferences sharedPreferences;
     // The key is the anime url.
@@ -187,7 +188,7 @@ public class MainModel {
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            JsonNode rootNode = objectMapper.readValue(GeneralUtils.getWebPage("https://api.github.com/gists/d67e3b97a672e8c3f544"), JsonNode.class);
+            JsonNode rootNode = objectMapper.readValue(GeneralUtils.getWebPage(LATEST_VERSION_LINK), JsonNode.class);
             String newUpdateVersion = rootNode.get("description").textValue();
             if (!newUpdateVersion.equals(versionName)) {
                 //return rootNode.get("files").get("latestRelease").get("content").textValue();
