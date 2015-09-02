@@ -60,38 +60,41 @@ public class SearchHolderFragment extends Fragment{
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+        if (getView() != null) {
+            super.onCreateOptionsMenu(menu, inflater);
 
-        MenuItem searchItem = menu.findItem(R.id.search_item);
+            MenuItem searchItem = menu.findItem(R.id.search_item);
 
-        if (searchItem == null) {
-            inflater.inflate(R.menu.search_menu, menu);
-            searchItem = menu.findItem(R.id.search_item);
-        }
+            if (searchItem == null) {
+                inflater.inflate(R.menu.search_menu, menu);
+                searchItem = menu.findItem(R.id.search_item);
+            }
 
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+            SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
-        searchView.setQueryHint(getString(R.string.search_item));
-        searchView.setIconifiedByDefault(false);
-        searchView.setIconified(false);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
+            searchView.setQueryHint(getString(R.string.search_item));
+            searchView.setIconifiedByDefault(false);
+            searchView.setIconified(false);
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
 
-                if (!query.isEmpty()) {
-                    EventBus.getDefault().postSticky(new SearchEvent(query));
-                    searchView.clearFocus();
-                    searchPager.requestFocus();
+                    if (!query.isEmpty()) {
+                        EventBus.getDefault().postSticky(new SearchEvent(query));
+                        searchView.clearFocus();
+                        searchPager.requestFocus();
+                    }
+                    return true;
                 }
-                return true;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-        searchView.clearFocus();
-        searchPager.requestFocus();
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
+                }
+            });
+            searchView.clearFocus();
+            searchPager.requestFocus();
+        }
     }
+
 }

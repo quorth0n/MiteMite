@@ -36,6 +36,7 @@ public class Anime implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(providerType);
         parcel.writeString(title);
         parcel.writeString(desc);
         parcel.writeString(url);
@@ -46,6 +47,7 @@ public class Anime implements Parcelable{
         parcel.writeStringArray(genres);
         parcel.writeString(genresString);
         parcel.writeList(episodes);
+        parcel.writeInt(majorColour);
     }
 
     public static final Creator<Anime> CREATOR = new Creator<Anime>() {
