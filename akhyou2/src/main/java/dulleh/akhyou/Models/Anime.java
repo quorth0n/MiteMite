@@ -3,6 +3,7 @@ package dulleh.akhyou.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class Anime implements Parcelable{
     public Anime () {}
 
     private Anime(Parcel in) {
+        providerType = in.readInt();
         title = in.readString();
         desc = in.readString();
         url = in.readString();
@@ -27,6 +29,9 @@ public class Anime implements Parcelable{
         date = in.readString();
         genres = in.createStringArray();
         genresString = in.readString();
+        episodes = new ArrayList<>();
+        in.readList(episodes, null);
+        majorColour = in.readInt();
     }
 
     @Override
