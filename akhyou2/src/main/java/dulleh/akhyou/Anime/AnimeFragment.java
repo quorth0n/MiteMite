@@ -38,7 +38,6 @@ import dulleh.akhyou.Models.Source;
 import dulleh.akhyou.Models.Video;
 import dulleh.akhyou.R;
 import dulleh.akhyou.Utils.AdapterClickListener;
-import dulleh.akhyou.Utils.BlurTransform;
 import dulleh.akhyou.Utils.Events.SearchSubmittedEvent;
 import dulleh.akhyou.Utils.PaletteTransform;
 import nucleus.factory.RequiresPresenter;
@@ -59,7 +58,6 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
     private CheckBox drawerCheckBox;
     private Integer position;
 
-    private BlurTransform blurTransform;
     //private float d;
 
     @Override
@@ -71,9 +69,6 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
 
         episodesAdapter = new AnimeAdapter(new ArrayList<>(), this, getResources().getColor(android.R.color.black), getResources().getColor(colorPrimary.resourceId));
         setHasOptionsMenu(true);
-
-        blurTransform = new BlurTransform();
-        blurTransform.setContext(getActivity());
 
 /*
         d = activity.getResources().getDisplayMetrics().density;
@@ -154,6 +149,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
             }
         });
 */
+        updateRefreshing();
 
         return view;
     }
@@ -268,7 +264,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
             getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typedValue, true);
             refreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typedValue.resourceId));
             refreshLayout.setRefreshing(true);
-        } else {
+        } else if (isRefreshing() && !getPresenter().isRefreshing){
             refreshLayout.setRefreshing(false);
         }
     }

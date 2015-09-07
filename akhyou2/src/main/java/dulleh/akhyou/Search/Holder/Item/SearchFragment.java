@@ -60,6 +60,8 @@ public class SearchFragment extends NucleusSupportFragment<SearchPresenter> impl
             }
         });
 
+        updateRefreshing();
+
         return view;
     }
 
@@ -117,7 +119,7 @@ public class SearchFragment extends NucleusSupportFragment<SearchPresenter> impl
             getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typedValue, true);
             refreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typedValue.resourceId));
             refreshLayout.setRefreshing(true);
-        } else {
+        } else if (isRefreshing() && !getPresenter().isRefreshing){
             refreshLayout.setRefreshing(false);
         }
     }
