@@ -14,7 +14,6 @@ import de.greenrobot.event.EventBus;
 import dulleh.akhyou.Models.AnimeProviders.AnimeRamAnimeProvider;
 import dulleh.akhyou.Models.AnimeProviders.AnimeRushAnimeProvider;
 import dulleh.akhyou.Models.AnimeProviders.AnimeProvider;
-import dulleh.akhyou.MainActivity;
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Source;
 import dulleh.akhyou.Models.Video;
@@ -54,14 +53,15 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
     }
 
     @Override
-    protected void onTakeView(AnimeFragment view) {
+    protected void onTakeView(AnimeFragment view)     {
         super.onTakeView(view);
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().registerSticky(this);
         }
 
         view.updateRefreshing();
-        if (lastAnime != null) {
+
+        if (lastAnime != null && lastAnime.getUrl() != null) {
 
             if (lastAnime.getEpisodes() != null) {
                 view.setAnime(lastAnime);
@@ -221,7 +221,8 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
 
     public void downloadOrStream (Video video, boolean download) {
         if (download) {
-            GeneralUtils.download((AppCompatActivity) getView().getActivity(), (DownloadManager) getView().getActivity().getSystemService(Context.DOWNLOAD_SERVICE), video.getUrl(), video.getUrl());
+            GeneralUtils.internalDownload((DownloadManager) getView().getActivity().getSystemService(Context.DOWNLOAD_SERVICE), video.getUrl());
+            //GeneralUtils.lazyDownload((AppCompatActivity) getView().getActivity(), video.getUrl());
         } else {
             postIntent(video.getUrl());
         }
@@ -294,7 +295,7 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(this.deliver())
-                // this subscriber stays here because it needs the 'download'
+                // this subscriber stays here because it needs the 'lazyDownload'
                 .subscribe(new Subscriber<Source>() {
                     @Override
                     public void onNext(Source source) {

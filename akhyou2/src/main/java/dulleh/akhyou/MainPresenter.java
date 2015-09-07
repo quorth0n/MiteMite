@@ -210,7 +210,7 @@ public class MainPresenter extends RxPresenter<MainActivity>{
     }
 
     public void downloadUpdate (String url) {
-        GeneralUtils.download(getView(), (DownloadManager) getView().getSystemService(AppCompatActivity.DOWNLOAD_SERVICE), url, "akhyou-latest.apk");
+        GeneralUtils.lazyDownload(getView(), url);
     }
 
 }

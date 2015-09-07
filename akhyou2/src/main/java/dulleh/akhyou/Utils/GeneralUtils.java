@@ -3,6 +3,7 @@ package dulleh.akhyou.Utils;
 import android.app.DownloadManager;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
@@ -72,11 +73,23 @@ public class GeneralUtils {
         }
     }
 
-    public static void download (AppCompatActivity activity, DownloadManager downloadManager, String url, String title) {
-        /*DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+    private static String getFileNameFromUrl (String url) {
+        return url.substring(url.lastIndexOf("/") + 1);
+    }
+
+    public static void internalDownload (DownloadManager downloadManager, String url) {
+        String title = getFileNameFromUrl(url);
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setTitle(title);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, title);
+        request.setMimeType("video/*");
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        downloadManager.enqueue(request);*/
+        //request.allowScanningByMediaScanner();
+        // ^ opens a dialog to open your launcher for some reason.
+        downloadManager.enqueue(request);
+    }
+
+    public static void lazyDownload(AppCompatActivity activity,  String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         if (intent.resolveActivity(activity.getPackageManager()) != null) {
