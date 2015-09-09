@@ -53,7 +53,7 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
     }
 
     @Override
-    protected void onTakeView(AnimeFragment view)     {
+    protected void onTakeView(AnimeFragment view) {
         super.onTakeView(view);
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().registerSticky(this);

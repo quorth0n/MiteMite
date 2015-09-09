@@ -34,10 +34,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
         public ViewHolder(View v) {
             super(v);
-            titleView = (TextView) v.findViewById(R.id.title_view);
-            descView = (TextView) v.findViewById(R.id.desc_view);
-            imageView = (ImageView) v.findViewById(R.id.image_view);
             relativeLayout = (RelativeLayout) v.findViewById(R.id.relativeLayout);
+            titleView = (TextView) relativeLayout.findViewById(R.id.title_view);
+            descView = (TextView) relativeLayout.findViewById(R.id.desc_view);
+            imageView = (ImageView) relativeLayout.findViewById(R.id.image_view);
         }
     }
 
