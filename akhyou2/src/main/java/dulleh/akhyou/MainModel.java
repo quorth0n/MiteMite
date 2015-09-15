@@ -4,8 +4,6 @@ import android.content.SharedPreferences;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,11 +11,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import de.greenrobot.event.EventBus;
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Utils.Events.FavouriteEvent;
-import dulleh.akhyou.Utils.Events.LastAnimeEvent;
-import dulleh.akhyou.Utils.Events.SnackbarEvent;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 

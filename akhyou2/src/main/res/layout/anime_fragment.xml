@@ -1,41 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/anime_fragment_top_level"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/anime_drawer_layout"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_width="match_parent" >
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:clickable="true">
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/refresh_layout"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:clickable="true">
+            android:clipToPadding="false"
+            android:background="@color/background_material_light" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:background="@color/background_material_light" />
-
-        </android.support.v4.widget.SwipeRefreshLayout>
-
-        <android.support.design.widget.NavigationView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:background="@android:color/white" >
-
-            <include layout="@layout/anime_drawer_layout" />
-
-        </android.support.design.widget.NavigationView>
-
-    </android.support.v4.widget.DrawerLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <include layout="@layout/toolbar_shadow" />
 

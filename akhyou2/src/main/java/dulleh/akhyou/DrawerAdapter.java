@@ -48,7 +48,12 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
             ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-            itemViewHolder.iconView.setColorFilter(getItem(position).getMajorColour(), PorterDuff.Mode.SRC_ATOP);
+            int majorColour = getItem(position).getMajorColour();
+            if (majorColour == 0) {
+                itemViewHolder.iconView.setColorFilter(MainApplication.RED_ACCENT_RGB, PorterDuff.Mode.SRC_ATOP);
+            } else {
+                itemViewHolder.iconView.setColorFilter(majorColour, PorterDuff.Mode.SRC_ATOP);
+            }
             itemViewHolder.titleView.setText(getItem(position).getTitle());
             itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

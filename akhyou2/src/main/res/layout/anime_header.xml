@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:animateLayoutChanges="true" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/anime_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="192dp"
+                android:src="@color/md_teal_500"
+                android:contentDescription="@string/imageContentDesc" />
+
+            <View
+                android:id="@+id/info_shadow"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_alignBottom="@id/anime_image_view"
+                android:background="@drawable/horizontal_shadow_upsidedown" />
+
+        </RelativeLayout>
+
+        <!-- half the height of fab for minheight -->
+        <TextView
+            android:id="@+id/anime_genres_view"
+            android:layout_width="match_parent"
+            android:minHeight="28sp"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingRight="72dp"
+            android:paddingEnd="72dp"
+            android:gravity="center"
+            android:textColor="?attr/colorPrimaryDark"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="@android:color/white" />
+
+        <TextView
+            android:id="@+id/anime_desc_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textColor="@android:color/black"
+            android:background="@android:color/white"
+            android:gravity="fill_horizontal"
+            android:text="@string/testDesc" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@drawable/horizontal_shadow_light"
+            android:layout_marginBottom="4dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@drawable/horizontal_shadow_upsidedown_light" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimaryDark"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/anime_alternate_title_title_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2sp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                android:textSize="14sp"
+                android:textColor="@android:color/white"
+                android:alpha="0.7"
+                android:textStyle="bold"
+                android:text="@string/alternate_title_title" />
+
+            <TextView
+                android:id="@+id/anime_alternate_title_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/anime_alternate_title_title_view"
+                android:layout_toEndOf="@id/anime_alternate_title_title_view"
+                android:paddingBottom="4dp"
+                android:textSize="16sp"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/anime_date_title_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/anime_alternate_title_view"
+                android:paddingTop="2sp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                android:textSize="14sp"
+                android:textColor="@android:color/white"
+                android:alpha="0.7"
+                android:textStyle="bold"
+                android:text="@string/date_title" />
+
+            <TextView
+                android:id="@+id/anime_date_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/anime_alternate_title_view"
+                android:layout_toRightOf="@id/anime_date_title_view"
+                android:layout_toEndOf="@id/anime_date_title_view"
+                android:paddingBottom="4dp"
+                android:textSize="16sp"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/anime_status_title_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/anime_date_view"
+                android:paddingTop="2sp"
+                android:paddingRight="8dp"
+                android:textSize="14sp"
+                android:textColor="@android:color/white"
+                android:alpha="0.7"
+                android:textStyle="bold"
+                android:text="@string/status_title"/>
+
+            <TextView
+                android:id="@+id/anime_status_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/anime_date_view"
+                android:layout_toRightOf="@id/anime_status_title_view"
+                android:layout_toEndOf="@id/anime_status_title_view"
+                android:textSize="16sp"
+                android:textColor="@android:color/white" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@drawable/horizontal_shadow_light"
+            android:layout_marginBottom="4dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@drawable/horizontal_shadow_upsidedown_light" />
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/favourite_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_favorite_white_24dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="16dp"
+        app:layout_anchor="@id/anime_image_view"
+        app:layout_anchorGravity="bottom|right|end" />
+
+</android.support.design.widget.CoordinatorLayout>

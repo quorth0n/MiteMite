@@ -3,7 +3,6 @@ package dulleh.akhyou.Anime;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,14 +15,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -39,26 +35,16 @@ import dulleh.akhyou.Models.Video;
 import dulleh.akhyou.R;
 import dulleh.akhyou.Utils.AdapterClickListener;
 import dulleh.akhyou.Utils.Events.SearchSubmittedEvent;
-import dulleh.akhyou.Utils.PaletteTransform;
 import nucleus.factory.RequiresPresenter;
 import nucleus.view.NucleusSupportFragment;
 
 @RequiresPresenter(AnimePresenter.class)
 public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implements AdapterClickListener<Episode> {
     private AnimeAdapter episodesAdapter;
+    private RelativeLayout relativeLayout;
     private SwipeRefreshLayout refreshLayout;
     private SearchView searchView;
-    //private CollapsingToolbarLayout collapsingToolbarLayout;
-    private ImageView drawerImage;
-    private TextView drawerDesc;
-    private TextView drawerGenres;
-    private TextView drawerAlternateTitle;
-    private TextView drawerDate;
-    private TextView drawerStatus;
-    private CheckBox drawerCheckBox;
     private Integer position;
-
-    //private float d;
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -70,31 +56,14 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
         episodesAdapter = new AnimeAdapter(new ArrayList<>(), this, getResources().getColor(android.R.color.black), getResources().getColor(colorPrimary.resourceId));
         setHasOptionsMenu(true);
 
-/*
-        d = activity.getResources().getDisplayMetrics().density;
-
-        AppBarLayout appBarLayout =(AppBarLayout) activity.findViewById(R.id.app_bar_layout);
-        appBarLayout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 192 * (int)  d));
-        getActivity().getLayoutInflater().inflate(R.layout.episodes_header_collapsing, appBarLayout);
-
-
-        collapsingToolbarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.collapsing_toolbar_layout);
-        collapsingImage = (ImageView) activity.findViewById(R.id.collapsing_image);
-
-        ImageView showMoreButton = (ImageView) activity.findViewById(R.id.expand_more_button);
-        showMoreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EventBus.getDefault().post(new SnackbarEvent("Coming soon.", Snackbar.LENGTH_SHORT, null, null, null));
-            }
-        });
-*/
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.anime_fragment, container, false);
+
+        relativeLayout = (RelativeLayout) view.findViewById(R.id.anime_fragment_top_level);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext(), LinearLayout.VERTICAL, false));
@@ -110,45 +79,6 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
             }
         });
 
-        DrawerLayout animeDrawer = (DrawerLayout) view.findViewById(R.id.anime_drawer_layout);
-
-        drawerImage = (ImageView) animeDrawer.findViewById(R.id.drawer_image_view);
-        drawerDesc = (TextView) animeDrawer.findViewById(R.id.drawer_desc_view);
-        drawerGenres = (TextView) animeDrawer.findViewById(R.id.drawer_genres_view);
-        drawerAlternateTitle = (TextView) animeDrawer.findViewById(R.id.drawer_alternate_title_view);
-        drawerDate = (TextView) animeDrawer.findViewById(R.id.drawer_date_view);
-        drawerStatus = (TextView) animeDrawer.findViewById(R.id.drawer_status_view);
-
-        drawerCheckBox = (CheckBox) animeDrawer.findViewById(R.id.drawer_favourite_checkbox);
-        drawerCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                // This is to ignore that first time the check box is changed.
-                // Should have just set the listener in setAnime ;-;
-                boolean isInFavourites = isInFavourites(getPresenter().lastAnime);
-                if (!b && isInFavourites) {
-                    getPresenter().onFavouriteCheckedChanged(false);
-                } else if (b && !isInFavourites) {
-                    getPresenter().onFavouriteCheckedChanged(true);
-                } else {
-                    getPresenter().setNeedToGiveFavourite(true);
-                }
-            }
-        });
-
-/*
-        AppBarLayout appBarLayout = (AppBarLayout) view.findViewById(R.id.app_bar_layout);
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-                if (i == 0) {
-                    setRefreshLayoutStatus(true);
-                } else {
-                    setRefreshLayoutStatus(false);
-                }
-            }
-        });
-*/
         updateRefreshing();
 
         return view;
@@ -203,43 +133,9 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
     }
 
     public void setAnime (Anime anime) {
-        episodesAdapter.setAnime(anime.getEpisodes());
+        episodesAdapter.setAnime(anime.getEpisodes(), isInFavourites(anime));
         setToolbarTitle(anime.getTitle());
-
-        Picasso.with(getActivity()).invalidate(anime.getUrl());
-        //if (!hasMajorColour) {
-            final PaletteTransform paletteTransform = new PaletteTransform();
-            Picasso.with(getActivity())
-                    .load(anime.getImageUrl())
-                    .error(R.drawable.placeholder)
-                    .fit()
-                    .centerCrop()
-                    .transform(paletteTransform)
-                    .into(drawerImage, new Callback.EmptyCallback() {
-                        @Override
-                        public void onSuccess() {
-                            getPresenter().setMajorColour(paletteTransform.getPallete());
-                        }
-                    });
-        /*} else {
-            Picasso.with(getActivity())
-                .load(anime.getImageUrl())
-                .error(R.drawable.placeholder)
-                .fit()
-                .centerCrop()
-                .into(drawerImage);
-        }*/
-
-        drawerGenres.setText(anime.getGenresString());
-        drawerDesc.setText(anime.getDesc());
-        drawerAlternateTitle.setText(anime.getAlternateTitle());
-        drawerDate.setText(anime.getDate());
-        drawerStatus.setText(anime.getStatus());
-
-        // CHECK IF IN FAVOURITES
-        drawerCheckBox.setChecked(isInFavourites(anime));
         getPresenter().setNeedToGiveFavourite(false);
-
         updateRefreshing();
     }
 
@@ -278,7 +174,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
     }
 
     public void setFavouriteChecked(boolean isInFavourites) {
-        drawerCheckBox.setChecked(isInFavourites);
+        episodesAdapter.setFabChecked(isInFavourites);
         getPresenter().setNeedToGiveFavourite(false);
     }
 
@@ -365,6 +261,24 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
                     }
                 })
                 .show();
+    }
+
+    public void showImageDialog () {
+        getActivity().getLayoutInflater().inflate(R.layout.image_dialog_content, relativeLayout);
+
+        ImageView imageView = (ImageView) getActivity().findViewById(R.id.image_dialog_image_view);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                relativeLayout.removeView(imageView);
+            }
+        });
+
+        Picasso.with(getActivity())
+                .load(getPresenter().lastAnime.getImageUrl())
+                .fit()
+                .centerInside()
+                .into(imageView);
     }
 
     private CharSequence[] getSourcesAsCharSequenceArray (List<Source> sources) {
