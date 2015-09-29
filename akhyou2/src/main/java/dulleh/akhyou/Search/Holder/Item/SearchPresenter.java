@@ -7,9 +7,11 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import dulleh.akhyou.Models.Anime;
+import dulleh.akhyou.Models.SearchProviders.AnimeBamSearchProvider;
 import dulleh.akhyou.Models.SearchProviders.AnimeRamSearchProvider;
 import dulleh.akhyou.Models.SearchProviders.AnimeRushSearchProvider;
 import dulleh.akhyou.Models.SearchProviders.SearchProvider;
+import dulleh.akhyou.Search.Holder.SearchHolderAdapter;
 import dulleh.akhyou.Search.Holder.SearchHolderFragment;
 import dulleh.akhyou.Utils.Events.SearchEvent;
 import dulleh.akhyou.Utils.Events.SnackbarEvent;
@@ -41,7 +43,9 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
             case Anime.ANIME_RAM:
                 searchProvider = new AnimeRamSearchProvider();
                 break;
-            default: searchProvider = new AnimeRushSearchProvider();
+            case Anime.ANIME_BAM:
+                searchProvider = new AnimeBamSearchProvider();
+                break;
         }
     }
 
@@ -50,14 +54,14 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
         super.onCreate(savedState);
 
         if (savedState != null) {
-            setProviderType(savedState.getInt(SearchHolderFragment.PROVIDER_TYPE_KEY, 0));
+            setProviderType(savedState.getInt(SearchHolderAdapter.PROVIDER_TYPE_KEY, 0));
         }
     }
 
     @Override
     protected void onSave(Bundle state) {
         super.onSave(state);
-        state.putInt(SearchHolderFragment.PROVIDER_TYPE_KEY, providerType);
+        state.putInt(SearchHolderAdapter.PROVIDER_TYPE_KEY, providerType);
     }
 
     @Override

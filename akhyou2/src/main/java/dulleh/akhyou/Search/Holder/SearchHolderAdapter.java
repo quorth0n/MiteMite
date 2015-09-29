@@ -9,6 +9,7 @@ import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Search.Holder.Item.SearchFragment;
 
 public class SearchHolderAdapter extends FragmentStatePagerAdapter{
+    public static final String PROVIDER_TYPE_KEY = "PROVIDER_TYPE_KEY";
 
     public SearchHolderAdapter(FragmentManager fm) {
         super(fm);
@@ -16,19 +17,19 @@ public class SearchHolderAdapter extends FragmentStatePagerAdapter{
 
     @Override
     public Fragment getItem(int position) {
-
         Fragment searchFragment = new SearchFragment();
         Bundle args = new Bundle(1);
 
-
         switch(position) {
             case 0:
-                args.putInt(SearchHolderFragment.PROVIDER_TYPE_KEY, Anime.ANIME_RUSH);
+                args.putInt(PROVIDER_TYPE_KEY, Anime.ANIME_RUSH);
                 break;
             case 1:
-                args.putInt(SearchHolderFragment.PROVIDER_TYPE_KEY, Anime.ANIME_RAM);
+                args.putInt(PROVIDER_TYPE_KEY, Anime.ANIME_RAM);
                 break;
-            default: args.putInt(SearchHolderFragment.PROVIDER_TYPE_KEY, Anime.ANIME_RUSH);
+            case 2:
+                args.putInt(PROVIDER_TYPE_KEY, Anime.ANIME_BAM);
+                break;
         }
 
         searchFragment.setArguments(args);
@@ -37,7 +38,7 @@ public class SearchHolderAdapter extends FragmentStatePagerAdapter{
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -47,6 +48,8 @@ public class SearchHolderAdapter extends FragmentStatePagerAdapter{
                 return Anime.ANIME_RUSH_TITLE;
             case 1:
                 return Anime.ANIME_RAM_TITLE;
+            case 2:
+                return Anime.ANIME_BAM_TITLE;
             default:
                 return null;
         }

@@ -126,7 +126,6 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
              Anime anime = animeFragment.getPresenter().lastAnime;
              HeaderViewHolder headerViewHolder = (HeaderViewHolder) viewHolder;
 
-             Picasso.with(animeFragment.getActivity()).invalidate(anime.getUrl());
              //if (!hasMajorColour) {
              Picasso.with(animeFragment.getActivity())
                      .load(anime.getImageUrl())

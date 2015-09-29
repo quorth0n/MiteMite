@@ -49,6 +49,7 @@ public class AnimeRamSearchProvider implements SearchProvider{
     private Elements seperateResults (Element searchResultsBox) {
         return searchResultsBox.children();
     }
+
     private List<Anime> parseResults (Elements searchResults) {
         List<Anime> animes = new ArrayList<>(searchResults.size());
         for (Element searchResult : searchResults) {

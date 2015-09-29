@@ -21,6 +21,8 @@ import java.net.URLEncoder;
 import de.greenrobot.event.EventBus;
 import dulleh.akhyou.MainApplication;
 import dulleh.akhyou.Models.Anime;
+import dulleh.akhyou.Models.Source;
+import dulleh.akhyou.Models.SourceProviders.SourceProvider;
 import dulleh.akhyou.Utils.Events.SnackbarEvent;
 import rx.exceptions.OnErrorThrowable;
 
@@ -154,9 +156,22 @@ public class GeneralUtils {
             return Anime.ANIME_RUSH;
         } else if (url.contains(Anime.ANIME_RAM_TITLE)) {
             return Anime.ANIME_RAM;
+        } else if (url.contains(Anime.ANIME_BAM_TITLE)) {
+            return Anime.ANIME_BAM;
         }
         throw new Exception("Unsupported source");
     }
+
+
+    public static SourceProvider determineSourceProvider (String lowerCaseTitle) {
+        for (String sourceName : Source.sourceMap.keySet()) {
+            if (lowerCaseTitle.contains(sourceName)) {
+                return Source.sourceMap.get(sourceName);
+            }
+        }
+        return null;
+    }
+
 
 /*
     public static void basicAsyncObservableVoid (BasicObservableable basicObservableable, String string) {

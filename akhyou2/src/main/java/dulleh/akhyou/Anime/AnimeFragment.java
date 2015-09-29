@@ -133,6 +133,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
     }
 
     public void setAnime (Anime anime) {
+        Picasso.with(getActivity()).invalidate(anime.getImageUrl());
         episodesAdapter.setAnime(anime.getEpisodes(), isInFavourites(anime));
         setToolbarTitle(anime.getTitle());
         getPresenter().setNeedToGiveFavourite(false);

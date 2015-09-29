@@ -169,7 +169,7 @@ public class AnimeRushAnimeProvider implements AnimeProvider {
 
             String lowerCaseSourceTitle = titleBuilder.toString().toLowerCase();
 
-            SourceProvider sourceProvider = determineSourceProvider(lowerCaseSourceTitle);
+            SourceProvider sourceProvider = GeneralUtils.determineSourceProvider(lowerCaseSourceTitle);
             if (sourceProvider != null) {
                 sources.add(addSourceTitleUrlProvider(e, titleAndUrlElement, source, sourceProvider, titleBuilder));
             }
@@ -213,15 +213,6 @@ public class AnimeRushAnimeProvider implements AnimeProvider {
         source.setTitle(titleBuilder.toString());
 
         return source;
-    }
-
-    private SourceProvider determineSourceProvider (String lowerCaseTitle) {
-        for (String sourceName : Source.sourceMap.keySet()) {
-            if (lowerCaseTitle.contains(sourceName)) {
-                return Source.sourceMap.get(sourceName);
-            }
-        }
-        return null;
     }
 
     private String parseForEmbedUrl (Element element) {

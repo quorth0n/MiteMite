@@ -114,7 +114,7 @@ public class AnimeRamAnimeProvider implements AnimeProvider {
 
         for (Element sourceElement : sourceElements) {
             String title = sourceElement.text();
-            SourceProvider sourceProvider = determineSourceProvider(title.toLowerCase());
+            SourceProvider sourceProvider = GeneralUtils.determineSourceProvider(title.toLowerCase());
             if (sourceProvider != null) {
                 sources.add(new Source()
                                 .setPageUrl(sourceElement.attr("href"))
@@ -125,15 +125,6 @@ public class AnimeRamAnimeProvider implements AnimeProvider {
         }
 
         return sources;
-    }
-
-    private SourceProvider determineSourceProvider (String lowerCaseTitle) {
-        for (String sourceName : Source.sourceMap.keySet()) {
-            if (lowerCaseTitle.contains(sourceName)) {
-                return Source.sourceMap.get(sourceName);
-            }
-        }
-        return null;
     }
 
     private String parseForEmbedUrl (Element embedPageIsolated) {

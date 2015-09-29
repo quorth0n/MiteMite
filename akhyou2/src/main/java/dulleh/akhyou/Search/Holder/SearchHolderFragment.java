@@ -23,14 +23,13 @@ import dulleh.akhyou.R;
 import dulleh.akhyou.Utils.Events.SearchEvent;
 
 public class SearchHolderFragment extends Fragment{
-    public static final String PROVIDER_TYPE_KEY = "PROVIDER_TYPE_KEY";
-
     public static List<List<Anime>> searchResultsCache = new ArrayList<>(1);
 
     public SearchHolderFragment () {
         if (searchResultsCache.isEmpty()) {
-            searchResultsCache.add(0, new ArrayList<>(0));
-            searchResultsCache.add(1, new ArrayList<>(1));
+            searchResultsCache.add(Anime.ANIME_RUSH, new ArrayList<>(0));
+            searchResultsCache.add(Anime.ANIME_RAM, new ArrayList<>(0));
+            searchResultsCache.add(Anime.ANIME_BAM, new ArrayList<>(0));
         }
     }
 

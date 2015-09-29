@@ -10,6 +10,7 @@ import android.support.v7.graphics.Palette;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import dulleh.akhyou.Models.AnimeProviders.AnimeBamAnimeProvider;
 import dulleh.akhyou.Models.AnimeProviders.AnimeRamAnimeProvider;
 import dulleh.akhyou.Models.AnimeProviders.AnimeRushAnimeProvider;
 import dulleh.akhyou.Models.AnimeProviders.AnimeProvider;
@@ -77,20 +78,20 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-        animeProvider = null;
-        unsubscribe();
-    }
-
-    @Override
     protected void onSave(Bundle state) {
         super.onSave(state);
         if (lastAnime != null && lastAnime.getEpisodes() != null) {
             state.putParcelable(LAST_ANIME_BUNDLE_KEY, lastAnime);
             EventBus.getDefault().post(new LastAnimeEvent(lastAnime));
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+        animeProvider = null;
+        unsubscribe();
     }
 
     private void unsubscribe () {
@@ -113,6 +114,9 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
                     break;
                 case Anime.ANIME_RAM:
                     animeProvider = new AnimeRamAnimeProvider();
+                    break;
+                case Anime.ANIME_BAM:
+                    animeProvider = new AnimeBamAnimeProvider();
                     break;
                 default:
                     try {
@@ -174,10 +178,14 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
                 .subscribe(new Subscriber<Anime>() {
                     @Override
                     public void onNext(Anime anime) {
+                        // for AnimeBam which doesn't have alt-title on anime page
+                        if (lastAnime.getUrl().equals(anime.getUrl()) && lastAnime.getAlternateTitle() != null && anime.getAlternateTitle() == null) {
+                            anime.setAlternateTitle(lastAnime.getAlternateTitle());
+                        }
                         lastAnime = anime;
                         isRefreshing = false;
                         getView().setAnime(lastAnime);
-                        EventBus.getDefault().post(new LastAnimeEvent(lastAnime));
+                        //EventBus.getDefault().post(new LastAnimeEvent(lastAnime)); would save it without a major colour
                         this.unsubscribe();
                     }
 

@@ -21,6 +21,7 @@ import dulleh.akhyou.MainActivity;
 import dulleh.akhyou.MainApplication;
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.R;
+import dulleh.akhyou.Search.Holder.SearchHolderAdapter;
 import dulleh.akhyou.Search.Holder.SearchHolderFragment;
 import dulleh.akhyou.Utils.AdapterClickListener;
 import dulleh.akhyou.Utils.Events.OpenAnimeEvent;
@@ -37,7 +38,7 @@ public class SearchFragment extends NucleusSupportFragment<SearchPresenter> impl
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         // must be after ^ so that getPresenter() doesn't return null
-        getPresenter().setProviderType(getArguments().getInt(SearchHolderFragment.PROVIDER_TYPE_KEY, Anime.ANIME_RUSH));
+        getPresenter().setProviderType(getArguments().getInt(SearchHolderAdapter.PROVIDER_TYPE_KEY, Anime.ANIME_RUSH));
     }
 
     @Nullable
