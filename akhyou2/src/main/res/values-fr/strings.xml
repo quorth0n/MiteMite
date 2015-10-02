@@ -9,9 +9,9 @@
     <string name="update">METTRE À JOUR</string>
 
     <string name="licences_preference_title">Licences</string>
-    <string name="licences_preference_summary">Merci à ces grands projets Open-Source !</string>
+    <string name="licences_preference_summary">Merci à ces grands projets Open-Source!</string>
 
-    <string name="auto_update_preference_title">Mise à jour automatique ?</string>
+    <string name="auto_update_preference_title">Mise à jour automatique?</string>
     <string name="auto_update_prefernce_true_summary">Oui</string>
     <string name="auto_update_preference_false_summary">Non</string>
 
