@@ -4,8 +4,6 @@
     <string name="settings_item">Paramètres</string>
     <string name="search_item">Recherche</string>
     <string name="favourites_item">Favoris</string>
-    <string name="open_drawer">Ouvrir le tiroir</string>
-    <string name="close_drawer">Fermer le tiroir</string>
     <string name="imageContentDesc">Poster de l'anime</string>
     <string name="update_title">Une mise à jour est disponible !</string>
     <string name="update">METTRE À JOUR</string>
@@ -39,7 +37,7 @@
 
     <string name="sources">Sources</string>
     <string name="quality">Qualité</string>
-    <string name="stream">Stream</string>
+    <string name="stream">Visionner</string>
     <string name="download">Télécharger</string>
     <string name="cancel">Annuler</string>
 
