@@ -4,8 +4,6 @@
     <string name="settings_item">Settings</string>
     <string name="search_item">Search</string>
     <string name="favourites_item">Favourites</string>
-    <string name="open_drawer">Open drawer</string>
-    <string name="close_drawer">Close drawer</string>
     <string name="imageContentDesc">Anime poster</string>
     <string name="update_title">There is an update available!</string>
     <string name="update">UPDATE</string>
