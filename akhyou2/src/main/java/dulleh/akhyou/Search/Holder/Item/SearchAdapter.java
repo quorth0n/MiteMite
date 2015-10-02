@@ -16,7 +16,6 @@ import java.util.List;
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.R;
 import dulleh.akhyou.Search.Holder.SearchHolderFragment;
-import dulleh.akhyou.Utils.AdapterClickListener;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
     private Context context;
