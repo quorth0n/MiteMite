@@ -16,6 +16,7 @@ There are no plans to release Akhyou! on the Play store in the future.
 The app is still in beta - though I (and some testers) have been using it for months. I welcome help with development, but, please, email me before you work on anything new.  
 
 Awesome libraries this app uses:  
+
 1. [OkHttp](http://square.github.io/okhttp/)  
 2. [Picasso](http://square.github.io/picasso/)  
 3. [Nucleus](https://github.com/konmik/nucleus)  
