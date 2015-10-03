@@ -8,6 +8,8 @@
     <string name="update_title">Er is een update beschikbaar!</string>
     <string name="update">UPDATE</string>
 
+    <string name="requires_restart">(requires restart)</string>
+
     <string name="licences_preference_title">Licenties</string>
     <string name="licences_preference_summary">Met dank aan fantastische open source projecten.</string>
 
@@ -15,8 +17,12 @@
     <string name="auto_update_prefernce_true_summary">Ja</string>
     <string name="auto_update_preference_false_summary">Nee</string>
 
+    <string name="search_grid_preference_title">Search layout</string>
+    <string name="search_grid_option_card">Posters and detail</string>
+    <string name="search_grid_option_poster">Posters</string>
+
     <string name="theme_preference_title">Thema</string>
-    <string name="theme_dialog_title">Thema's</string>
+    <string name="theme_dialog_title">Thema\'s</string>
 
     <string name="pink_theme">Roze</string>
     <string name="purple_theme">Paars</string>

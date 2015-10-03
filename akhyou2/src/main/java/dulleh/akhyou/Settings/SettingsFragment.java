@@ -22,16 +22,22 @@ import dulleh.akhyou.MainModel;
 import dulleh.akhyou.R;
 
 public class SettingsFragment extends Fragment {
-    private SharedPreferences sharedPreferences;
+    //TODO: REFACTOR THIS INTO MVP STRUCTURE
     public static final String THEME_PREFERENCE = "theme_preference";
-    private CharSequence[] themeTitles;
+    public static final String SEARCH_GRID_PREFERENCE = "search_grid_preference";
+
     private static final String lastToolbarTitleBundleKey = "LTT";
+
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private CharSequence[] themeTitles;
     private String lastToolbarTitle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         themeTitles = getResources().getStringArray(R.array.theme_entries);
         setHasOptionsMenu(true);
     }
@@ -62,7 +68,6 @@ public class SettingsFragment extends Fragment {
                             @Override
                             public boolean onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
 
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putInt(THEME_PREFERENCE, i + 1);
                                 editor.apply();
 
@@ -72,7 +77,31 @@ public class SettingsFragment extends Fragment {
                         })
                         .show();
             }
+        });
 
+        RelativeLayout searchGridItem = (RelativeLayout) view.findViewById(R.id.search_grid_preference_item);
+        TextView searchGridSummary = (TextView) searchGridItem.findViewById(R.id.preference_summary_text);
+        searchGridSummary.setText(getSummary(SEARCH_GRID_PREFERENCE));
+        searchGridItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new MaterialDialog.Builder(getActivity())
+                        .title(getString(R.string.search_grid_preference_title))
+                        .items(getResources().getStringArray(R.array.search_grid_options))
+                        .itemsCallbackSingleChoice(sharedPreferences.getInt(SEARCH_GRID_PREFERENCE, 0), new MaterialDialog.ListCallbackSingleChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
+
+                                editor.putInt(SEARCH_GRID_PREFERENCE, i);
+                                editor.apply();
+
+                                searchGridSummary.setText(searchGridSummaryUpdate(i) + " " + getString(R.string.requires_restart));
+
+                                return false;
+                            }
+                        })
+                        .show();
+            }
         });
 
         boolean shouldAutoUpdateVal = sharedPreferences.getBoolean(MainModel.AUTO_UPDATE_PREF, true);
@@ -84,7 +113,6 @@ public class SettingsFragment extends Fragment {
         autoUpdateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean(MainModel.AUTO_UPDATE_PREF,  b);
                 editor.apply();
 
@@ -197,8 +225,22 @@ public class SettingsFragment extends Fragment {
                     return getActivity().getApplicationContext().getString(R.string.grey_theme);
 
             }
+        } else if (key.equals(SEARCH_GRID_PREFERENCE)) {
+            int searchGridPref = sharedPreferences.getInt(SEARCH_GRID_PREFERENCE, 0);
+            return searchGridSummaryUpdate(searchGridPref);
         }
         return null;
+    }
+
+    private String searchGridSummaryUpdate (int i) {
+        switch (i) {
+            case 0:
+                return getString(R.string.search_grid_option_card);
+            case 1:
+                return getString(R.string.search_grid_option_poster);
+            default:
+                return getString(R.string.search_grid_option_card);
+        }
     }
 
     private String autoUpdateSummaryUpdate (boolean bool) {

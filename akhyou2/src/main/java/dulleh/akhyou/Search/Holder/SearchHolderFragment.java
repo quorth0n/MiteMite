@@ -1,5 +1,7 @@
 package dulleh.akhyou.Search.Holder;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -20,9 +22,11 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.R;
+import dulleh.akhyou.Settings.SettingsFragment;
 import dulleh.akhyou.Utils.Events.SearchEvent;
 
 public class SearchHolderFragment extends Fragment{
+    public static int SEARCH_GRID_TYPE = 0;
     public static List<List<Anime>> searchResultsCache = new ArrayList<>(1);
 
     public SearchHolderFragment () {
@@ -39,6 +43,10 @@ public class SearchHolderFragment extends Fragment{
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setHasOptionsMenu(true);
+        
+        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SEARCH_GRID_TYPE = sharedPreferences.getInt(SettingsFragment.SEARCH_GRID_PREFERENCE, 0);
+
     }
 
     @Nullable

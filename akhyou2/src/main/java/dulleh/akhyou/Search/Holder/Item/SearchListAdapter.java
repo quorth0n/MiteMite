@@ -17,11 +17,11 @@ import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.R;
 import dulleh.akhyou.Search.Holder.SearchHolderFragment;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
+public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolder> {
     private Context context;
     private SearchFragment searchFragment;
 
-    public SearchAdapter (SearchFragment searchFragment) {
+    public SearchListAdapter(SearchFragment searchFragment) {
         this.searchFragment = searchFragment;
     }
 
@@ -41,10 +41,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     }
 
     @Override
-    public SearchAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
+    public SearchListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
         context = parent.getContext();
+
         View v = LayoutInflater.from(context)
                 .inflate(R.layout.search_card, parent, false);
+
         return  new ViewHolder(v);
     }
 

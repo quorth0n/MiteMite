@@ -18,21 +18,9 @@
         <item>@string/grey_theme</item>
         <item>@string/blue_grey_theme</item>
     </string-array>
-    <string-array name="theme_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>9</item>
-        <item>10</item>
-        <item>11</item>
-        <item>12</item>
-        <item>13</item>
-        <item>14</item>
-        <item>15</item>
-        <item>16</item>
+
+    <string-array name="search_grid_options">
+        <item>@string/search_grid_option_card</item>
+        <item>@string/search_grid_option_poster</item>
     </string-array>
 </resources>

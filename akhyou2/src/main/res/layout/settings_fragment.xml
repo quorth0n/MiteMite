@@ -10,17 +10,22 @@
         android:paddingRight="8dp"
         android:orientation="vertical" >
 
-        <include layout="@layout/theme_preference_item"
+        <include layout="@layout/settings_item_theme"
             android:id="@+id/theme_preference_item" />
 
         <include layout="@layout/settings_divider" />
 
-        <include layout="@layout/auto_update_preference_item"
+        <include layout="@layout/settings_item_search_grid"
+            android:id="@+id/search_grid_preference_item" />
+
+        <include layout="@layout/settings_divider" />
+
+        <include layout="@layout/settings_item_auto_update"
             android:id="@+id/auto_update_preference_item"/>
 
         <include layout="@layout/settings_divider" />
 
-        <include layout="@layout/licences_preference_item"
+        <include layout="@layout/settings_item_licences"
             android:id="@+id/licences_preference_item" />
 
         <include layout="@layout/settings_divider" />

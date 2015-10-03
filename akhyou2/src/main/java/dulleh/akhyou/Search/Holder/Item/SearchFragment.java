@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -32,7 +33,7 @@ import nucleus.view.NucleusSupportFragment;
 @RequiresPresenter(SearchPresenter.class)
 public class SearchFragment extends NucleusSupportFragment<SearchPresenter> implements AdapterClickListener<Anime> {
     private SwipeRefreshLayout refreshLayout;
-    private SearchAdapter searchAdapter;
+    private RecyclerView.Adapter searchAdapter;
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -44,11 +45,20 @@ public class SearchFragment extends NucleusSupportFragment<SearchPresenter> impl
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        searchAdapter = new SearchAdapter(this);
         View view = inflater.inflate(R.layout.search_fragment, container, false);
 
         RecyclerView searchResultsView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        searchResultsView.setLayoutManager(new LinearLayoutManager(container.getContext(), LinearLayoutManager.VERTICAL, false));
+        switch (SearchHolderFragment.SEARCH_GRID_TYPE) {
+            case 0:
+                searchAdapter = new SearchListAdapter(this);
+                searchResultsView.setLayoutManager(new LinearLayoutManager(container.getContext(), LinearLayoutManager.VERTICAL, false));
+                break;
+            case 1:
+                searchAdapter = new SearchGridAdapter(this);
+                searchResultsView.setLayoutManager(new GridLayoutManager(container.getContext(), 2, GridLayoutManager.VERTICAL, false));
+                break;
+
+        }
         searchResultsView.setAdapter(searchAdapter);
         searchResultsView.setItemAnimator(new DefaultItemAnimator());
 
