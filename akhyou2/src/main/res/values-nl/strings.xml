@@ -1,48 +1,48 @@
 <resources>
     <string name="app_name">Akhyou!</string>
 
-    <string name="settings_item">Settings</string>
-    <string name="search_item">Search</string>
-    <string name="favourites_item">Favourites</string>
+    <string name="settings_item">Opties</string>
+    <string name="search_item">Zoeken</string>
+    <string name="favourites_item">Favorieten</string>
     <string name="imageContentDesc">Anime poster</string>
-    <string name="update_title">There is an update available!</string>
+    <string name="update_title">Er is een update beschikbaar!</string>
     <string name="update">UPDATE</string>
 
-    <string name="licences_preference_title">Licences</string>
-    <string name="licences_preference_summary">Thank you to these great open source projects.</string>
+    <string name="licences_preference_title">Licenties</string>
+    <string name="licences_preference_summary">Met dank aan fantastische open source projecten.</string>
 
-    <string name="auto_update_preference_title">Auto-update?</string>
-    <string name="auto_update_prefernce_true_summary">Yes</string>
-    <string name="auto_update_preference_false_summary">No</string>
+    <string name="auto_update_preference_title">Autotomatisch updaten?</string>
+    <string name="auto_update_prefernce_true_summary">Ja</string>
+    <string name="auto_update_preference_false_summary">Nee</string>
 
-    <string name="theme_preference_title">Theme</string>
-    <string name="theme_dialog_title">Themes</string>
+    <string name="theme_preference_title">Thema</string>
+    <string name="theme_dialog_title">Thema's</string>
 
-    <string name="pink_theme">Pink</string>
-    <string name="purple_theme">Purple</string>
-    <string name="deep_purple_theme">Deep Purple</string>
+    <string name="pink_theme">Roze</string>
+    <string name="purple_theme">Paars</string>
+    <string name="deep_purple_theme">Donker Roze</string>
     <string name="indigo_theme">Indigo</string>
-    <string name="light_blue_theme">Light Blue</string>
-    <string name="cyan_theme">Cyan</string>
-    <string name="teal_theme">Teal</string>
-    <string name="green_theme">Green</string>
-    <string name="light_green_theme">Light Green</string>
-    <string name="lime_theme">Lime</string>
-    <string name="yellow_theme">Yellow</string>
-    <string name="orange_theme">Orange</string>
-    <string name="deep_orange_theme">Deep Orange</string>
-    <string name="brown_theme">Brown</string>
-    <string name="grey_theme">Grey</string>
-    <string name="blue_grey_theme">Blue Grey</string>
+    <string name="light_blue_theme">Licht Blauw</string>
+    <string name="cyan_theme">Cyaan</string>
+    <string name="teal_theme">Blauwgroen</string>
+    <string name="green_theme">Groen</string>
+    <string name="light_green_theme">Licht Groen</string>
+    <string name="lime_theme">Limoen</string>
+    <string name="yellow_theme">Geel</string>
+    <string name="orange_theme">Oranje</string>
+    <string name="deep_orange_theme">Donker Oranje</string>
+    <string name="brown_theme">Bruin</string>
+    <string name="grey_theme">Grijs</string>
+    <string name="blue_grey_theme">Blauw Grijs</string>
 
-    <string name="sources">Sources</string>
-    <string name="quality">Quality</string>
+    <string name="sources">Bronnen</string>
+    <string name="quality">Kwaliteit</string>
     <string name="stream">Stream</string>
     <string name="download">Download</string>
-    <string name="cancel">Cancel</string>
+    <string name="cancel">Annuleren</string>
 
     <string name="status_title">Status:</string>
-    <string name="alternate_title_title">Alternate Title:</string>
-    <string name="date_title">Release Date:</string>
+    <string name="alternate_title_title">Alternative Titel:</string>
+    <string name="date_title">Release Datum:</string>
 
 </resources>
