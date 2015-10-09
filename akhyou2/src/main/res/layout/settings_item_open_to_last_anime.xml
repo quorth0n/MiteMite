@@ -24,7 +24,7 @@
         android:textColor="@android:color/white"
         android:singleLine="true"
         android:maxLines="1"
-        android:text="@string/auto_update_preference_title" />
+        android:text="@string/open_to_last_anime_preference_title" />
 
     <TextView
         android:id="@+id/preference_summary_text"

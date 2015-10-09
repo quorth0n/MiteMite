@@ -20,6 +20,7 @@ public class MainModel {
     private static final String FAVOURITES_PREF = "favourites_preference";
     private static final String LAST_ANIME_PREF = "last_anime_preference";
     public static final String AUTO_UPDATE_PREF = "should_auto_update_preference";
+    public static final String OPEN_TO_LAST_ANIME_PREF ="open_to_last_anime_preference";
 
     private static final String LATEST_VERSION_LINK = "https://api.github.com/gists/d67e3b97a672e8c3f544";
     public static final String LATEST_RELEASE_LINK = "https://github.com/dulleh/akhyou/blob/master/akhyou-latest.apk?raw=true";
@@ -28,6 +29,7 @@ public class MainModel {
     // The key is the anime url.
     private HashMap<String, Anime> favouritesMap;
     private Anime lastAnime;
+    public static boolean openToLastAnime = true;
 
     public void setSharedPreferences(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
@@ -37,6 +39,7 @@ public class MainModel {
         this.sharedPreferences = sharedPreferences;
         refreshFavouritesList();
         refreshLastAnime();
+        refreshOpenToLastAnime();
     }
 
     public void refreshFavouritesList () {
@@ -57,6 +60,10 @@ public class MainModel {
         if (serializedAnime != null) {
             lastAnime = deserializeAnime(serializedAnime);
         }
+    }
+
+    public void refreshOpenToLastAnime () {
+        openToLastAnime = sharedPreferences.getBoolean(OPEN_TO_LAST_ANIME_PREF, true);
     }
 
     public boolean updateLastAnimeAndFavourite (Anime anime) {

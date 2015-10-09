@@ -104,19 +104,36 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        RelativeLayout openToLastAnimeItem = (RelativeLayout) view.findViewById(R.id.open_to_last_anime_preference_item);
+        CheckBox openToLastAnimeCheckBox = (CheckBox) openToLastAnimeItem.findViewById(R.id.preference_check_box);
+        TextView openToLastAnimeSummary = (TextView) openToLastAnimeItem.findViewById(R.id.preference_summary_text);
+        openToLastAnimeSummary.setText(yesNoSummaryUpdate(MainModel.openToLastAnime));
+        openToLastAnimeCheckBox.setChecked(MainModel.openToLastAnime);
+        openToLastAnimeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                MainModel.openToLastAnime = b;
+
+                editor.putBoolean(MainModel.OPEN_TO_LAST_ANIME_PREF, b);
+                editor.apply();
+
+                openToLastAnimeSummary.setText(yesNoSummaryUpdate(b));
+            }
+        });
+
         boolean shouldAutoUpdateVal = sharedPreferences.getBoolean(MainModel.AUTO_UPDATE_PREF, true);
         RelativeLayout autoUpdateItem = (RelativeLayout) view.findViewById(R.id.auto_update_preference_item);
         CheckBox autoUpdateCheckBox = (CheckBox) autoUpdateItem.findViewById(R.id.preference_check_box);
         TextView autoUpdateSummary = (TextView) autoUpdateItem.findViewById(R.id.preference_summary_text);
-        autoUpdateSummary.setText(autoUpdateSummaryUpdate(shouldAutoUpdateVal));
+        autoUpdateSummary.setText(yesNoSummaryUpdate(shouldAutoUpdateVal));
         autoUpdateCheckBox.setChecked(shouldAutoUpdateVal);
         autoUpdateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                editor.putBoolean(MainModel.AUTO_UPDATE_PREF,  b);
+                editor.putBoolean(MainModel.AUTO_UPDATE_PREF, b);
                 editor.apply();
 
-                autoUpdateSummary.setText(autoUpdateSummaryUpdate(b));
+                autoUpdateSummary.setText(yesNoSummaryUpdate(b));
             }
         });
 
@@ -243,11 +260,11 @@ public class SettingsFragment extends Fragment {
         }
     }
 
-    private String autoUpdateSummaryUpdate (boolean bool) {
+    private String yesNoSummaryUpdate (boolean bool) {
         if (bool) {
-            return getString(R.string.auto_update_prefernce_true_summary);
+            return getString(R.string.yes);
         } else {
-            return getString(R.string.auto_update_preference_false_summary);
+            return getString(R.string.no);
         }
     }
 

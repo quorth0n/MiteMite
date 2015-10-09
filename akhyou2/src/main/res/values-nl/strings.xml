@@ -8,14 +8,16 @@
     <string name="update_title">Er is een update beschikbaar!</string>
     <string name="update">UPDATE</string>
 
+    <string name="yes">Ja</string>
+    <string name="no">Nee</string>
     <string name="requires_restart">(heeft een restart nodig)</string>
 
     <string name="licences_preference_title">Licenties</string>
     <string name="licences_preference_summary">Met dank aan deze fantastische open source projecten.</string>
 
     <string name="auto_update_preference_title">Autotomatisch updaten?</string>
-    <string name="auto_update_prefernce_true_summary">Ja</string>
-    <string name="auto_update_preference_false_summary">Nee</string>
+
+    <string name="open_to_last_anime_preference_title">Open to last viewed anime?</string>
 
     <string name="search_grid_preference_title">Zoek layout</string>
     <string name="search_grid_option_card">Posters en details</string>

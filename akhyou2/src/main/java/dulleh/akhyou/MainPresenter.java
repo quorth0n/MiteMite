@@ -113,11 +113,10 @@ public class MainPresenter extends RxPresenter<MainActivity>{
 
     // Must have run setSharedPreferences() before this.
     public void onFreshStart (MainActivity mainActivity) {
-        if (mainModel.getLastAnime() != null) {
+        if (mainModel.getLastAnime() != null && MainModel.openToLastAnime) {
             EventBus.getDefault().postSticky(new OpenAnimeEvent(mainModel.getLastAnime()));
             mainActivity.requestFragment(MainActivity.ANIME_FRAGMENT);
         } else {
-            EventBus.getDefault().postSticky(new SearchEvent("Hyouka"));
             mainActivity.requestFragment(MainActivity.SEARCH_FRAGMENT);
         }
         if (mainModel.shouldAutoUpdate()) {

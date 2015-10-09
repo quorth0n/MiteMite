@@ -8,14 +8,16 @@
     <string name="update_title">There is an update available!</string>
     <string name="update">UPDATE</string>
 
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="requires_restart">(requires restart)</string>
 
     <string name="licences_preference_title">Licences</string>
     <string name="licences_preference_summary">Thank you to these great open source projects.</string>
 
     <string name="auto_update_preference_title">Auto-update?</string>
-    <string name="auto_update_prefernce_true_summary">Yes</string>
-    <string name="auto_update_preference_false_summary">No</string>
+
+    <string name="open_to_last_anime_preference_title">Open to last viewed anime?</string>
 
     <string name="search_grid_preference_title">Search layout</string>
     <string name="search_grid_option_card">Posters and detail</string>

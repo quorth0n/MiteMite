@@ -8,14 +8,16 @@
     <string name="update_title">Une mise à jour est disponible !</string>
     <string name="update">METTRE À JOUR</string>
 
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
     <string name="requires_restart">(Les changements seront appliqués lors du redémarrage de l\'application)</string>
 
     <string name="licences_preference_title">Licences</string>
     <string name="licences_preference_summary">Merci à ces grands projets Open-Source !</string>
 
     <string name="auto_update_preference_title">Mise à jour automatique ?</string>
-    <string name="auto_update_prefernce_true_summary">Oui</string>
-    <string name="auto_update_preference_false_summary">Non</string>
+
+    <string name="open_to_last_anime_preference_title">Open to last viewed anime?</string>
 
     <string name="search_grid_preference_title">Mise en page de la page de recherche</string>
     <string name="search_grid_option_card">Posters et détails</string>
