@@ -17,7 +17,7 @@
 
     <string name="auto_update_preference_title">Automatisch updaten?</string>
 
-    <string name="open_to_last_anime_preference_title">Open to last viewed anime?</string>
+    <string name="open_to_last_anime_preference_title">Starten op de laatst bekeken anime?</string>
 
     <string name="search_grid_preference_title">Zoek layout</string>
     <string name="search_grid_option_card">Posters en details</string>
