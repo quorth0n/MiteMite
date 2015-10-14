@@ -8,14 +8,14 @@
         <item name="colorAccent">@color/accent</item>
 
     </style>
-    <!-- SHARED PREFRENCES: 1 -->
+    <!-- SHARED PREFERENCES: 1 -->
     <style name="PinkTheme" parent="BaseTheme">
 
         <item name="colorPrimary">@color/md_pink_500</item>
         <item name="colorPrimaryDark">@color/md_pink_700</item>
 
     </style>
-    <!-- SHARED PREFRENCES: 2 -->
+    <!-- SHARED PREFERENCES: 2 -->
     <style name="PurpleTheme" parent="BaseTheme">
 
         <item name="colorPrimary">@color/md_purple_500</item>
@@ -23,7 +23,7 @@
         
 
     </style>
-    <!-- SHARED PREFRENCES: 3 -->
+    <!-- SHARED PREFERENCES: 3 -->
     <style name="DeepPurpleTheme" parent="BaseTheme">
 
         <item name="colorPrimary">@color/md_deep_purple_500</item>
@@ -31,7 +31,7 @@
         
 
     </style>
-    <!-- SHARED PREFRENCES: 4 -->
+    <!-- SHARED PREFERENCES: 4 -->
     <style name="IndigoTheme" parent="BaseTheme">
 
         <item name="colorPrimary">@color/md_indigo_500</item>
@@ -39,7 +39,7 @@
         
 
     </style>
-    <!-- SHARED PREFRENCES: 5 -->
+    <!-- SHARED PREFERENCES: 5 -->
     <style name="LightBlueTheme" parent="BaseTheme">
 
         <item name="colorPrimary">@color/md_light_blue_500</item>
@@ -47,7 +47,7 @@
         
 
     </style>
-    <!-- SHARED PREFRENCES: 6 -->
+    <!-- SHARED PREFERENCES: 6 -->
     <style name="CyanTheme" parent="BaseTheme">
 
         <item name="colorPrimary">@color/md_cyan_500</item>
@@ -55,7 +55,7 @@
         
 
     </style>
-    <!-- SHARED PREFRENCES: 7 -->
+    <!-- SHARED PREFERENCES: 7 -->
     <style name="TealTheme" parent="BaseTheme">
 
         <item name="colorPrimary">@color/md_teal_500</item>
@@ -63,7 +63,7 @@
         
 
     </style>
-    <!-- SHARED PREFRENCES: 8 -->
+    <!-- SHARED PREFERENCES: 8 -->
     <style name="GreenTheme" parent="BaseTheme">
 
         <item name="colorPrimary">@color/md_green_500</item>
@@ -71,7 +71,7 @@
         
 
     </style>
-    <!-- SHARED PREFRENCES: 9 -->
+    <!-- SHARED PREFERENCES: 9 -->
     <style name="LightGreenTheme" parent="BaseTheme">
 
         <item name="colorPrimary">@color/md_light_green_500</item>
@@ -79,21 +79,21 @@
         
 
     </style>
-    <!-- SHARED PREFRENCES: 10 -->
+    <!-- SHARED PREFERENCES: 10 -->
     <style name="LimeTheme" parent="BaseTheme">
         <item name="colorPrimary">@color/md_lime_500</item>
         <item name="colorPrimaryDark">@color/md_lime_700</item>
         
 
     </style>
-    <!-- SHARED PREFRENCES: 11 -->
+    <!-- SHARED PREFERENCES: 11 -->
     <style name="YellowTheme" parent="BaseTheme">
         <item name="colorPrimary">@color/md_yellow_500</item>
         <item name="colorPrimaryDark">@color/md_yellow_700</item>
         
 
     </style>
-    <!-- SHARED PREFRENCES: 12 -->
+    <!-- SHARED PREFERENCES: 12 -->
     <style name="OrangeTheme" parent="BaseTheme">
 
         <item name="colorPrimary">@color/md_orange_500</item>
@@ -101,7 +101,7 @@
         
 
     </style>
-    <!-- SHARED PREFRENCES: 13 -->
+    <!-- SHARED PREFERENCES: 13 -->
     <style name="DeepOrangeTheme" parent="BaseTheme">
 
         <item name="colorPrimary">@color/md_deep_orange_500</item>
@@ -109,7 +109,7 @@
         
 
     </style>
-    <!-- SHARED PREFRENCES: 14 -->
+    <!-- SHARED PREFERENCES: 14 -->
     <style name="BrownTheme" parent="BaseTheme">
 
         <item name="colorPrimary">@color/md_brown_500</item>
@@ -117,7 +117,7 @@
         
 
     </style>
-    <!-- SHARED PREFRENCES: 15 -->
+    <!-- SHARED PREFERENCES: 15 -->
     <style name="GreyTheme" parent="BaseTheme">
 
         <item name="colorPrimary">@color/md_grey_500</item>
@@ -125,12 +125,20 @@
         
 
     </style>
-    <!-- SHARED PREFRENCES: 16 -->
+    <!-- SHARED PREFERENCES: 16 -->
     <style name="BlueGreyTheme" parent="BaseTheme">
 
         <item name="colorPrimary">@color/md_blue_grey_500</item>
         <item name="colorPrimaryDark">@color/md_blue_grey_700</item>
         
+
+    </style>
+    <!-- SHARED PREFERENCES: 0 -->
+    <style name="AkhyouRedTheme" parent="BaseTheme">
+
+        <item name="colorPrimary">@color/accent</item>
+        <item name="colorPrimaryDark">@color/accent_dark</item>
+
 
     </style>
 

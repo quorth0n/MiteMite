@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="theme_entries">
+        <item>@string/akhyou_red_theme</item>
         <item>@string/pink_theme</item>
         <item>@string/purple_theme</item>
         <item>@string/deep_purple_theme</item>

@@ -68,7 +68,7 @@ public class SettingsFragment extends Fragment {
                             @Override
                             public boolean onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
 
-                                editor.putInt(THEME_PREFERENCE, i + 1);
+                                editor.putInt(THEME_PREFERENCE, i);
                                 editor.apply();
 
                                 getActivity().recreate();
@@ -239,7 +239,7 @@ public class SettingsFragment extends Fragment {
                     return getActivity().getApplicationContext().getString(R.string.blue_grey_theme);
 
                 default:
-                    return getActivity().getApplicationContext().getString(R.string.grey_theme);
+                    return getActivity().getApplicationContext().getString(R.string.akhyou_red_theme);
 
             }
         } else if (key.equals(SEARCH_GRID_PREFERENCE)) {

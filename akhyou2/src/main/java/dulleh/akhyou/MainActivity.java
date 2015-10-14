@@ -113,7 +113,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
 
     private void setTheme () {
         sharedPreferences = getPreferences(MODE_PRIVATE);
-        int themePref = sharedPreferences.getInt(SettingsFragment.THEME_PREFERENCE, -1);
+        int themePref = sharedPreferences.getInt(SettingsFragment.THEME_PREFERENCE, 0);
 
         switch (themePref) {
             case 1:
@@ -181,7 +181,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
                 break;
 
             default:
-                setTheme(R.style.GreyTheme);
+                setTheme(R.style.AkhyouRedTheme);
                 break;
         }
     }

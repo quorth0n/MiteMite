@@ -28,20 +28,21 @@
 
     <string name="pink_theme">Rose</string>
     <string name="purple_theme">Violet</string>
-    <string name="deep_purple_theme">Violet foncé</string>
+    <string name="deep_purple_theme">Violet Foncé</string>
     <string name="indigo_theme">Indigo</string>
     <string name="light_blue_theme">Bleu clair</string>
     <string name="cyan_theme">Cyan</string>
-    <string name="teal_theme">Bleu canard</string>
+    <string name="teal_theme">Bleu Canard</string>
     <string name="green_theme">Vert</string>
-    <string name="light_green_theme">Vert clair</string>
-    <string name="lime_theme">Citron vert</string>
+    <string name="light_green_theme">Vert Clair</string>
+    <string name="lime_theme">Citron Vert</string>
     <string name="yellow_theme">Jaune</string>
     <string name="orange_theme">Orange</string>
-    <string name="deep_orange_theme">Orange foncé</string>
+    <string name="deep_orange_theme">Orange Foncé</string>
     <string name="brown_theme">Marron</string>
     <string name="grey_theme">Gris</string>
-    <string name="blue_grey_theme">Bleu gris</string>
+    <string name="blue_grey_theme">Bleu Gris</string>
+    <string name="akhyou_red_theme">Akhyou! Rouge</string>
 
     <string name="sources">Sources</string>
     <string name="quality">Qualité</string>
