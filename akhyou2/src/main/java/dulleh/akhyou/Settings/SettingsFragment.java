@@ -143,7 +143,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 new MaterialDialog.Builder(getActivity())
                         .title(getString(R.string.licences_preference_summary))
-                        .customView(R.layout.licences_text_view, true)
+                        .content(R.string.licences)
                         .show();
             }
         });
