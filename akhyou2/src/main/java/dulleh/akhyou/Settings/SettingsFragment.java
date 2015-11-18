@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import dulleh.akhyou.BuildConfig;
 import dulleh.akhyou.MainActivity;
 import dulleh.akhyou.MainModel;
 import dulleh.akhyou.R;
@@ -124,16 +125,14 @@ public class SettingsFragment extends Fragment {
         boolean shouldAutoUpdateVal = sharedPreferences.getBoolean(MainModel.AUTO_UPDATE_PREF, true);
         RelativeLayout autoUpdateItem = (RelativeLayout) view.findViewById(R.id.auto_update_preference_item);
         CheckBox autoUpdateCheckBox = (CheckBox) autoUpdateItem.findViewById(R.id.preference_check_box);
-        TextView autoUpdateSummary = (TextView) autoUpdateItem.findViewById(R.id.preference_summary_text);
-        autoUpdateSummary.setText(yesNoSummaryUpdate(shouldAutoUpdateVal));
+        ((TextView) autoUpdateItem.findViewById(R.id.preference_summary_text))
+                .setText("Current version: " + BuildConfig.VERSION_NAME);
         autoUpdateCheckBox.setChecked(shouldAutoUpdateVal);
         autoUpdateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 editor.putBoolean(MainModel.AUTO_UPDATE_PREF, b);
                 editor.apply();
-
-                autoUpdateSummary.setText(yesNoSummaryUpdate(b));
             }
         });
 

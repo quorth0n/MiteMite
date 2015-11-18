@@ -37,6 +37,11 @@
     public *;
 }
 
+-dontwarn retrofit.**
+-keep class retrofit.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+
 -dontwarn org.w3c.dom.**
 
 -printmapping mapping.txt
