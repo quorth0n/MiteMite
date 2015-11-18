@@ -279,7 +279,8 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
 
     public void promptForUpdate (String newUpdateVersion) {
         new MaterialDialog.Builder(this)
-                .title(getString(R.string.update_title) + " " + newUpdateVersion)
+                .title(getString(R.string.update_title))
+                .content(newUpdateVersion)
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {

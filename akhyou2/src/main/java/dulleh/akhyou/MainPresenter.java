@@ -75,7 +75,7 @@ public class MainPresenter extends RxPresenter<MainActivity>{
         Observable.defer(new Func0<Observable<String>>() {
             @Override
             public Observable<String> call() {
-                return Observable.just(HummingbirdApi.getTitle(url));
+                return Observable.just(HummingbirdApi.getTitleFromRegularPage(url));
             }
         })
                 .subscribeOn(Schedulers.io())
@@ -104,7 +104,7 @@ public class MainPresenter extends RxPresenter<MainActivity>{
     }
 
     public void refreshFavouritesList () {
-        mainModel.refreshFavouritesList();
+        mainModel.refreshFavourites();
     }
 
     public List<Anime> getFavourites () {
@@ -122,6 +122,9 @@ public class MainPresenter extends RxPresenter<MainActivity>{
         if (mainModel.shouldAutoUpdate()) {
             checkForUpdate();
         }
+
+        //System.out.println(mainModel.loginHummingbird());
+
     }
 
     private void checkForUpdate () {
@@ -161,7 +164,11 @@ public class MainPresenter extends RxPresenter<MainActivity>{
         // colors are inconsistent for whatever reason, causing duplicate favourites,
         // so Set is pretty useless ;-;
         try {
-            mainModel.addOrRemoveFromFavourites(event);
+            if (event.addToFavourites) {
+                mainModel.addToFavourites(event.anime);
+            } else {
+                mainModel.removeFromFavourites(event.anime);
+            }
             if (getView() != null) {
                 getView().favouritesChanged();
             }

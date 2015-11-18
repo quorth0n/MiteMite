@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import dulleh.akhyou.Models.Anime;
-import dulleh.akhyou.Utils.Events.FavouriteEvent;
+import dulleh.akhyou.Models.HummingbirdApi;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
@@ -26,6 +26,7 @@ public class MainModel {
     public static final String LATEST_RELEASE_LINK = "https://github.com/dulleh/akhyou/blob/master/akhyou-latest.apk?raw=true";
 
     private SharedPreferences sharedPreferences;
+    private HummingbirdApi hummingbirdApi;
     // The key is the anime url.
     private HashMap<String, Anime> favouritesMap;
     private Anime lastAnime;
@@ -37,12 +38,13 @@ public class MainModel {
 
     public MainModel (SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
-        refreshFavouritesList();
+        hummingbirdApi = new HummingbirdApi();
+        refreshFavourites();
         refreshLastAnime();
         refreshOpenToLastAnime();
     }
 
-    public void refreshFavouritesList () {
+    public void refreshFavourites () {
         Set<String> favourites = new HashSet<>(sharedPreferences.getStringSet(FAVOURITES_PREF, new HashSet<>()));
 
         favouritesMap = new HashMap<>(favourites.size());
@@ -79,6 +81,7 @@ public class MainModel {
     *
     */
 
+
     public void setFavourites (ArrayList<Anime> favourites) {
         for (Anime favourite : favourites) {
             favouritesMap.put(favourite.getUrl(), favourite);
@@ -91,7 +94,7 @@ public class MainModel {
             favourites.addAll(favouritesMap.values());
             return favourites;
         } else if (sharedPreferences != null) {
-            refreshFavouritesList();
+            refreshFavourites();
             ArrayList<Anime> favourites = new ArrayList<>();
             favourites.addAll(favouritesMap.values());
             return favourites;
@@ -111,7 +114,7 @@ public class MainModel {
 
     public boolean isInFavourites (String url)  throws IllegalStateException {
         if (favouritesMap == null && sharedPreferences != null) {
-            refreshFavouritesList();
+            refreshFavourites();
         }
         if (favouritesMap != null) {
             return (favouritesMap.containsKey(url));
@@ -119,20 +122,18 @@ public class MainModel {
         throw new IllegalStateException("Can't find favourites.");
     }
 
-    public void addOrRemoveFromFavourites (FavouriteEvent event) throws Exception{
-
-        if (event.isInFavourites == null) {
-            event = new FavouriteEvent(isInFavourites(event.anime.getUrl()), event.addToFavourites, event.anime);
+    public void addToFavourites (Anime anime) {
+        if (favouritesMap == null) {
+            refreshFavourites();
         }
+        favouritesMap.put(anime.getUrl(), anime);
+    }
 
-        if (favouritesMap != null) {
-            if (!event.isInFavourites && event.addToFavourites) {
-                favouritesMap.put(event.anime.getUrl(), event.anime);
-            } else if (event.isInFavourites) {
-                favouritesMap.remove(event.anime.getUrl());
-            }
+    public void removeFromFavourites (Anime anime) {
+        if (favouritesMap == null) {
+            refreshFavourites();
         }
-
+        favouritesMap.remove(anime.getUrl());
     }
 
     // Returns true if a favourite was updated. False if not.
@@ -193,14 +194,25 @@ public class MainModel {
             JsonNode rootNode = objectMapper.readValue(GeneralUtils.getWebPage(LATEST_VERSION_LINK), JsonNode.class);
             String newUpdateVersion = rootNode.get("description").textValue();
             if (!newUpdateVersion.equals(versionName)) {
-                //return rootNode.get("files").get("latestRelease").get("content").textValue();
-                return newUpdateVersion;
+                return newUpdateVersion + rootNode.get("files").get("latestRelease").get("content").textValue();
             } else {
                 return null;
             }
         } catch (IOException io) {
             throw OnErrorThrowable.from(new Throwable("Checking update failed."));
         }
+    }
+
+
+    /*
+    *
+    *               HUMMINGBIRD
+    *
+    */
+
+
+    public String loginHummingbird () {
+        return hummingbirdApi.getAuthToken("username", "password");
     }
 
 }
