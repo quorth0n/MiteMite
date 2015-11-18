@@ -37,10 +37,45 @@
         android:background="@drawable/horizontal_shadow_upsidedown_light"
         android:layout_above="@id/drawer_settings"/>
 
+    <ImageView
+        android:id="@+id/drawer_user_view"
+        android:layout_width="match_parent"
+        android:layout_height="144dp"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/user_stock"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/drawer_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Coming soon..."
+        android:layout_alignBottom="@id/drawer_user_view"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:textSize="14sp"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="1.2"
+        android:shadowDy="1.2"
+        android:shadowRadius="1.2"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@android:color/white" />
+
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_above="@id/drawer_user_name"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/white_circle" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/drawer_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/drawer_user_view"
         android:layout_above="@id/drawer_settings"/>
 
 </RelativeLayout>
