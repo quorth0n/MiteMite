@@ -52,6 +52,13 @@ import java.util.regex.Pattern;
 
 import dulleh.akhyou.Lib.PersistentCookieStore;
 
+/**
+ * A singleton Http Client that bypasses Cloudflare authentication.
+ * It does so by pretending to be a regular user when the connection is first made, after which it stores
+ * the authorization cookie for upcoming sessions. Note that the singleton has to be initialized
+ * by calling the `onCreate` method before it can be used for making connections.
+ *
+ */
 public enum CloudflareHttpClient {
     INSTANCE;
 
@@ -64,8 +71,9 @@ public enum CloudflareHttpClient {
     private CookieManager cookieManager;
 
     /**
-     * We use a persistent Cookie storage to minimize the need
-     * @param context
+     * We use a persistent Cookie storage to minimize the need of doing the high-latency connections
+     * to Cloudflare protected servers.
+     * @param context The Android application's context. It's used to get the cache directory.
      */
     public void onCreate(android.content.Context context) {
         client = new OkHttpClient();
