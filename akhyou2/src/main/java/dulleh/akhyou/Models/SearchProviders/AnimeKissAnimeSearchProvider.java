@@ -14,7 +14,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import dulleh.akhyou.Models.Anime;
-import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
@@ -23,10 +22,6 @@ public class AnimeKissAnimeSearchProvider implements SearchProvider {
     private static final String SEARCH_URL = "https://kissanime.to/AdvanceSearch";
     private static final Pattern PARSER = Pattern.compile(".*src=\"(.*?)\".*href=\"(.*)\">(.*?)</a>.*<p>\\s*(.*?)\\s*</p>", Pattern.DOTALL);
     private static final int NUM_GENRES = 47;
-
-    public AnimeKissAnimeSearchProvider() {
-        CloudflareHttpClient.INSTANCE.registerSite("https://kissanime.to");
-    }
 
     @Override
     public List<Anime> searchFor(String searchTerm) throws OnErrorThrowable {

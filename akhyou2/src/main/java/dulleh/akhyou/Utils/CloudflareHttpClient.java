@@ -62,6 +62,10 @@ import dulleh.akhyou.Lib.PersistentCookieStore;
 public enum CloudflareHttpClient {
     INSTANCE;
 
+    private static final String[] CLOUDFLARE_URLS = {
+        "https://kissanime.to"
+    };
+
     private final Pattern functionPattern = Pattern.compile("setTimeout\\(\\s*function\\s*\\(\\)\\s*\\{(.*)f\\.submit", Pattern.DOTALL);
     private final Pattern assignPattern = Pattern.compile("a\\.value =(.+?) \\+ .+?;");
     private final Pattern stripPattern = Pattern.compile("\\s{3,}[a-z](?: = |\\.).+");
@@ -87,6 +91,10 @@ public enum CloudflareHttpClient {
         CookieHandler.setDefault(cookieManager);
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
         client.setCookieHandler(cookieManager);
+
+        for (String url : CLOUDFLARE_URLS) {
+            registerSite(url);
+        }
     }
 
     /**

@@ -8,6 +8,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -16,7 +17,7 @@ import java.util.regex.Pattern;
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Episode;
 import dulleh.akhyou.Models.Source;
-import dulleh.akhyou.Utils.CloudflareHttpClient;
+import dulleh.akhyou.Models.Video;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
@@ -24,8 +25,13 @@ public class AnimeKissAnimeProvider implements AnimeProvider {
     private static final String BASE_URL = "https://kissanime.to";
     private static final Pattern EXTRACT_STATUS = Pattern.compile("Status:\\s*(.*?)\\s{2,}Views");
 
-    public AnimeKissAnimeProvider() {
-        CloudflareHttpClient.INSTANCE.registerSite("https://kissanime.to");
+    private static final byte[] DECODE_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".getBytes(Charset.forName("UTF-8"));
+    private static int[] DECODE_LOOKUP = new int[129];
+
+    static {
+        for (int i = 0; i < DECODE_ALPHABET.length; i++) {
+            DECODE_LOOKUP[DECODE_ALPHABET[i]] = i;
+        }
     }
 
     @Override
@@ -50,12 +56,26 @@ public class AnimeKissAnimeProvider implements AnimeProvider {
 
     @Override
     public List<Source> fetchSources(String url) throws OnErrorThrowable {
-        return new ArrayList<>();
+        String body = GeneralUtils.getWebPage(url);
+        Elements downloads = Jsoup.parse(body).select("#selectQuality option");
+        List<Source> sources = new ArrayList<>(downloads.size());
+
+        for (Element source : downloads) {
+            String value = source.attr("value");
+            String decoded = decode(value);
+            sources.add(new Source()
+                .setTitle(source.text())
+                .setPageUrl(decoded));
+        }
+
+        return sources;
     }
 
     @Override
     public Source fetchVideo(Source source) throws OnErrorThrowable {
-        return source;
+        List<Video> videos = new ArrayList<>(1);
+        videos.add(new Video(source.getTitle(), source.getPageUrl()));
+        return source.setVideos(videos);
     }
 
     private Anime parseInfo(Document doc, Anime anime) {
@@ -119,4 +139,49 @@ public class AnimeKissAnimeProvider implements AnimeProvider {
         return episodes;
     }
 
+    private List<Integer> decoderFromUtf8(byte[] s) {
+        List<Integer> result = new ArrayList<>();
+        int[] enc = {-1, -1, -1, -1};
+
+        int position = 0;
+        while (position < s.length) {
+            enc[0] = DECODE_LOOKUP[s[position++]];
+            enc[1] = DECODE_LOOKUP[s[position++]];
+            result.add(enc[0] << 2 | enc[1] >> 4);
+
+            enc[2] = DECODE_LOOKUP[s[position++]];
+            if (enc[2] == 64)
+                break;
+            result.add(((enc[1] & 15) << 4) | (enc[2] >> 2));
+
+            enc[3] = DECODE_LOOKUP[s[position++]];
+            if (enc[3] == 64)
+                break;
+            result.add(((enc[2] & 3) << 6) | enc[3]);
+        }
+
+        return result;
+    }
+
+    private String decode(String s) {
+         List<Integer> buffer = decoderFromUtf8(s.getBytes(Charset.forName("UTF-8")));
+         StringBuilder result = new StringBuilder();
+
+         int position = 0;
+         while (position < buffer.size()) {
+             if (buffer.get(position) < 128) {
+                result.append(Character.toChars(buffer.get(position++)));
+             } else if (buffer.get(position) > 191 && buffer.get(position) < 224) {
+                int a = (buffer.get(position++) & 31) << 6;
+                int b = (buffer.get(position++) & 63);
+                result.append(Character.toChars(a | b));
+             } else {
+                int a = (buffer.get(position++) & 15) << 12;
+                int b = (buffer.get(position++) & 63) << 6;
+                int c = (buffer.get(position++) & 63);
+                result.append(Character.toChars(a | b | c));
+             }
+         }
+         return result.toString();
+    }
 }
