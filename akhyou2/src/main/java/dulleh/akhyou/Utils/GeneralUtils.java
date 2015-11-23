@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
@@ -27,19 +26,20 @@ import dulleh.akhyou.Utils.Events.SnackbarEvent;
 import rx.exceptions.OnErrorThrowable;
 
 public class GeneralUtils {
-
     public static String getWebPage (final String url) {
-        OkHttpClient okHttpClient = new OkHttpClient();
+        return GeneralUtils.getWebPage(new Request.Builder().url(url).build());
+    }
 
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
+    public static String getWebPage (final Request request) {
         try {
-            Response response = okHttpClient.newCall(request).execute();
+            Response response = CloudflareHttpClient.INSTANCE.execute(request);
             return response.body().string();
         } catch (IOException e) {
             throw OnErrorThrowable.from(new Throwable("Failed to connect.", e));
+        } catch (CloudflareException e) {
+            throw OnErrorThrowable.from(new Throwable("Cloudflare could not be circumvented. This is " +
+                                                      "likely due to a change on CF's side. Please submit " +
+                                                      "a bug report on GitHub", e));
         }
     }
 
