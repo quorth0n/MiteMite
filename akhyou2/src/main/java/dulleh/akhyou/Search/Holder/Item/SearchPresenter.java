@@ -8,7 +8,7 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.SearchProviders.AnimeBamSearchProvider;
-import dulleh.akhyou.Models.SearchProviders.AnimeKissAnimeSearchProvider;
+import dulleh.akhyou.Models.SearchProviders.KissAnimeSearchProvider;
 import dulleh.akhyou.Models.SearchProviders.AnimeRamSearchProvider;
 import dulleh.akhyou.Models.SearchProviders.AnimeRushSearchProvider;
 import dulleh.akhyou.Models.SearchProviders.SearchProvider;
@@ -48,7 +48,7 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
                 searchProvider = new AnimeBamSearchProvider();
                 break;
             case Anime.ANIME_KISS:
-                searchProvider = new AnimeKissAnimeSearchProvider();
+                searchProvider = new KissAnimeSearchProvider();
                 break;
         }
     }

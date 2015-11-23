@@ -17,7 +17,7 @@ import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
-public class AnimeKissAnimeSearchProvider implements SearchProvider {
+public class KissAnimeSearchProvider implements SearchProvider {
     private static final String BASE_URL = "https://kissanime.to";
     private static final String SEARCH_URL = "https://kissanime.to/AdvanceSearch";
     private static final Pattern PARSER = Pattern.compile(".*src=\"(.*?)\".*href=\"(.*)\">(.*?)</a>.*<p>\\s*(.*?)\\s*</p>", Pattern.DOTALL);

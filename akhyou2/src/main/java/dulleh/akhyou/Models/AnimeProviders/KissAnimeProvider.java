@@ -21,7 +21,7 @@ import dulleh.akhyou.Models.Video;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
-public class AnimeKissAnimeProvider implements AnimeProvider {
+public class KissAnimeProvider implements AnimeProvider {
     private static final String BASE_URL = "https://kissanime.to";
     private static final Pattern EXTRACT_STATUS = Pattern.compile("Status:\\s*(.*?)\\s{2,}Views");
 
