@@ -70,6 +70,10 @@ public enum CloudflareHttpClient {
     private OkHttpClient client;
     private CookieManager cookieManager;
 
+    public CookieManager getCookieManager() {
+        return cookieManager;
+    }
+
     /**
      * We use a persistent Cookie storage to minimize the need of doing the high-latency connections
      * to Cloudflare protected servers.

@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
@@ -31,15 +33,13 @@ public class GeneralUtils {
     }
 
     public static String getWebPage (final Request request) {
+        OkHttpClient client = new OkHttpClient();
+        client.setCookieHandler(CloudflareHttpClient.INSTANCE.getCookieManager());
         try {
-            Response response = CloudflareHttpClient.INSTANCE.execute(request);
+            Response response = client.newCall(request).execute();
             return response.body().string();
         } catch (IOException e) {
             throw OnErrorThrowable.from(new Throwable("Failed to connect.", e));
-        } catch (CloudflareException e) {
-            throw OnErrorThrowable.from(new Throwable("Cloudflare could not be circumvented. This is " +
-                                                      "likely due to a change on CF's side. Please submit " +
-                                                      "a bug report on GitHub", e));
         }
     }
 

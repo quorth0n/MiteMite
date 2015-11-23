@@ -20,17 +20,12 @@ import rx.exceptions.OnErrorThrowable;
 
 public class AnimeKissAnimeSearchProvider implements SearchProvider {
     private static final String BASE_URL = "https://kissanime.to";
-    private static final String SEARCH_URL = "https://kissanime.to/Search/Anime";
+    private static final String SEARCH_URL = "https://kissanime.to/AdvanceSearch";
     private static final Pattern PARSER = Pattern.compile(".*src=\"(.*?)\".*href=\"(.*)\">(.*?)</a>.*<p>\\s*(.*?)\\s*</p>", Pattern.DOTALL);
-    private static Boolean initialized = false;
+    private static final int NUM_GENRES = 47;
 
     public AnimeKissAnimeSearchProvider() {
-        synchronized (initialized) {
-            if (!initialized) {
-                CloudflareHttpClient.INSTANCE.registerSite("https://kissanime.to");
-                initialized = true;
-            }
-        }
+        CloudflareHttpClient.INSTANCE.registerSite("https://kissanime.to");
     }
 
     @Override
@@ -39,8 +34,8 @@ public class AnimeKissAnimeSearchProvider implements SearchProvider {
             throw OnErrorThrowable.from(new Throwable("Please enter a search term."));
         }
 
-        RequestBody query = new FormEncodingBuilder()
-                .add("keyword", GeneralUtils.encodeForUtf8(searchTerm))
+        RequestBody query = searchTemplate()
+                .add("animeName", searchTerm)
                 .build();
 
         Request search = new Request.Builder()
@@ -80,5 +75,14 @@ public class AnimeKissAnimeSearchProvider implements SearchProvider {
             results.add(anime);
         }
         return results;
+    }
+
+    private FormEncodingBuilder searchTemplate() {
+        FormEncodingBuilder searchTemplate = new FormEncodingBuilder();
+        for (int i = 0; i < NUM_GENRES; ++i) {
+            searchTemplate.add("genres", "0");
+        }
+        searchTemplate.add("status", "");
+        return searchTemplate;
     }
 }
