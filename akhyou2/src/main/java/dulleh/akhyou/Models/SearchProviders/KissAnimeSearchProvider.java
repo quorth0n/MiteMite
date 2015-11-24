@@ -14,6 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import dulleh.akhyou.Models.Anime;
+import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
@@ -27,6 +28,10 @@ public class KissAnimeSearchProvider implements SearchProvider {
     public List<Anime> searchFor(String searchTerm) throws OnErrorThrowable {
         if (searchTerm == null || searchTerm.trim().isEmpty()) {
             throw OnErrorThrowable.from(new Throwable("Please enter a search term."));
+        }
+
+        if (!CloudflareHttpClient.INSTANCE.initialized()) {
+            throw OnErrorThrowable.from(new Throwable("The KissAnime provider has not yet been initialized."));
         }
 
         RequestBody query = searchTemplate()

@@ -47,6 +47,7 @@ import java.net.CookiePolicy;
 import java.net.HttpCookie;
 import java.net.URI;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -73,6 +74,7 @@ public enum CloudflareHttpClient {
 
     private OkHttpClient client;
     private CookieManager cookieManager;
+    private AtomicInteger numInitialized = new AtomicInteger(0);
 
     public CookieManager getCookieManager() {
         return cookieManager;
@@ -104,6 +106,10 @@ public enum CloudflareHttpClient {
      */
     public void registerSite(final String url) {
         new CloudflareAsyncRegister().execute(url);
+    }
+
+    public boolean initialized() {
+        return numInitialized.get() == CLOUDFLARE_URLS.length;
     }
 
     public Response execute(Request request) throws IOException, CloudflareException {
@@ -195,7 +201,13 @@ public enum CloudflareHttpClient {
         }
     }
 
-    private class CloudflareAsyncRegister extends AsyncTask<String, Void, Void> {
+    private static class CloudflareAsyncRegister extends AsyncTask<String, Void, Void> {
+        @Override
+        protected void onPostExecute(Void ignored) {
+            super.onPostExecute(ignored);
+            CloudflareHttpClient.INSTANCE.numInitialized.incrementAndGet();
+        }
+
         @Override
         protected Void doInBackground(String... urls) {
             for (String url : urls) {
