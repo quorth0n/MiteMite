@@ -23,6 +23,7 @@ import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Search.Holder.SearchHolderFragment;
 import dulleh.akhyou.Settings.SettingsFragment;
 import dulleh.akhyou.Utils.AdapterClickListener;
+import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.Events.OpenAnimeEvent;
 import dulleh.akhyou.Utils.Events.SettingsItemSelectedEvent;
 import dulleh.akhyou.Utils.Events.SnackbarEvent;
@@ -46,6 +47,8 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
     protected void onCreate(Bundle savedInstanceState) {
         setTheme();
         super.onCreate(savedInstanceState);
+        CloudflareHttpClient.INSTANCE.onCreate(getApplicationContext());
+
         setContentView(R.layout.activity_main);
 
         sharedPreferences = getPreferences(MODE_PRIVATE);

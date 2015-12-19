@@ -34,6 +34,7 @@ public class SearchHolderFragment extends Fragment{
             searchResultsCache.add(Anime.ANIME_RUSH, new ArrayList<>(0));
             searchResultsCache.add(Anime.ANIME_RAM, new ArrayList<>(0));
             searchResultsCache.add(Anime.ANIME_BAM, new ArrayList<>(0));
+            searchResultsCache.add(Anime.ANIME_KISS, new ArrayList<>(0));
         }
     }
 

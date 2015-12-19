@@ -11,6 +11,7 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import dulleh.akhyou.Models.AnimeProviders.AnimeBamAnimeProvider;
+import dulleh.akhyou.Models.AnimeProviders.KissAnimeProvider;
 import dulleh.akhyou.Models.AnimeProviders.AnimeRamAnimeProvider;
 import dulleh.akhyou.Models.AnimeProviders.AnimeRushAnimeProvider;
 import dulleh.akhyou.Models.AnimeProviders.AnimeProvider;
@@ -117,6 +118,9 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
                     break;
                 case Anime.ANIME_BAM:
                     animeProvider = new AnimeBamAnimeProvider();
+                    break;
+                case Anime.ANIME_KISS:
+                    animeProvider = new KissAnimeProvider();
                     break;
                 default:
                     try {

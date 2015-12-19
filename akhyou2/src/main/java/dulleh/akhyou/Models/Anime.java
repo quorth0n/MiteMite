@@ -16,6 +16,8 @@ public class Anime implements Parcelable{
     public static final CharSequence ANIME_RAM_TITLE = "ANIMERAM";
     public static final int ANIME_BAM = 2;
     public static final CharSequence ANIME_BAM_TITLE = "ANIMEBAM";
+    public static final int ANIME_KISS = 3;
+    public static final CharSequence ANIME_KISS_TITLE = "KISSANIME";
 
     // has to be here cos conflicts with V
     public Anime () {}

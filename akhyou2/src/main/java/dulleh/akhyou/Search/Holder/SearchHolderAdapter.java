@@ -30,6 +30,9 @@ public class SearchHolderAdapter extends FragmentStatePagerAdapter{
             case 2:
                 args.putInt(PROVIDER_TYPE_KEY, Anime.ANIME_BAM);
                 break;
+            case 3:
+                args.putInt(PROVIDER_TYPE_KEY, Anime.ANIME_KISS);
+                break;
         }
 
         searchFragment.setArguments(args);
@@ -38,7 +41,7 @@ public class SearchHolderAdapter extends FragmentStatePagerAdapter{
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -50,6 +53,8 @@ public class SearchHolderAdapter extends FragmentStatePagerAdapter{
                 return Anime.ANIME_RAM_TITLE;
             case 2:
                 return Anime.ANIME_BAM_TITLE;
+            case 3:
+                return Anime.ANIME_KISS_TITLE;
             default:
                 return null;
         }
