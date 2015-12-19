@@ -265,21 +265,25 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
     }
 
     public void showImageDialog () {
-        getActivity().getLayoutInflater().inflate(R.layout.image_dialog_content, relativeLayout);
+        if (getPresenter().lastAnime != null) {
+            getActivity().getLayoutInflater().inflate(R.layout.image_dialog_content, relativeLayout);
 
-        ImageView imageView = (ImageView) getActivity().findViewById(R.id.image_dialog_image_view);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                relativeLayout.removeView(imageView);
-            }
-        });
+            ImageView imageView = (ImageView) getActivity().findViewById(R.id.image_dialog_image_view);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    relativeLayout.removeView(imageView);
+                }
+            });
 
-        Picasso.with(getActivity())
-                .load(getPresenter().lastAnime.getImageUrl())
-                .fit()
-                .centerInside()
-                .into(imageView);
+            Picasso.with(getActivity())
+                    .load(getPresenter().lastAnime.getImageUrl())
+                    .fit()
+                    .centerInside()
+                    .into(imageView);
+        } else {
+            getPresenter().postError(new Throwable("Can't find the image."));
+        }
     }
 
     private CharSequence[] getSourcesAsCharSequenceArray (List<Source> sources) {
