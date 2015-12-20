@@ -122,9 +122,9 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, final int position) {
-         if (viewHolder instanceof HeaderViewHolder) {
-             Anime anime = animeFragment.getPresenter().lastAnime;
-             if (anime != null) { // lazy fix for a null pointer
+        if (animeFragment.getPresenter().lastAnime != null) { // lazy fix for a null pointer
+            if (viewHolder instanceof HeaderViewHolder) {
+                Anime anime = animeFragment.getPresenter().lastAnime;
                  HeaderViewHolder headerViewHolder = (HeaderViewHolder) viewHolder;
 
                  //if (!hasMajorColour) {
@@ -161,35 +161,35 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 .centerCrop()
                 .into(drawerImage);
         }*/
-             } else if (viewHolder instanceof EpisodeViewHolder) {
-                 EpisodeViewHolder episodeViewHolder = (EpisodeViewHolder) viewHolder;
-                 final int actualPosition = position - 1;
-                 episodeViewHolder.titleView.setText(episodes.get(actualPosition).getTitle());
+            } else if (viewHolder instanceof EpisodeViewHolder) {
+                EpisodeViewHolder episodeViewHolder = (EpisodeViewHolder) viewHolder;
+                final int actualPosition = position - 1;
+                episodeViewHolder.titleView.setText(episodes.get(actualPosition).getTitle());
 
-                 if (episodes.get(actualPosition).isWatched()) {
-                     episodeViewHolder.titleView.setTextColor(this.watchedColour);
-                 } else {
-                     episodeViewHolder.titleView.setTextColor(unwatchedColour);
-                 }
+                if (episodes.get(actualPosition).isWatched()) {
+                    episodeViewHolder.titleView.setTextColor(this.watchedColour);
+                } else {
+                    episodeViewHolder.titleView.setTextColor(unwatchedColour);
+                }
 
-                 episodeViewHolder.titleView.setOnClickListener(new View.OnClickListener() {
-                     @Override
-                     public void onClick(View view) {
-                         animeFragment.onCLick(episodes.get(actualPosition), actualPosition);
-                     }
-                 });
+                episodeViewHolder.titleView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        animeFragment.onCLick(episodes.get(actualPosition), actualPosition);
+                    }
+                });
 
-                 episodeViewHolder.titleView.setOnLongClickListener(new View.OnLongClickListener() {
-                     @Override
-                     public boolean onLongClick(View view) {
-                         animeFragment.onLongClick(episodes.get(actualPosition), actualPosition);
-                         return false;
-                     }
-                 });
-             }
-         } else {
-             animeFragment.getPresenter().postError(new Throwable("No anime to display."));
-         }
+                episodeViewHolder.titleView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        animeFragment.onLongClick(episodes.get(actualPosition), actualPosition);
+                        return false;
+                    }
+                });
+            }
+        } else {
+            animeFragment.getPresenter().postError(new Throwable("No anime to display."));
+        }
     }
 
     @Override
