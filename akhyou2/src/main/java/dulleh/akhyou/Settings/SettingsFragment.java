@@ -1,6 +1,7 @@
 package dulleh.akhyou.Settings;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -144,6 +145,22 @@ public class SettingsFragment extends Fragment {
                         .title(getString(R.string.licences_preference_summary))
                         .content(R.string.licences)
                         .show();
+            }
+        });
+
+        RelativeLayout contactItem = (RelativeLayout) view.findViewById(R.id.contact_preference_item);
+        contactItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] emails = new String[1];
+                emails[0] = "dulleftovers@gmail.com";
+                Intent contactIntent = new Intent(Intent.ACTION_SEND);
+                contactIntent.setType("text/plain");
+                contactIntent.putExtra(Intent.EXTRA_EMAIL, emails);
+                contactIntent.putExtra(Intent.EXTRA_SUBJECT, "Akhyou! feedback");
+                if (contactIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(contactIntent);
+                }
             }
         });
 

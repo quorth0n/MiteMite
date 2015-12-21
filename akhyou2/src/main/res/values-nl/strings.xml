@@ -53,5 +53,7 @@
     <string name="status_title">Status:</string>
     <string name="alternate_title_title">Alternative Titel:</string>
     <string name="date_title">Release Datum:</string>
+    <string name="contact_preference_summary">Email the developer.</string>
+    <string name="contact_preference_title">Send feedback</string>
 
 </resources>

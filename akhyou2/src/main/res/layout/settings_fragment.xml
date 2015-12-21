@@ -35,6 +35,10 @@
 
         <include layout="@layout/settings_divider" />
 
+        <include layout="@layout/settings_item_contact"
+            android:id="@+id/contact_preference_item"
+            />
+
     </LinearLayout>
 
     <include layout="@layout/toolbar_shadow" />

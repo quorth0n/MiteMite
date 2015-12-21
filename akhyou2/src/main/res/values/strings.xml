@@ -26,6 +26,9 @@
     <string name="theme_preference_title">Theme</string>
     <string name="theme_dialog_title">Themes</string>
 
+    <string name="contact_preference_title">Send feedback</string>
+    <string name="contact_preference_summary">Email the developer.</string>
+
     <string name="pink_theme">Pink</string>
     <string name="purple_theme">Purple</string>
     <string name="deep_purple_theme">Deep Purple</string>
