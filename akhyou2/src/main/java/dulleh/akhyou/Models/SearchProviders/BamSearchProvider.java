@@ -11,7 +11,7 @@ import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
-public class AnimeBamSearchProvider implements SearchProvider{
+public class BamSearchProvider implements SearchProvider{
     private static final String BASE_URL = "http://www.animebam.net/search?search=";
 
     @Override

@@ -18,6 +18,7 @@ import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Episode;
 import dulleh.akhyou.Models.Source;
 import dulleh.akhyou.Models.Video;
+import dulleh.akhyou.Utils.CloudFlareInitializationException;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
@@ -35,8 +36,13 @@ public class KissAnimeProvider implements AnimeProvider {
     }
 
     @Override
-    public Anime fetchAnime(String url) throws OnErrorThrowable {
+    public Anime fetchAnime(String url) throws OnErrorThrowable, CloudFlareInitializationException {
         String body = GeneralUtils.getWebPage(url);
+
+        if (body.contains("Mini browsers")) {
+            throw new CloudFlareInitializationException();
+        }
+
         Document doc = Jsoup.parse(body);
         Anime anime = new Anime()
                 .setUrl(url)
@@ -47,7 +53,7 @@ public class KissAnimeProvider implements AnimeProvider {
     }
 
     @Override
-    public Anime updateCachedAnime(Anime cachedAnime) throws OnErrorThrowable {
+    public Anime updateCachedAnime(Anime cachedAnime) throws OnErrorThrowable, CloudFlareInitializationException {
         Anime updatedAnime = fetchAnime(cachedAnime.getUrl());
         updatedAnime.inheritWatchedFrom(cachedAnime.getEpisodes());
         updatedAnime.setMajorColour(cachedAnime.getMajorColour());
@@ -55,8 +61,13 @@ public class KissAnimeProvider implements AnimeProvider {
     }
 
     @Override
-    public List<Source> fetchSources(String url) throws OnErrorThrowable {
+    public List<Source> fetchSources(String url) throws OnErrorThrowable, CloudFlareInitializationException {
         String body = GeneralUtils.getWebPage(url);
+
+        if (body.contains("Mini browsers")) {
+            throw new CloudFlareInitializationException();
+        }
+
         Elements downloads = Jsoup.parse(body).select("#selectQuality option");
         List<Source> sources = new ArrayList<>(downloads.size());
 

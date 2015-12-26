@@ -47,7 +47,6 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
     protected void onCreate(Bundle savedInstanceState) {
         setTheme();
         super.onCreate(savedInstanceState);
-        CloudflareHttpClient.INSTANCE.onCreate(getApplicationContext());
 
         setContentView(R.layout.activity_main);
 

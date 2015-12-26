@@ -74,11 +74,13 @@ public enum CloudflareHttpClient {
 
     private OkHttpClient client;
     private CookieManager cookieManager;
-    private AtomicInteger numInitialized = new AtomicInteger(0);
+    private AtomicInteger numInitialized;
 
     public CookieManager getCookieManager() {
         return cookieManager;
     }
+
+    public boolean forceSolve = false;
 
     /**
      * We use a persistent Cookie storage to minimize the need of doing the high-latency connections
@@ -86,6 +88,7 @@ public enum CloudflareHttpClient {
      * @param context The Android application's context. It's used to get the cache directory.
      */
     public void onCreate(android.content.Context context) {
+        numInitialized = new AtomicInteger(0);
         client = new OkHttpClient();
         cookieManager = new CookieManager(new PersistentCookieStore(context),
                                           CookiePolicy.ACCEPT_ALL);
@@ -94,6 +97,10 @@ public enum CloudflareHttpClient {
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
         client.setCookieHandler(cookieManager);
 
+        registerSites();
+    }
+
+    public void registerSites () {
         for (String url : CLOUDFLARE_URLS) {
             registerSite(url);
         }
@@ -120,14 +127,16 @@ public enum CloudflareHttpClient {
         List<HttpCookie> cookies = cookieManager.getCookieStore().get(request.uri());
         boolean hasCookie = Stream.of(cookies).anyMatch(c -> c.getName().equals("cf_clearance"));
 
-        if (hasCookie)
-            return resp;
+        if (hasCookie) return resp;
 
-        if (refresh != null && refresh.contains("URL=/cdn-cgi/") &&
-            server != null && server.equals("cloudflare-nginx")) {
-
+        if (forceSolve) {
             return solveCloudflare(resp);
-        }
+        } else if (refresh != null && refresh.contains("URL=/cdn-cgi/") &&
+                    server != null && server.equals("cloudflare-nginx")) {
+
+                //System.out.println("solving cloudflare");
+                return solveCloudflare(resp);
+            }
 
         return resp;
     }

@@ -6,6 +6,8 @@ import android.content.Context;
 import com.crashlytics.android.Crashlytics;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
+
+import dulleh.akhyou.Utils.CloudflareHttpClient;
 import io.fabric.sdk.android.Fabric;
 
 public class MainApplication extends Application{
@@ -22,5 +24,7 @@ public class MainApplication extends Application{
         super.onCreate();
         Fabric.with(this, new Crashlytics());
         refWatcher = LeakCanary.install(this);
+
+        CloudflareHttpClient.INSTANCE.onCreate(getApplicationContext());
     }
 }

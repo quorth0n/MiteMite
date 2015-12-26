@@ -14,7 +14,7 @@ import dulleh.akhyou.Models.SourceProviders.SourceProvider;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
-public class AnimeRamAnimeProvider implements AnimeProvider {
+public class RamAnimeProvider implements AnimeProvider {
 
     @Override
     public Anime fetchAnime(String url) throws OnErrorThrowable {

@@ -7,13 +7,15 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import dulleh.akhyou.Models.Anime;
-import dulleh.akhyou.Models.SearchProviders.AnimeBamSearchProvider;
-import dulleh.akhyou.Models.SearchProviders.KissAnimeSearchProvider;
-import dulleh.akhyou.Models.SearchProviders.AnimeRamSearchProvider;
-import dulleh.akhyou.Models.SearchProviders.AnimeRushSearchProvider;
+import dulleh.akhyou.Models.SearchProviders.BamSearchProvider;
+import dulleh.akhyou.Models.SearchProviders.KissSearchProvider;
+import dulleh.akhyou.Models.SearchProviders.RamSearchProvider;
+import dulleh.akhyou.Models.SearchProviders.RushSearchProvider;
 import dulleh.akhyou.Models.SearchProviders.SearchProvider;
 import dulleh.akhyou.Search.Holder.SearchHolderAdapter;
 import dulleh.akhyou.Search.Holder.SearchHolderFragment;
+import dulleh.akhyou.Utils.CloudFlareInitializationException;
+import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.Events.SearchEvent;
 import dulleh.akhyou.Utils.Events.SnackbarEvent;
 import dulleh.akhyou.Utils.GeneralUtils;
@@ -39,16 +41,16 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
         this.providerType = providerType;
         switch (providerType) {
             case Anime.ANIME_RUSH:
-                searchProvider = new AnimeRushSearchProvider();
+                searchProvider = new RushSearchProvider();
                 break;
             case Anime.ANIME_RAM:
-                searchProvider = new AnimeRamSearchProvider();
+                searchProvider = new RamSearchProvider();
                 break;
             case Anime.ANIME_BAM:
-                searchProvider = new AnimeBamSearchProvider();
+                searchProvider = new BamSearchProvider();
                 break;
             case Anime.ANIME_KISS:
-                searchProvider = new KissAnimeSearchProvider();
+                searchProvider = new KissSearchProvider();
                 break;
         }
     }
@@ -113,7 +115,13 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
         subscription = Observable.defer(new Func0<Observable<List<Anime>>>() {
             @Override
             public Observable<List<Anime>> call() {
-                return Observable.just(searchProvider.searchFor(searchTerm));
+                try {
+                    return Observable.just(searchProvider.searchFor(searchTerm));
+                } catch (CloudFlareInitializationException cf) {
+                    CloudflareHttpClient.INSTANCE.forceSolve = true;
+                    CloudflareHttpClient.INSTANCE.registerSites();
+                    return Observable.error(new Throwable("Wait 5 seconds and try again (or don't)."));
+                }
             }
         })
                 .subscribeOn(Schedulers.io())
@@ -139,7 +147,9 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
                         isRefreshing = false;
                         SearchHolderFragment.searchResultsCache.set(providerType, new ArrayList<>(0));
                         getView().updateSearchResults();
+
                         postError(e);
+
                         this.unsubscribe();
                     }
                 });

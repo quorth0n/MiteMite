@@ -20,7 +20,7 @@ import dulleh.akhyou.Models.SourceProviders.YourUploadSourceProvider;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
-public class AnimeRushAnimeProvider implements AnimeProvider {
+public class RushAnimeProvider implements AnimeProvider {
     private Element animeBox;
 
     @Override

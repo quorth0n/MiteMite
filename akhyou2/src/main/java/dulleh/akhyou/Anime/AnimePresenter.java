@@ -10,14 +10,16 @@ import android.support.v7.graphics.Palette;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
-import dulleh.akhyou.Models.AnimeProviders.AnimeBamAnimeProvider;
+import dulleh.akhyou.Models.AnimeProviders.BamAnimeProvider;
 import dulleh.akhyou.Models.AnimeProviders.KissAnimeProvider;
-import dulleh.akhyou.Models.AnimeProviders.AnimeRamAnimeProvider;
-import dulleh.akhyou.Models.AnimeProviders.AnimeRushAnimeProvider;
+import dulleh.akhyou.Models.AnimeProviders.RamAnimeProvider;
+import dulleh.akhyou.Models.AnimeProviders.RushAnimeProvider;
 import dulleh.akhyou.Models.AnimeProviders.AnimeProvider;
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Source;
 import dulleh.akhyou.Models.Video;
+import dulleh.akhyou.Utils.CloudFlareInitializationException;
+import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.Events.FavouriteEvent;
 import dulleh.akhyou.Utils.Events.LastAnimeEvent;
 import dulleh.akhyou.Utils.Events.OpenAnimeEvent;
@@ -111,13 +113,13 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
         if (anime.getProviderType() != null) {
             switch (anime.getProviderType()) {
                 case Anime.ANIME_RUSH:
-                    animeProvider = new AnimeRushAnimeProvider();
+                    animeProvider = new RushAnimeProvider();
                     break;
                 case Anime.ANIME_RAM:
-                    animeProvider = new AnimeRamAnimeProvider();
+                    animeProvider = new RamAnimeProvider();
                     break;
                 case Anime.ANIME_BAM:
-                    animeProvider = new AnimeBamAnimeProvider();
+                    animeProvider = new BamAnimeProvider();
                     break;
                 case Anime.ANIME_KISS:
                     animeProvider = new KissAnimeProvider();
@@ -171,9 +173,21 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
             @Override
             public Observable<Anime> call() {
                 if (updateCached) {
-                    return Observable.just(animeProvider.updateCachedAnime(lastAnime));
+                    try {
+                        return Observable.just(animeProvider.updateCachedAnime(lastAnime));
+                    } catch (CloudFlareInitializationException cf) {
+                            CloudflareHttpClient.INSTANCE.forceSolve = true;
+                            CloudflareHttpClient.INSTANCE.registerSites();
+                            return Observable.error(new Throwable("Wait 5 seconds and try again (or don't)."));
+                    }
                 }
-                return Observable.just(animeProvider.fetchAnime(lastAnime.getUrl()));
+                try {
+                    return Observable.just(animeProvider.fetchAnime(lastAnime.getUrl()));
+                } catch (CloudFlareInitializationException cf) {
+                    CloudflareHttpClient.INSTANCE.forceSolve = true;
+                    CloudflareHttpClient.INSTANCE.registerSites();
+                    return Observable.error(new Throwable("Wait 5 seconds and try again (or don't)."));
+                }
             }
         })
                 .subscribeOn(Schedulers.io())
@@ -262,7 +276,13 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
         episodeSubscription = Observable.defer(new Func0<Observable<List<Source>>>() {
             @Override
             public Observable<List<Source>> call() {
-                return Observable.just(animeProvider.fetchSources(url));
+                try {
+                    return Observable.just(animeProvider.fetchSources(url));
+                } catch (CloudFlareInitializationException cf) {
+                    CloudflareHttpClient.INSTANCE.forceSolve = true;
+                    CloudflareHttpClient.INSTANCE.registerSites();
+                    return Observable.error(new Throwable("Wait 5 seconds and try again (or don't)."));
+                }
             }
         })
                 .subscribeOn(Schedulers.io())

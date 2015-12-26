@@ -14,24 +14,25 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import dulleh.akhyou.Models.Anime;
+import dulleh.akhyou.Utils.CloudFlareInitializationException;
 import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
-public class KissAnimeSearchProvider implements SearchProvider {
+public class KissSearchProvider implements SearchProvider {
     private static final String BASE_URL = "https://kissanime.to";
     private static final String SEARCH_URL = "https://kissanime.to/AdvanceSearch";
     private static final Pattern PARSER = Pattern.compile(".*src=\"(.*?)\".*href=\"(.*)\">(.*?)</a>.*<p>\\s*(.*?)\\s*</p>", Pattern.DOTALL);
     private static final int NUM_GENRES = 47;
 
     @Override
-    public List<Anime> searchFor(String searchTerm) throws OnErrorThrowable {
+    public List<Anime> searchFor(String searchTerm) throws OnErrorThrowable, CloudFlareInitializationException {
         if (searchTerm == null || searchTerm.trim().isEmpty()) {
             throw OnErrorThrowable.from(new Throwable("Please enter a search term."));
         }
 
         if (!CloudflareHttpClient.INSTANCE.initialized()) {
-            throw OnErrorThrowable.from(new Throwable("The KissAnime provider has not yet been initialized."));
+            throw new CloudFlareInitializationException();
         }
 
         RequestBody query = searchTemplate()
@@ -45,7 +46,15 @@ public class KissAnimeSearchProvider implements SearchProvider {
                 .build();
 
         String responseBody = GeneralUtils.getWebPage(search);
+        if (responseBody.contains("Mini browsers")) {
+            throw new CloudFlareInitializationException();
+        }
+        //System.out.print(responseBody);
         Element resultTable = isolate(responseBody);
+
+        if (resultTable == null) {
+            throw OnErrorThrowable.from(new Throwable("No search results"));
+        }
 
         return parseElements(resultTable.select("td[title]"));
     }
