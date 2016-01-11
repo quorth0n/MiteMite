@@ -55,5 +55,14 @@
     <string name="date_title">Release Datum:</string>
     <string name="contact_preference_summary">Email the developer.</string>
     <string name="contact_preference_title">Send feedback</string>
+    <string name="usernameOrEmail">Username / Email</string>
+    <string name="hb_username_hint">Your Hummingbird.me username or email</string>
+    <string name="hb_password_hint">Your password (shh)</string>
+    <string name="password">Password</string>
+    <string name="hummingbird_preference_title">Hummingbird Account Settings</string>
+    <string name="hummingbird_preference_summary">Scrobbling settings for Hummingbird.me</string>
+    <string name="settings_tab">SETTINGS</string>
+    <string name="history_tab">HISTORY</string>
+    <string name="hummingbird_username_placeholder">Make a Hummingbird.me account for scrobbling features.</string>
 
 </resources>
