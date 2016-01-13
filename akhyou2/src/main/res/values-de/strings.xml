@@ -1,69 +1,69 @@
 <resources>
     <string name="app_name">Akhyou!</string>
 
-    <string name="settings_item">Settings</string>
-    <string name="search_item">Search</string>
-    <string name="favourites_item">Favourites</string>
-    <string name="imageContentDesc">Anime poster</string>
-    <string name="update_title">There is an update available!</string>
+    <string name="settings_item">Einstellungen</string>
+    <string name="search_item">Suche</string>
+    <string name="favourites_item">Favoriten</string>
+    <string name="imageContentDesc">Anime Poster</string>
+    <string name="update_title">Ein Update ist verfügbar!</string>
     <string name="update">UPDATE</string>
 
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="requires_restart">(requires restart)</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="requires_restart">(Neustart notwendig)</string>
 
-    <string name="licences_preference_title">Licences</string>
-    <string name="licences_preference_summary">Thank you to these great open source projects.</string>
+    <string name="licences_preference_title">Lizenzen</string>
+    <string name="licences_preference_summary">Danke, für diese großartigen Open-Source Projekte.</string>
 
     <string name="auto_update_preference_title">Auto-update?</string>
 
-    <string name="open_to_last_anime_preference_title">Open to last viewed anime?</string>
+    <string name="open_to_last_anime_preference_title">Zum letzt gesehenen Anime wechseln?</string>
 
-    <string name="search_grid_preference_title">Search layout</string>
+    <string name="search_grid_preference_title">Such Layout</string>
     <string name="search_grid_option_card">Posters and detail</string>
     <string name="search_grid_option_poster">Posters</string>
 
-    <string name="theme_preference_title">Theme</string>
-    <string name="theme_dialog_title">Themes</string>
+    <string name="theme_preference_title">Design</string>
+    <string name="theme_dialog_title">Designs</string>
 
-    <string name="contact_preference_title">Send feedback</string>
-    <string name="contact_preference_summary">Email the developer.</string>
+    <string name="contact_preference_title">Feedback senden</string>
+    <string name="contact_preference_summary">Entwickler kontaktieren.</string>
 
     <string name="pink_theme">Pink</string>
-    <string name="purple_theme">Purple</string>
-    <string name="deep_purple_theme">Deep Purple</string>
+    <string name="purple_theme">Lila</string>
+    <string name="deep_purple_theme">Dunkles Lila</string>
     <string name="indigo_theme">Indigo</string>
-    <string name="light_blue_theme">Light Blue</string>
-    <string name="cyan_theme">Cyan</string>
-    <string name="teal_theme">Teal</string>
-    <string name="green_theme">Green</string>
-    <string name="light_green_theme">Light Green</string>
+    <string name="light_blue_theme">Hellblau</string>
+    <string name="cyan_theme">Türkis</string>
+    <string name="teal_theme">Blaugrün</string>
+    <string name="green_theme">Grün</string>
+    <string name="light_green_theme">Hellgrün</string>
     <string name="lime_theme">Lime</string>
-    <string name="yellow_theme">Yellow</string>
+    <string name="yellow_theme">Gelb</string>
     <string name="orange_theme">Orange</string>
-    <string name="deep_orange_theme">Deep Orange</string>
-    <string name="brown_theme">Brown</string>
-    <string name="grey_theme">Grey</string>
-    <string name="blue_grey_theme">Blue Grey</string>
-    <string name="akhyou_red_theme">Akhyou! Red</string>
+    <string name="deep_orange_theme">Dunkelorange</string>
+    <string name="brown_theme">Braun</string>
+    <string name="grey_theme">Grau</string>
+    <string name="blue_grey_theme">Hellgrau</string>
+    <string name="akhyou_red_theme">Akhyou! Rot</string>
 
-    <string name="sources">Sources</string>
-    <string name="quality">Quality</string>
+    <string name="sources">Quellen</string>
+    <string name="quality">Qualität</string>
     <string name="stream">Stream</string>
     <string name="download">Download</string>
-    <string name="cancel">Cancel</string>
+    <string name="cancel">Abbrechen</string>
 
     <string name="status_title">Status:</string>
-    <string name="alternate_title_title">Alternate Title:</string>
-    <string name="date_title">Release Date:</string>
-    <string name="usernameOrEmail">Username / Email</string>
-    <string name="hb_username_hint">Your Hummingbird.me username or email</string>
-    <string name="hb_password_hint">Your password (shh)</string>
-    <string name="password">Password</string>
-    <string name="hummingbird_preference_title">Hummingbird Account Settings</string>
-    <string name="hummingbird_preference_summary">Scrobbling settings for Hummingbird.me</string>
-    <string name="settings_tab">SETTINGS</string>
-    <string name="history_tab">HISTORY</string>
-    <string name="hummingbird_username_placeholder">Make a Hummingbird.me account for scrobbling features.</string>
+    <string name="alternate_title_title">Alternativer Name:</string>
+    <string name="date_title">Veröffentlichungsdatum:</string>
+    <string name="usernameOrEmail">Benutzername / Email</string>
+    <string name="hb_username_hint">Dein Hummingbird.me Benutzername oder deine Email</string>
+    <string name="hb_password_hint">Dein Passwort(shh)</string>
+    <string name="password">Passwort</string>
+    <string name="hummingbird_preference_title">Hummingbird Account Einstellungen</string>
+    <string name="hummingbird_preference_summary">Scrobbling Einstellungen für Hummingbird.me</string>
+    <string name="settings_tab">EINSTELLUNGEN</string>
+    <string name="history_tab">VERLAUF</string>
+    <string name="hummingbird_username_placeholder">Erstelle ein Hummingbird.me Account für "scrobbling" Features.</string>
 
 </resources>
