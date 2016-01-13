@@ -1,69 +1,69 @@
 <resources>
     <string name="app_name">Akhyou!</string>
 
-    <string name="settings_item">Settings</string>
-    <string name="search_item">Search</string>
-    <string name="favourites_item">Favourites</string>
-    <string name="imageContentDesc">Anime poster</string>
-    <string name="update_title">There is an update available!</string>
-    <string name="update">UPDATE</string>
+    <string name="settings_item">Opciones</string>
+    <string name="search_item">Buscar</string>
+    <string name="favourites_item">Favoritos</string>
+    <string name="imageContentDesc">Posters de Anime</string>
+    <string name="update_title">Hay una actualización disponible!</string>
+    <string name="update">ACTUALIZAR</string>
 
-    <string name="yes">Yes</string>
+    <string name="yes">Si</string>
     <string name="no">No</string>
-    <string name="requires_restart">(requires restart)</string>
+    <string name="requires_restart">(requiere reiniciar)</string>
 
-    <string name="licences_preference_title">Licences</string>
-    <string name="licences_preference_summary">Thank you to these great open source projects.</string>
+    <string name="licences_preference_title">Licencias</string>
+    <string name="licences_preference_summary">Gracias a estos grandes proyectos de código abierto.</string>
 
-    <string name="auto_update_preference_title">Auto-update?</string>
+    <string name="auto_update_preference_title">Auto-Actualizar?</string>
 
-    <string name="open_to_last_anime_preference_title">Open to last viewed anime?</string>
+    <string name="open_to_last_anime_preference_title">Abrir el último anime visto?</string>
 
-    <string name="search_grid_preference_title">Search layout</string>
-    <string name="search_grid_option_card">Posters and detail</string>
+    <string name="search_grid_preference_title">Disposición de Búsqueda</string>
+    <string name="search_grid_option_card">Posters y detalles</string>
     <string name="search_grid_option_poster">Posters</string>
 
-    <string name="theme_preference_title">Theme</string>
-    <string name="theme_dialog_title">Themes</string>
+    <string name="theme_preference_title">Tema</string>
+    <string name="theme_dialog_title">Temas</string>
 
-    <string name="contact_preference_title">Send feedback</string>
-    <string name="contact_preference_summary">Email the developer.</string>
+    <string name="contact_preference_title">Enviar opiniones</string>
+    <string name="contact_preference_summary">Enviar correo al desarrollador.</string>
 
-    <string name="pink_theme">Pink</string>
-    <string name="purple_theme">Purple</string>
-    <string name="deep_purple_theme">Deep Purple</string>
+    <string name="pink_theme">Rosa</string>
+    <string name="purple_theme">Morado</string>
+    <string name="deep_purple_theme">Morado Oscuro</string>
     <string name="indigo_theme">Indigo</string>
-    <string name="light_blue_theme">Light Blue</string>
-    <string name="cyan_theme">Cyan</string>
-    <string name="teal_theme">Teal</string>
-    <string name="green_theme">Green</string>
-    <string name="light_green_theme">Light Green</string>
-    <string name="lime_theme">Lime</string>
-    <string name="yellow_theme">Yellow</string>
-    <string name="orange_theme">Orange</string>
-    <string name="deep_orange_theme">Deep Orange</string>
-    <string name="brown_theme">Brown</string>
-    <string name="grey_theme">Grey</string>
-    <string name="blue_grey_theme">Blue Grey</string>
-    <string name="akhyou_red_theme">Akhyou! Red</string>
+    <string name="light_blue_theme">Azul Clarito</string>
+    <string name="cyan_theme">Cian</string>
+    <string name="teal_theme">Turquesa</string>
+    <string name="green_theme">Verde</string>
+    <string name="light_green_theme">Verde Clarito</string>
+    <string name="lime_theme">Lima</string>
+    <string name="yellow_theme">Amarillo</string>
+    <string name="orange_theme">Naranja</string>
+    <string name="deep_orange_theme">Naranja Oscuro</string>
+    <string name="brown_theme">Marrón</string>
+    <string name="grey_theme">Gris</string>
+    <string name="blue_grey_theme">Azul Grisáceo</string>
+    <string name="akhyou_red_theme">Rojo Akhyou!</string>
 
-    <string name="sources">Sources</string>
-    <string name="quality">Quality</string>
+    <string name="sources">Fuente</string>
+    <string name="quality">Calidad</string>
     <string name="stream">Stream</string>
-    <string name="download">Download</string>
-    <string name="cancel">Cancel</string>
+    <string name="download">Descargar</string>
+    <string name="cancel">Cancelar</string>
 
-    <string name="status_title">Status:</string>
-    <string name="alternate_title_title">Alternate Title:</string>
-    <string name="date_title">Release Date:</string>
-    <string name="usernameOrEmail">Username / Email</string>
-    <string name="hb_username_hint">Your Hummingbird.me username or email</string>
-    <string name="hb_password_hint">Your password (shh)</string>
-    <string name="password">Password</string>
-    <string name="hummingbird_preference_title">Hummingbird Account Settings</string>
+    <string name="status_title">Estado:</string>
+    <string name="alternate_title_title">Título Alternativo:</string>
+    <string name="date_title">Fecha Estreno:</string>
+    <string name="usernameOrEmail">Usuario / Email</string>
+    <string name="hb_username_hint">Tu usuario o email de Hummingbird.me</string>
+    <string name="hb_password_hint">Tu contraseña (shh)</string>
+    <string name="password">Contraseña</string>
+    <string name="hummingbird_preference_title">Configuración de Hummingbird</string>
     <string name="hummingbird_preference_summary">Scrobbling settings for Hummingbird.me</string>
-    <string name="settings_tab">SETTINGS</string>
-    <string name="history_tab">HISTORY</string>
+    <string name="settings_tab">OPCIONES</string>
+    <string name="history_tab">HISTORIAL</string>
     <string name="hummingbird_username_placeholder">Make a Hummingbird.me account for scrobbling features.</string>
 
 </resources>
