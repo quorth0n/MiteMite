@@ -1,0 +1,69 @@
+<resources>
+    <string name="app_name">Akhyou!</string>
+
+    <string name="settings_item">Settings</string>
+    <string name="search_item">Search</string>
+    <string name="favourites_item">Favourites</string>
+    <string name="imageContentDesc">Anime poster</string>
+    <string name="update_title">There is an update available!</string>
+    <string name="update">UPDATE</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="requires_restart">(requires restart)</string>
+
+    <string name="licences_preference_title">Licences</string>
+    <string name="licences_preference_summary">Thank you to these great open source projects.</string>
+
+    <string name="auto_update_preference_title">Auto-update?</string>
+
+    <string name="open_to_last_anime_preference_title">Open to last viewed anime?</string>
+
+    <string name="search_grid_preference_title">Search layout</string>
+    <string name="search_grid_option_card">Posters and detail</string>
+    <string name="search_grid_option_poster">Posters</string>
+
+    <string name="theme_preference_title">Theme</string>
+    <string name="theme_dialog_title">Themes</string>
+
+    <string name="contact_preference_title">Send feedback</string>
+    <string name="contact_preference_summary">Email the developer.</string>
+
+    <string name="pink_theme">Pink</string>
+    <string name="purple_theme">Purple</string>
+    <string name="deep_purple_theme">Deep Purple</string>
+    <string name="indigo_theme">Indigo</string>
+    <string name="light_blue_theme">Light Blue</string>
+    <string name="cyan_theme">Cyan</string>
+    <string name="teal_theme">Teal</string>
+    <string name="green_theme">Green</string>
+    <string name="light_green_theme">Light Green</string>
+    <string name="lime_theme">Lime</string>
+    <string name="yellow_theme">Yellow</string>
+    <string name="orange_theme">Orange</string>
+    <string name="deep_orange_theme">Deep Orange</string>
+    <string name="brown_theme">Brown</string>
+    <string name="grey_theme">Grey</string>
+    <string name="blue_grey_theme">Blue Grey</string>
+    <string name="akhyou_red_theme">Akhyou! Red</string>
+
+    <string name="sources">Sources</string>
+    <string name="quality">Quality</string>
+    <string name="stream">Stream</string>
+    <string name="download">Download</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="status_title">Status:</string>
+    <string name="alternate_title_title">Alternate Title:</string>
+    <string name="date_title">Release Date:</string>
+    <string name="usernameOrEmail">Username / Email</string>
+    <string name="hb_username_hint">Your Hummingbird.me username or email</string>
+    <string name="hb_password_hint">Your password (shh)</string>
+    <string name="password">Password</string>
+    <string name="hummingbird_preference_title">Hummingbird Account Settings</string>
+    <string name="hummingbird_preference_summary">Scrobbling settings for Hummingbird.me</string>
+    <string name="settings_tab">SETTINGS</string>
+    <string name="history_tab">HISTORY</string>
+    <string name="hummingbird_username_placeholder">Make a Hummingbird.me account for scrobbling features.</string>
+
+</resources>
