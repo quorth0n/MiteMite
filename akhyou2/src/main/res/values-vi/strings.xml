@@ -1,0 +1,72 @@
+<resources>
+    <!--
+    Translations by hthuong09
+    https://github.com/hthuong09
+    -->
+    <string name="app_name">Akhyou!</string>
+
+    <string name="settings_item">Cài đặt</string>
+    <string name="search_item">Tìm kiếm</string>
+    <string name="favourites_item">Yêu thích</string>
+    <string name="imageContentDesc">Anime poster</string>
+    <string name="update_title">Hiện đang có cập nhật mới!</string>
+    <string name="update">CẬP NHẬT</string>
+
+    <string name="yes">Có</string>
+    <string name="no">Không</string>
+    <string name="requires_restart">(yêu cầu khởi động lại)</string>
+
+    <string name="licences_preference_title">Giấy phép</string>
+    <string name="licences_preference_summary">Cảm ơn vì những dự án mã nguồn mở tuyệt vời!</string>
+
+    <string name="auto_update_preference_title">Tự động cập nhật?</string>
+
+    <string name="open_to_last_anime_preference_title">Mở anime xem lần cuối?</string>
+
+    <string name="search_grid_preference_title">Giao diện tìm kiếm</string>
+    <string name="search_grid_option_card">Posters và chi tiết</string>
+    <string name="search_grid_option_poster">Posters</string>
+
+    <string name="theme_preference_title">Giao diện</string>
+    <string name="theme_dialog_title">Giao diện</string>
+
+    <string name="contact_preference_title">Gửi phản hồi</string>
+    <string name="contact_preference_summary">Gửi email tới nhà phát triển.</string>
+
+    <string name="pink_theme">Hồng</string>
+    <string name="purple_theme">Tím</string>
+    <string name="deep_purple_theme">Tím Đậm</string>
+    <string name="indigo_theme">Chàm</string>
+    <string name="light_blue_theme">Xanh Dương Nhạt</string>
+    <string name="cyan_theme">Xinh Lá Mạ</string>
+    <string name="teal_theme">Mòng Két</string>
+    <string name="green_theme">Xanh Lá Cây</string>
+    <string name="light_green_theme">Xanh Lá Cây Nhạt</string>
+    <string name="lime_theme">Vôi</string>
+    <string name="yellow_theme">Vàng</string>
+    <string name="orange_theme">Cam</string>
+    <string name="deep_orange_theme">Cam Đậm</string>
+    <string name="brown_theme">Nâu</string>
+    <string name="grey_theme">Xám</string>
+    <string name="blue_grey_theme">Xanh Xám</string>
+    <string name="akhyou_red_theme">Akhyou! Đỏ</string>
+
+    <string name="sources">Nguồn</string>
+    <string name="quality">Chất Lượng</string>
+    <string name="stream">Xem Online</string>
+    <string name="download">Tải Xuống</string>
+    <string name="cancel">Hủy</string>
+
+    <string name="status_title">Trang Thái:</string>
+    <string name="alternate_title_title">Tên Khác:</string>
+    <string name="date_title">Ngày Phát Hành:</string>
+    <string name="usernameOrEmail">Tên Đăng Nhập / Email</string>
+    <string name="hb_username_hint">Tên đăng nhập hoặc email của bạn ở Hummingbird.me</string>
+    <string name="hb_password_hint">Mật Khẩu (shh)</string>
+    <string name="password">Mật Khẩu</string>
+    <string name="hummingbird_preference_title">Cài Đặt Tài Khoản Hummingbird</string>
+    <string name="hummingbird_preference_summary">Cài đặt tự tìm theo sở thích của tôi dựa trên Hummingbird.me</string>
+    <string name="settings_tab">CÀI ĐẶT</string>
+    <string name="history_tab">LỊCH SỬ</string>
+    <string name="hummingbird_username_placeholder">Tạo tài khoản Hummingbird.me để sử dụng chức năng tìm theo sở thích</string>
+</resources>
