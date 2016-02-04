@@ -55,7 +55,6 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
 
         episodesAdapter = new AnimeAdapter(new ArrayList<>(), this, getResources().getColor(android.R.color.black), getResources().getColor(colorPrimary.resourceId));
         setHasOptionsMenu(true);
-
     }
 
     @Nullable
@@ -87,7 +86,6 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
     @Override
     public void onDestroy() {
         super.onDestroy();
-        setToolbarTitle(null);
         if (searchView != null) {
             searchView.setOnQueryTextListener(null);
         }

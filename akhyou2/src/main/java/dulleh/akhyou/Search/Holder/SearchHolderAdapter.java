@@ -56,7 +56,7 @@ public class SearchHolderAdapter extends FragmentStatePagerAdapter{
             case 3:
                 return Anime.ANIME_KISS_TITLE;
             default:
-                return null;
+                throw new RuntimeException("No title for this tab number. (sea)");
         }
     }
 }
