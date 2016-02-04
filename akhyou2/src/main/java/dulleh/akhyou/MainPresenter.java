@@ -8,8 +8,11 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import dulleh.akhyou.Models.Anime;
-import dulleh.akhyou.Models.HummingbirdApi;
+import dulleh.akhyou.Models.Hummingbird.HummingbirdApi;
 import dulleh.akhyou.Utils.Events.FavouriteEvent;
+import dulleh.akhyou.Utils.Events.HbUserEvent;
+import dulleh.akhyou.Utils.Events.HummingbirdCredentialsUpdatedEvent;
+import dulleh.akhyou.Utils.Events.HummingbirdSettingsEvent;
 import dulleh.akhyou.Utils.Events.LastAnimeEvent;
 import dulleh.akhyou.Utils.Events.OpenAnimeEvent;
 import dulleh.akhyou.Utils.Events.SearchEvent;
@@ -43,6 +46,16 @@ public class MainPresenter extends RxPresenter<MainActivity>{
     }
 
     @Override
+    protected void onTakeView(MainActivity view) {
+        super.onTakeView(view);
+
+        if (mainModel != null && mainModel.hasSharedPreferences()) {
+            mainModel.refreshHbDisplayNameAndUser();
+        }
+
+    }
+
+    @Override
     protected void onSave(Bundle state) {
         super.onSave(state);
         if (mainModel.getFavourites() != null) {
@@ -71,7 +84,6 @@ public class MainPresenter extends RxPresenter<MainActivity>{
     }
 
     public void launchFromHbLink (String url) {
-
         Observable.defer(new Func0<Observable<String>>() {
             @Override
             public Observable<String> call() {
@@ -100,11 +112,14 @@ public class MainPresenter extends RxPresenter<MainActivity>{
                         this.unsubscribe();
                     }
                 });
-
     }
 
     public void refreshFavouritesList () {
         mainModel.refreshFavourites();
+    }
+
+    public String getUserAvatar () {
+        return mainModel.getHbUser().getAvatar();
     }
 
     public List<Anime> getFavourites () {
@@ -184,7 +199,6 @@ public class MainPresenter extends RxPresenter<MainActivity>{
         }
     }
 
-
     public void onEvent (SearchSubmittedEvent event) {
         if (getView() != null) {
             if (getView().getSupportFragmentManager().findFragmentByTag(MainActivity.ANIME_FRAGMENT) != null) {
@@ -197,11 +211,26 @@ public class MainPresenter extends RxPresenter<MainActivity>{
         EventBus.getDefault().postSticky(new SearchEvent(event.searchTerm));
     }
 
-    public void onEvent (SettingsItemSelectedEvent event) {
-        if (getView().getSupportFragmentManager().findFragmentByTag(MainActivity.SETTINGS_FRAGMENT) == null) {
-            getView().requestFragment(MainActivity.SETTINGS_FRAGMENT);
+    public void onEvent (HummingbirdSettingsEvent event) {
+        if (getView() != null) {
+            getView().requestFragment(MainActivity.HUMMINGBIRD_SETTINGS_FRAGMENT);
         }
-        getView().closeDrawer();
+    }
+
+    public void onEvent (HummingbirdCredentialsUpdatedEvent event) {
+        mainModel.loginHummingbird(event.usernameOrEmail, event.password);
+    }
+
+    public void onEvent (HbUserEvent event) {
+        if (getView() != null) {
+            if (mainModel.getHbUser() != null) {
+                getView().refreshDrawerUser(mainModel.getHbDisplayName(),
+                        mainModel.getHbUser().getAvatar(),
+                        mainModel.getHbUser().getCoverImage());
+            } else {
+                getView().refreshDrawerUser(mainModel.getHbDisplayName(), null, null);
+            }
+        }
     }
 
     public void onEvent (SnackbarEvent event) {

@@ -18,22 +18,21 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import de.greenrobot.event.EventBus;
 import dulleh.akhyou.BuildConfig;
 import dulleh.akhyou.MainActivity;
 import dulleh.akhyou.MainModel;
 import dulleh.akhyou.R;
+import dulleh.akhyou.Utils.Events.HummingbirdSettingsEvent;
 
 public class SettingsFragment extends Fragment {
     //TODO: REFACTOR THIS INTO MVP STRUCTURE
     public static final String THEME_PREFERENCE = "theme_preference";
     public static final String SEARCH_GRID_PREFERENCE = "search_grid_preference";
 
-    private static final String lastToolbarTitleBundleKey = "LTT";
-
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private CharSequence[] themeTitles;
-    private String lastToolbarTitle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,15 +46,15 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.settings_fragment, container, false);
+        setToolbarTitle(getString(R.string.settings_item));
 
-        if (savedInstanceState != null) {
-            lastToolbarTitle = savedInstanceState.getString(lastToolbarTitleBundleKey);
-        } else {
-            CharSequence title = ((MainActivity) getActivity()).getSupportActionBar().getTitle();
-            if (title != null) {
-                lastToolbarTitle = title.toString();
+        RelativeLayout hummingbirdItem = (RelativeLayout) view.findViewById(R.id.hummingbird_preference_item);
+        hummingbirdItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new HummingbirdSettingsEvent());
             }
-        }
+        });
 
         RelativeLayout themeItem = (RelativeLayout) view.findViewById(R.id.theme_preference_item);
         TextView themeSummary = (TextView) themeItem.findViewById(R.id.preference_summary_text);
@@ -168,21 +167,9 @@ public class SettingsFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(lastToolbarTitleBundleKey, lastToolbarTitle);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        setToolbarTitle(getString(R.string.settings_item));
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        setToolbarTitle(lastToolbarTitle);
+        //setToolbarTitle(getString(R.string.settings_item));
     }
 
     @Override
@@ -198,7 +185,6 @@ public class SettingsFragment extends Fragment {
     }
 
     public void setToolbarTitle (String title) {
-        //((MainActivity) getActivity()).setToolbarTitle(title);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(title);
     }
 

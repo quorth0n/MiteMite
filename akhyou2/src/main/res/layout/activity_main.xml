@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true" >
 
     <RelativeLayout
         tools:context=".MainActivity"
@@ -31,9 +32,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@android:color/white">
+        android:background="@android:color/white" >
 
-        <include layout="@layout/main_drawer_layout" />
+        <include layout="@layout/main_drawer_layout"
+            android:fitsSystemWindows="true" />
 
     </android.support.design.widget.NavigationView>
 

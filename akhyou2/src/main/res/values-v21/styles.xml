@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--
+                <item name="colorPrimary">@color/md_grey_500</item>
+                <item name="colorPrimaryDark">@color/md_grey_700</item>
+        -->
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
+        <item name="colorAccent">@color/accent</item>
+
+    </style>
+
+</resources>

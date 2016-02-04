@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:orientation="vertical"
+    android:background="@color/background_material_dark">
+
+    <include layout="@layout/hummingbird_item_username"
+        android:id="@+id/username_preference_item" />
+
+    <include layout="@layout/settings_divider" />
+
+    <include layout="@layout/hummingbird_item_password"
+        android:id="@+id/password_preference_item" />
+
+    <include layout="@layout/settings_divider" />
+
+</LinearLayout>

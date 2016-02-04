@@ -11,16 +11,29 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import de.greenrobot.event.EventBus;
 import dulleh.akhyou.Models.Anime;
-import dulleh.akhyou.Models.HummingbirdApi;
+import dulleh.akhyou.Models.Hummingbird.HBLibraryEntry;
+import dulleh.akhyou.Models.Hummingbird.HBUser;
+import dulleh.akhyou.Models.Hummingbird.HummingbirdApi;
+import dulleh.akhyou.Utils.Events.HbUserEvent;
+import dulleh.akhyou.Utils.Events.SnackbarEvent;
 import dulleh.akhyou.Utils.GeneralUtils;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.exceptions.OnErrorThrowable;
+import rx.schedulers.Schedulers;
 
 public class MainModel {
     private static final String FAVOURITES_PREF = "favourites_preference";
     private static final String LAST_ANIME_PREF = "last_anime_preference";
     public static final String AUTO_UPDATE_PREF = "should_auto_update_preference";
     public static final String OPEN_TO_LAST_ANIME_PREF ="open_to_last_anime_preference";
+
+    public static final String HB_USER_DISPLAY_NAME_PREF = "hb_user_display_name_pref";
+    public static final String HB_USERNAME_PREF = "hb_username_preference";
+    public static final String HB_PASSWORD_PREF = "hb_password_preference";
+    public static final String HB_AUTH_TOKEN_PREF = "hb_auth_token_preference";
 
     private static final String LATEST_VERSION_LINK = "https://api.github.com/gists/d67e3b97a672e8c3f544";
     public static final String LATEST_RELEASE_LINK = "https://github.com/dulleh/akhyou/blob/master/akhyou-latest.apk?raw=true";
@@ -32,8 +45,15 @@ public class MainModel {
     private Anime lastAnime;
     public static boolean openToLastAnime = true;
 
+    private String hbAuthToken;
+    private HBUser hbUser;
+
     public void setSharedPreferences(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
+    }
+
+    public boolean hasSharedPreferences () {
+        return sharedPreferences != null;
     }
 
     public MainModel (SharedPreferences sharedPreferences) {
@@ -42,6 +62,8 @@ public class MainModel {
         refreshFavourites();
         refreshLastAnime();
         refreshOpenToLastAnime();
+        refreshHbAuthToken();
+        refreshHbDisplayNameAndUser();
     }
 
     public void refreshFavourites () {
@@ -210,9 +232,182 @@ public class MainModel {
     *
     */
 
+    public void clearAuthToken () {
+        hbAuthToken = null;
+        sharedPreferences.edit().putString(HB_AUTH_TOKEN_PREF, null).apply();
+    }
 
-    public String loginHummingbird () {
-        return hummingbirdApi.getAuthToken("username", "password");
+    public void refreshHbAuthToken() {
+        hbAuthToken = sharedPreferences.getString(HB_AUTH_TOKEN_PREF, null);
+    }
+
+    public String getHbDisplayName () {
+        if (hbUser != null) {
+            return hbUser.getName();
+        }
+        return null;
+    }
+
+    public HBUser getHbUser() {
+        return hbUser;
+    }
+
+    public void refreshHbDisplayNameAndUser() {
+        hbUser = null;
+        String usernameOrEmail = sharedPreferences.getString(HB_USERNAME_PREF, null);
+
+        if (usernameOrEmail != null) {
+            if (usernameOrEmail.contains("@") && hbAuthToken != null) {
+                    hummingbirdApi.getUserFromAuthToken(hbAuthToken)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<HBUser>() {
+                            @Override
+                            public void onNext(HBUser user) {
+                                hbUser = user;
+                                EventBus.getDefault().post(new HbUserEvent());
+                                System.out.println("@@@@@@@" + user.getName());
+                            }
+
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                                System.out.println("@@@ username fail");
+                                EventBus.getDefault().post(new HbUserEvent());
+                            }
+                        });
+                } else { //doesn't contain @ && authtoken is null
+                if (!usernameOrEmail.contains("@")) {
+                    refreshHummingbirdUser(usernameOrEmail);
+                } else {
+                    String password = sharedPreferences.getString(HB_PASSWORD_PREF, null);
+
+                    if (password != null && !password.isEmpty()) {
+                        loginHummingbird(usernameOrEmail, password);
+                    } else {
+                        EventBus.getDefault().post(new HbUserEvent());
+                    }
+                }
+            }
+        } else {
+            EventBus.getDefault().post(new HbUserEvent());
+        }
+    }
+
+    private void refreshHummingbirdUser (String displayName) {
+        hbUser = null;
+        if (displayName != null && !displayName.isEmpty()) {
+            hummingbirdApi.getUser(displayName)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<HBUser>() {
+                        @Override
+                        public void onNext(HBUser user) {
+                            hbUser = user;
+                            EventBus.getDefault().post(new HbUserEvent());
+                        }
+
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            e.printStackTrace();
+                            System.out.println("refreshHummingbirdUser failed");
+
+                            EventBus.getDefault().post(new HbUserEvent());
+                        }
+                    });
+        } else {
+            EventBus.getDefault().post(new HbUserEvent());
+        }
+    }
+
+    public void loginHummingbird() {
+        loginHummingbird(
+                sharedPreferences.getString(HB_USERNAME_PREF, null),
+                sharedPreferences.getString(HB_PASSWORD_PREF, null)
+        );
+    }
+
+    public void loginHummingbird(String usernameOrEmail, String password) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        hbAuthToken = null;
+
+        if (usernameOrEmail != null && !usernameOrEmail.isEmpty() && password != null && !password.isEmpty()) {
+            hummingbirdApi.getAuthToken(usernameOrEmail, password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onNext(String token) {
+                        hbAuthToken = token;
+
+                        editor.putString(HB_AUTH_TOKEN_PREF, hbAuthToken);
+                        editor.apply();
+
+                        refreshHbDisplayNameAndUser();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        System.out.println("loginHummingbird failed");
+
+                        editor.putString(HB_AUTH_TOKEN_PREF, hbAuthToken);
+                        editor.apply();
+
+                        refreshHummingbirdUser(null);
+                        EventBus.getDefault().post(new SnackbarEvent("Error: Hummingbird login failed. Check your details."));
+                    }
+                });
+        } else {
+            editor.putString(HB_AUTH_TOKEN_PREF, hbAuthToken);
+            editor.apply();
+
+            if (usernameOrEmail != null && !usernameOrEmail.isEmpty()
+                    && (password == null || password != null && password.isEmpty())) {
+                EventBus.getDefault().post(new SnackbarEvent("Attention: No Hummingbird password entered."));
+            }
+
+            refreshHbDisplayNameAndUser();
+        }
+
+    }
+
+    public void updateHbLibraryEntry (String id, String status, String privacy, int episodesWatched) {
+        hummingbirdApi.updateLibraryEntry(id, hbAuthToken, status, privacy, episodesWatched)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HBLibraryEntry>() {
+                    @Override
+                    public void onNext(HBLibraryEntry entry) {
+                        System.out.println("You have watched " + entry.getEpisodesWatched() + " episodes of k-on, weeb.");
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        System.out.println("k-on fucked you");
+                    }
+                });
     }
 
 }
