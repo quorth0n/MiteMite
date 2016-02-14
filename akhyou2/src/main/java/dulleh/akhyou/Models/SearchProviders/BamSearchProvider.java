@@ -38,7 +38,7 @@ public class BamSearchProvider implements SearchProvider{
 
     @Override
     public Element isolate(String document) {
-        return Jsoup.parse(document).select("div.container.videoframe > div > div > div").first();
+        return Jsoup.parse(document).select("body > div.container.videoframe > div > div.col-md-10 > div").first();
     }
 
     @Override
@@ -60,15 +60,14 @@ public class BamSearchProvider implements SearchProvider{
 
             searchResult = searchResult.child(0);
 
-            String imageUrl = searchResult.child(0).attr("src").trim();
+            String imageUrl = "http:" + searchResult.select("img").attr("src").trim();
+
             if (!imageUrl.isEmpty()) {
                 anime.setImageUrl(imageUrl);
             } else {
                 // stupid image yay
                 anime.setImageUrl("https://coubsecure-a.akamaihd.net/get/b25/p/coub/simple/cw_image/a55449e4464/f2e8c21cd0f3a62a3c3b7/cotd_email_1419345847_00016.jpg");
             }
-
-            searchResult = searchResult.child(1).child(0);
 
             anime.setTitle(searchResult.select("h2").text().trim());
 

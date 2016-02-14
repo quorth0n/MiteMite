@@ -68,7 +68,7 @@ public class BamAnimeProvider implements AnimeProvider {
     private Anime parseForInfo (Element main, Anime anime) {
         Element info = main.select("div.fattynav > div.fattynavinside > div.container > div.media").first();
 
-        anime.setImageUrl(info.child(0).select("img").attr("src"));
+        anime.setImageUrl("http:" + info.child(0).select("img").attr("src"));
 
         info = info.select("div.media-body").first();
 
