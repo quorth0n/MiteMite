@@ -15,27 +15,29 @@ import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
 public class RamAnimeProvider implements AnimeProvider {
+    private static final String BASE_URL = "http://www.animeram.co";
 
     @Override
     public Anime fetchAnime(String url) throws OnErrorThrowable {
         String body = GeneralUtils.getWebPage(url);
 
-        Element animeBox = isolate(body);
-
-        Elements infoAndEpisodes = animeBox.select("tr > td > div.content");
-
-        if (!hasAnime(infoAndEpisodes)) {
+        if (!hasAnime(body)) {
             throw OnErrorThrowable.from(new Throwable("Failed to retrieve anime."));
         }
 
+        Element animeBox = isolate(body);
+
+        Element info = animeBox.select("div.fattynavinside > div.container > div.media").first();
+
+        Elements episodes = animeBox.select("div.container > div > div > div.col-md-10 > div.cblock > ul").first().children();
+
         Anime anime = new Anime()
                 .setProviderType(Anime.ANIME_RAM)
-                .setUrl(url)
-                .setImageUrl(parseForImageUrl(animeBox));
+                .setUrl(url);
 
-        anime = parseForInfo(infoAndEpisodes, anime);
+        anime = parseForInfo(info, anime);
 
-        anime.setEpisodes(parseForEpisodes(infoAndEpisodes));
+        anime.setEpisodes(parseForEpisodes(episodes));
 
         return anime;
     }
@@ -55,14 +57,14 @@ public class RamAnimeProvider implements AnimeProvider {
     public List<Source> fetchSources(String url) throws OnErrorThrowable {
         String body = GeneralUtils.getWebPage(url);
 
-        return parseForSources(isolate(body).select("tr > td > div > div > ul").last());
+        return parseForSources(isolateForSources(body));
     }
 
     @Override
     public Source fetchVideo(Source source) throws OnErrorThrowable {
         String body = GeneralUtils.getWebPage(source.getPageUrl());
 
-        source.setEmbedUrl(parseForEmbedUrl(isolate(body)));
+        source.setEmbedUrl(parseForEmbedUrl(body));
 
         source.setVideos(source.getSourceProvider().fetchSource(source.getEmbedUrl()));
 
@@ -70,55 +72,66 @@ public class RamAnimeProvider implements AnimeProvider {
     }
 
     private Element isolate (String body) {
-        return Jsoup.parse(body).select("div.overeverything > table > tbody > tr > td > table > tbody").first();
+        return Jsoup.parse(body).select("body > div.fattynav").first();
     }
 
-    private boolean hasAnime (Elements elements) {
-        return !elements.toString().toLowerCase().contains("page not found");
+    private Elements isolateForSources (String body) {
+        return Jsoup.parse(body).select("body > div.darkness > div > div > div.col-md-10 > div:nth-child(1) > ul.nav.nav-tabs").first().children();
     }
 
-    private String parseForImageUrl (Element animeBox) {
-        return animeBox.select("td > img").attr("src");
+    private boolean hasAnime (String body) {
+        return !body.toLowerCase().contains("show not found");
     }
 
-    private Anime parseForInfo (Elements infoAndEpisodes, Anime anime) {
-        Elements infoElements = infoAndEpisodes.first().select("table > tbody > tr > td > table > tbody > tr > td.content1");
+    private Anime parseForInfo (Element info, Anime anime) {
+        anime.setImageUrl("http:" + info.select("img").attr("src"));
+
+        info = info.select("div.media-body").first();
 
         return anime
-                .setTitle(infoElements.get(0).text())
-                .setAlternateTitle(infoElements.get(1).text())
-                .setGenresString(infoElements.get(2).text())
-                .setDate(infoElements.get(4).text())
-                .setStatus(infoElements.get(5).text())
-                .setDesc(infoElements.last().text());
+                .setTitle(info.select("h1").text())
+                .setAlternateTitle(info.child(0).child(2).text().substring(18))
+                .setGenresString(info.child(1).child(0).text())
+                .setStatus(info.child(0).child(1).child(1).text().substring(8))
+                .setDesc(info.select("p.ptext").text());
+
     }
 
-    private List<Episode> parseForEpisodes (Elements infoAndEpisodes) {
-        Elements episodesElement = infoAndEpisodes.last().select("ul > li > div");
-
+    private List<Episode> parseForEpisodes (Elements episodesElement) {
         List<Episode> episodes = new ArrayList<>(episodesElement.size());
 
         for (Element episodeElement : episodesElement) {
+            Elements info = episodeElement.child(0).children();
+
+            String title = info.first().text() + " " + info.get(1).text();
+
             episodes.add(new Episode()
-                    .setTitle(episodeElement.text())
-                    .setUrl(episodeElement.select("a[href").attr("href")));
+                    .setTitle(title.trim())
+                    .setUrl(BASE_URL + info.first().attr("href")));
         }
 
         return episodes;
     }
 
-    private List<Source> parseForSources (Element sourcesBox) throws OnErrorThrowable{
-        Elements sourceElements = sourcesBox.select("li > a[href]");
+    private List<Source> parseForSources (Elements sourcesElements) throws OnErrorThrowable{
 
-        List<Source> sources = new ArrayList<>(sourceElements.size());
+        List<Source> sources = new ArrayList<>(sourcesElements.size());
 
-        for (Element sourceElement : sourceElements) {
-            String title = sourceElement.text();
+        for (Element sourceElement : sourcesElements) {
+            sourceElement = sourceElement.child(0);
+
+            StringBuilder titleBuilder = new StringBuilder();
+            for (Element child : sourceElement.children()) {
+                titleBuilder.append(child.text());
+                titleBuilder.append(" ");
+            }
+            String title = titleBuilder.toString();
+
             SourceProvider sourceProvider = GeneralUtils.determineSourceProvider(title.toLowerCase());
             if (sourceProvider != null) {
                 sources.add(new Source()
-                                .setPageUrl(sourceElement.attr("href"))
-                                .setTitle(title)
+                                .setPageUrl(BASE_URL + sourceElement.attr("href"))
+                                .setTitle(title.trim())
                                 .setSourceProvider(sourceProvider)
                 );
             }
@@ -127,8 +140,10 @@ public class RamAnimeProvider implements AnimeProvider {
         return sources;
     }
 
-    private String parseForEmbedUrl (Element embedPageIsolated) {
-        return embedPageIsolated.select("tr > td > div.content > div > div > iframe[src]").last().attr("src");
+    private String parseForEmbedUrl (String body) {
+        return Jsoup.parse(body)
+                .select("body > div.darkness > div > div > div.col-md-10 > div:nth-child(1) > div.tab-content.embed-responsive.embed-responsive-16by9 > div > iframe")
+                .attr("src");
     }
 
 }

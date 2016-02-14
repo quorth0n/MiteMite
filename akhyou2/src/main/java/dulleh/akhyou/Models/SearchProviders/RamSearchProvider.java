@@ -12,11 +12,10 @@ import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
 public class RamSearchProvider implements SearchProvider{
-    private static final String BASE_URL = "http://www.animeram.me/anime-list/search/";
+    private static final String BASE_URL = "http://www.animeram.co/search?search=";
 
     @Override
     public List<Anime> searchFor(String searchTerm) throws OnErrorThrowable {
-
         if (searchTerm == null || searchTerm.trim().isEmpty()) {
             throw OnErrorThrowable.from(new Throwable("Please enter a search term."));
         }
@@ -31,40 +30,38 @@ public class RamSearchProvider implements SearchProvider{
             throw OnErrorThrowable.from(new Throwable("No search results."));
         }
 
-        Elements searchResults = seperateResults(searchResultsBox);
+        Elements searchResults = separateResults(searchResultsBox);
 
         return parseResults(searchResults);
     }
 
     @Override
     public Element isolate(String document) {
-        return Jsoup.parse(document).select("div.overeverything > table > tbody > tr > td >table > tbody > tr > td > div > table > tbody > tr > td").first();
+        return Jsoup.parse(document).select("body > div.container > div.cblock2.col-md-10 > div.cblock > div.moose.page").first();
     }
 
     @Override
     public boolean hasSearchResults(Element element) throws OnErrorThrowable {
-        return !element.select("td > div").text().contains("Nothing here");
+        return element != null && !element.select("td > div").text().contains("Nothing here");
     }
 
-    private Elements seperateResults (Element searchResultsBox) {
+    private Elements separateResults(Element searchResultsBox) {
         return searchResultsBox.children();
     }
 
     private List<Anime> parseResults (Elements searchResults) {
         List<Anime> animes = new ArrayList<>(searchResults.size());
+
         for (Element searchResult : searchResults) {
             Anime anime = new Anime().setProviderType(Anime.ANIME_RAM);
 
-            Element titleAndUrl = searchResult.select("h3 > a[href]").first();
-            anime.setUrl(titleAndUrl.attr("href"));
-            anime.setTitle(titleAndUrl.text());
-
-            // image is low quality, so use large image they use on the stand-alone anime page
-            anime.setImageUrl(searchResult.select("img").first().attr("src").replace("94", "180"));
-            anime.setDesc(searchResult.select("div.popinfo").text());
+            anime.setTitle(searchResult.select("h2").text());
+            anime.setUrl("http://www.animeram.co" + searchResult.attr("href"));
+            anime.setImageUrl("http:" + searchResult.select("img").attr("src"));
 
             animes.add(anime);
         }
+
         return animes;
     }
 
