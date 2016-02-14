@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.graphics.Palette;
+import android.view.View;
 
 import java.util.List;
 
@@ -18,6 +20,7 @@ import dulleh.akhyou.Models.AnimeProviders.AnimeProvider;
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Source;
 import dulleh.akhyou.Models.Video;
+import dulleh.akhyou.R;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
 import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.Events.FavouriteEvent;
@@ -351,7 +354,21 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
 
     public void postError (Throwable e) {
         e.printStackTrace();
-        EventBus.getDefault().post(new SnackbarEvent(GeneralUtils.formatError(e)));
+
+        View.OnClickListener actionOnClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fetchAnime(true);
+            }
+        };
+
+        EventBus.getDefault().post(new SnackbarEvent(
+                GeneralUtils.formatError(e),
+                Snackbar.LENGTH_LONG,
+                "Retry",
+                actionOnClick,
+                getView().getResources().getColor(R.color.accent)
+        ));
     }
 
     public void postSuccess (String successMessage) {

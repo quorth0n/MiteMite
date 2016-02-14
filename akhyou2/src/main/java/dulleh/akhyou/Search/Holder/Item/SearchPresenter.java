@@ -1,6 +1,8 @@
 package dulleh.akhyou.Search.Holder.Item;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,7 @@ import dulleh.akhyou.Models.SearchProviders.KissSearchProvider;
 import dulleh.akhyou.Models.SearchProviders.RamSearchProvider;
 import dulleh.akhyou.Models.SearchProviders.RushSearchProvider;
 import dulleh.akhyou.Models.SearchProviders.SearchProvider;
+import dulleh.akhyou.R;
 import dulleh.akhyou.Search.Holder.SearchHolderAdapter;
 import dulleh.akhyou.Search.Holder.SearchHolderFragment;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
@@ -28,6 +31,7 @@ import rx.functions.Func0;
 import rx.schedulers.Schedulers;
 
 public class SearchPresenter extends RxPresenter<SearchFragment> {
+    private static Throwable CLOUDFLARETHROWABLE = new Throwable("Wait 5 seconds and try again (or don't).");
     public int providerType;
 
     private Subscription subscription;
@@ -120,7 +124,7 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
                 } catch (CloudFlareInitializationException cf) {
                     CloudflareHttpClient.INSTANCE.forceSolve = true;
                     CloudflareHttpClient.INSTANCE.registerSites();
-                    return Observable.error(new Throwable("Wait 5 seconds and try again (or don't)."));
+                    return Observable.error(CLOUDFLARETHROWABLE);
                 }
             }
         })
@@ -157,7 +161,22 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
 
     public void postError (Throwable e) {
         e.printStackTrace();
-        EventBus.getDefault().post(new SnackbarEvent(GeneralUtils.formatError(e)));
+
+        View.OnClickListener actionOnClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search();
+            }
+        };
+
+        EventBus.getDefault().post(new SnackbarEvent(
+                GeneralUtils.formatError(e),
+                Snackbar.LENGTH_LONG,
+                "Retry",
+                actionOnClick,
+                getView().getResources().getColor(R.color.accent)
+        ));
+
     }
 
     public void postSuccess () {
