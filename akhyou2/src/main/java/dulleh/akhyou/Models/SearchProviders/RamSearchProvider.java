@@ -58,6 +58,11 @@ public class RamSearchProvider implements SearchProvider{
             anime.setTitle(searchResult.select("h2").text());
             anime.setUrl("http://www.animeram.co" + searchResult.attr("href"));
             anime.setImageUrl("http:" + searchResult.select("img").attr("src"));
+            StringBuilder descBuilder = new StringBuilder();
+            descBuilder.append(searchResult.select("div.first > div").first().text());
+            descBuilder.append("\n");
+            descBuilder.append(searchResult.select("div").last().text());
+            anime.setDesc(descBuilder.toString().trim());
 
             animes.add(anime);
         }
