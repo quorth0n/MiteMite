@@ -254,11 +254,11 @@ public class SettingsFragment extends Fragment {
     private String searchGridSummaryUpdate (int i) {
         switch (i) {
             case 0:
-                return getString(R.string.search_grid_option_card);
-            case 1:
                 return getString(R.string.search_grid_option_poster);
-            default:
+            case 1:
                 return getString(R.string.search_grid_option_card);
+            default:
+                return getString(R.string.search_grid_option_poster);
         }
     }
 

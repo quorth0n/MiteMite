@@ -42,7 +42,6 @@ public class SearchFragment extends NucleusSupportFragment<SearchPresenter> impl
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        // must be after ^ so that getPresenter() doesn't return null
         getPresenter().setProviderType(getArguments().getInt(SearchHolderAdapter.PROVIDER_TYPE_KEY, Anime.ANIME_RUSH));
     }
 
@@ -53,17 +52,15 @@ public class SearchFragment extends NucleusSupportFragment<SearchPresenter> impl
 
         RecyclerView searchResultsView = (RecyclerView) view.findViewById(R.id.recycler_view);
         switch (SearchHolderFragment.SEARCH_GRID_TYPE) {
-
             case 0:
-                searchAdapter = new SearchListAdapter(this);
-                searchResultsView.setLayoutManager(new LinearLayoutManager(container.getContext(), LinearLayoutManager.VERTICAL, false));
-                break;
-
-            case 1:
                 searchAdapter = new SearchGridAdapter(this);
                 searchResultsView.setLayoutManager(new GridLayoutManager(container.getContext(), 2, GridLayoutManager.VERTICAL, false));
                 break;
 
+            case 1:
+                searchAdapter = new SearchListAdapter(this);
+                searchResultsView.setLayoutManager(new LinearLayoutManager(container.getContext(), LinearLayoutManager.VERTICAL, false));
+                break;
         }
 
         ItemMarginsDecoration itemMarginsDecoration = new ItemMarginsDecoration(container.getContext(), R.dimen.item_margin);
