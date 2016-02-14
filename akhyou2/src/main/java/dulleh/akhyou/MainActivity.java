@@ -224,9 +224,9 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
         boolean setInBackStack = false;
         boolean humInBackStack = false;
 
-        fragmentManager.getBackStackEntryCount();
+        int backstackEntryCount = fragmentManager.getBackStackEntryCount();
 
-        for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
+        for (int i = 0; i < backstackEntryCount; i++) {
             String name = fragmentManager.getBackStackEntryAt(i).getName();
 
             if (name.equals(SEARCH_FRAGMENT)) seaInBackStack = true;
