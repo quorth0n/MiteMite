@@ -5,6 +5,7 @@
 -keepattributes SourceFile,LineNumberTable
 
 -printmapping
+-printmapping mapping.txt
 
 -keep class com.squareup.okhttp.** { *; }
 -keep interface com.squareup.okhttp.** { *; }
@@ -20,7 +21,6 @@
 -keepclassmembers class * {
     @com.squareup.picasso.** *;
 }
-
 
 -keepclassmembers class ** {
     public void onEvent*(**);
@@ -44,5 +44,7 @@
 
 -dontwarn org.w3c.dom.**
 
--printmapping mapping.txt
+-keep class org.mozilla.javascript.** { *; }
+-dontwarn org.mozilla.javascript.**
+
 -dontobfuscate

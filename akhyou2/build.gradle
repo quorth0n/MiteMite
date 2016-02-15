@@ -10,14 +10,14 @@ android {
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
-        versionName "2.0.2"
+        versionName "2.0.3"
 
         renderscriptTargetApi 22
         renderscriptSupportModeEnabled true
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             applicationVariants.all { variant ->

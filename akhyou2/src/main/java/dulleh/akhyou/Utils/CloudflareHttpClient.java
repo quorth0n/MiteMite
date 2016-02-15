@@ -93,8 +93,8 @@ public enum CloudflareHttpClient {
         cookieManager = new CookieManager(new PersistentCookieStore(context),
                                           CookiePolicy.ACCEPT_ALL);
 
-        CookieHandler.setDefault(cookieManager);
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+        CookieHandler.setDefault(cookieManager);
         client.setCookieHandler(cookieManager);
 
         registerSites();
@@ -127,17 +127,17 @@ public enum CloudflareHttpClient {
         List<HttpCookie> cookies = cookieManager.getCookieStore().get(request.uri());
         boolean hasCookie = Stream.of(cookies).anyMatch(c -> c.getName().equals("cf_clearance"));
 
-        if (hasCookie && !forceSolve)
+        if (hasCookie)
             return resp;
-
+        //doesn't have cookie
         if (forceSolve) {
             return solveCloudflare(resp);
         } else if (refresh != null && refresh.contains("URL=/cdn-cgi/") &&
-                    server != null && server.equals("cloudflare-nginx")) {
+                server != null && server.equals("cloudflare-nginx")) {
 
-                //System.out.println("solving cloudflare");
-                return solveCloudflare(resp);
-            }
+            //System.out.println("solving cloudflare");
+            return solveCloudflare(resp);
+        }
 
         return resp;
     }
