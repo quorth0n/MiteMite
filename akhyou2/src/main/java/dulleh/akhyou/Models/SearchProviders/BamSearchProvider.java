@@ -73,10 +73,10 @@ public class BamSearchProvider implements SearchProvider{
 
             StringBuilder descBuilder = new StringBuilder();
             Elements infoElements = searchResult.children().select("div");
-            for (Element infoElement : infoElements) {
-                descBuilder.append(infoElement.text().trim());
-                descBuilder.append("\n");
-            }
+            descBuilder.append(infoElements.first().select("div > div").get(1).text());
+            descBuilder.append("\n");
+            descBuilder.append(infoElements.last().text());
+
             anime.setDesc(descBuilder.toString().trim());
             anime.setAlternateTitle(infoElements.get(1).text().split(":")[1].trim());
 
