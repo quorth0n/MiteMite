@@ -127,7 +127,8 @@ public enum CloudflareHttpClient {
         List<HttpCookie> cookies = cookieManager.getCookieStore().get(request.uri());
         boolean hasCookie = Stream.of(cookies).anyMatch(c -> c.getName().equals("cf_clearance"));
 
-        if (hasCookie) return resp;
+        if (hasCookie && !forceSolve)
+            return resp;
 
         if (forceSolve) {
             return solveCloudflare(resp);
