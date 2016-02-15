@@ -15,7 +15,6 @@ import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 import java.util.concurrent.TimeUnit;
 
 import de.greenrobot.event.EventBus;
-import dulleh.akhyou.MainActivity;
 import dulleh.akhyou.MainModel;
 import dulleh.akhyou.R;
 import dulleh.akhyou.Utils.Events.HummingbirdCredentialsUpdatedEvent;
@@ -47,7 +46,6 @@ public class HummingbirdSettingsFragment extends NucleusSupportFragment<Hummingb
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.hummingbird_settings_fragment, container, false);
-        setToolbarTitle(getString(R.string.hummingbird_preference_title));
 
         usernameEditText = (EditText) v.findViewById(R.id.username_edit_text);
         passwordEditText = (EditText) v.findViewById(R.id.password_edit_text);
@@ -119,10 +117,6 @@ public class HummingbirdSettingsFragment extends NucleusSupportFragment<Hummingb
         if (changed) {
             updateHummingbirdCredentials();
         }
-    }
-
-    public void setToolbarTitle (String title) {
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(title);
     }
 
     public void updateHummingbirdCredentials () {

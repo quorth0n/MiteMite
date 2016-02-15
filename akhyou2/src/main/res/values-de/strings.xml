@@ -65,5 +65,6 @@
     <string name="settings_tab">EINSTELLUNGEN</string>
     <string name="history_tab">VERLAUF</string>
     <string name="hummingbird_username_placeholder">Erstelle ein Hummingbird.me Account für "scrobbling" Features.</string>
+    <string name="hummingbird_history_placeholder">sorry, but currently this part of the app is all looks and no bang :P</string>
 
 </resources>
