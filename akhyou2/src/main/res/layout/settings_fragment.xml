@@ -3,50 +3,56 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="@color/background_material_dark" >
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:orientation="vertical" >
+        android:layout_height="match_parent">
 
-        <include layout="@layout/settings_item_hummingbird"
-            android:id="@+id/hummingbird_preference_item" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:orientation="vertical" >
 
-        <include layout="@layout/settings_divider"/>
+            <include layout="@layout/settings_item_hummingbird"
+                android:id="@+id/hummingbird_preference_item" />
 
-        <include layout="@layout/settings_item_theme"
-            android:id="@+id/theme_preference_item" />
+            <include layout="@layout/settings_divider"/>
 
-        <include layout="@layout/settings_divider" />
+            <include layout="@layout/settings_item_theme"
+                android:id="@+id/theme_preference_item" />
 
-        <include layout="@layout/settings_item_search_grid"
-            android:id="@+id/search_grid_preference_item" />
+            <include layout="@layout/settings_divider" />
 
-        <include layout="@layout/settings_divider" />
+            <include layout="@layout/settings_item_search_grid"
+                android:id="@+id/search_grid_preference_item" />
 
-        <include layout="@layout/settings_item_open_to_last_anime"
-            android:id="@+id/open_to_last_anime_preference_item"/>
+            <include layout="@layout/settings_divider" />
 
-        <include layout="@layout/settings_divider" />
+            <include layout="@layout/settings_item_open_to_last_anime"
+                android:id="@+id/open_to_last_anime_preference_item"/>
 
-        <include layout="@layout/settings_item_auto_update"
-            android:id="@+id/auto_update_preference_item"/>
+            <include layout="@layout/settings_divider" />
 
-        <include layout="@layout/settings_divider" />
+            <include layout="@layout/settings_item_auto_update"
+                android:id="@+id/auto_update_preference_item"/>
 
-        <include layout="@layout/settings_item_licences"
-            android:id="@+id/licences_preference_item" />
+            <include layout="@layout/settings_divider" />
 
-        <include layout="@layout/settings_divider" />
+            <include layout="@layout/settings_item_licences"
+                android:id="@+id/licences_preference_item" />
 
-        <include layout="@layout/settings_item_contact"
-            android:id="@+id/contact_preference_item"
-            />
+            <include layout="@layout/settings_divider" />
 
-        <include layout="@layout/settings_divider" />
+            <include layout="@layout/settings_item_contact"
+                android:id="@+id/contact_preference_item"
+                />
 
-    </LinearLayout>
+            <include layout="@layout/settings_divider" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <include layout="@layout/toolbar_shadow" />
 
