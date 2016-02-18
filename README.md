@@ -13,6 +13,8 @@ Upcoming features include:
 
 [Download](https://github.com/dulleh/akhyou/blob/master/akhyou-latest.apk?raw=true) and feel free to create an issue or send me an email with feedback. You also need to have a media player - the default one works but something like [MXPlayer](https://play.google.com/store/apps/details?id=com.mxtech.videoplayer.ad&hl=en_GB) is a lot nicer! Trying to open the apk from the default "Downloads" app may also fail so it's worth trying install it with a dedicated file manager. You'll also need to [allow app installs from outside sources](http://www.androidcentral.com/allow-app-installs-unknown-sources) before you can install the app.  Enjoy~
 
+If you want to cast to other devices (with a ChromeCast, Fire TV, etc.) you'll need an app like [AllCast](https://play.google.com/store/apps/details?id=com.koushikdutta.cast).
+
 There are no plans to release Akhyou! on the Play store in the future.
 
 ![Akhyou! Search Showcase](/captures/showcase_search_small.png "AKHYOU!") ![Akhyou! Episodes Showcase](/captures/showcase_episodes_small.png "AKHYOU!")  
