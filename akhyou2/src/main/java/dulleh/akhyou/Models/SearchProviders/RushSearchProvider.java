@@ -16,11 +16,6 @@ public class RushSearchProvider implements SearchProvider{
 
     @Override
     public List<Anime> searchFor(String searchTerm){
-
-        if (searchTerm == null || searchTerm.trim().isEmpty()) {
-            throw OnErrorThrowable.from(new Throwable("Please enter a search term."));
-        }
-
         String url = BASE_URL + GeneralUtils.encodeForUtf8(searchTerm);
 
         String responseBody = GeneralUtils.getWebPage(url);

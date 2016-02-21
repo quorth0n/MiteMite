@@ -374,11 +374,11 @@ public class MainModel {
                     }
                 });
         } else {
-            editor.putString(HB_AUTH_TOKEN_PREF, hbAuthToken);
+            editor.putString(HB_AUTH_TOKEN_PREF, null);
             editor.apply();
 
             if (usernameOrEmail != null && !usernameOrEmail.isEmpty()
-                    && (password == null || password != null && password.isEmpty())) {
+                    && (password == null || password.isEmpty())) {
                 EventBus.getDefault().post(new SnackbarEvent("Attention: No Hummingbird password entered."));
             }
 
@@ -394,7 +394,6 @@ public class MainModel {
                 .subscribe(new Subscriber<HBLibraryEntry>() {
                     @Override
                     public void onNext(HBLibraryEntry entry) {
-                        System.out.println("You have watched " + entry.getEpisodesWatched() + " episodes of k-on, weeb.");
                     }
 
                     @Override
@@ -405,7 +404,6 @@ public class MainModel {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        System.out.println("k-on fucked you");
                     }
                 });
     }

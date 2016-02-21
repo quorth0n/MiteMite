@@ -1,9 +1,5 @@
 package dulleh.akhyou.Models.SearchProviders;
 
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -17,6 +13,9 @@ import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
 import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.GeneralUtils;
+import okhttp3.FormBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import rx.exceptions.OnErrorThrowable;
 
 public class KissSearchProvider implements SearchProvider {
@@ -27,13 +26,11 @@ public class KissSearchProvider implements SearchProvider {
 
     @Override
     public List<Anime> searchFor(String searchTerm) throws OnErrorThrowable, CloudFlareInitializationException {
-        if (searchTerm == null || searchTerm.trim().isEmpty()) {
-            throw OnErrorThrowable.from(new Throwable("Please enter a search term."));
-        }
-
-        if (!CloudflareHttpClient.INSTANCE.initialized()) {
+/*
+        if (!CloudflareHttpClient.INSTANCE.isInitialized()) {
             throw new CloudFlareInitializationException();
         }
+*/
 
         RequestBody query = searchTemplate()
                 .add("animeName", searchTerm)
@@ -46,10 +43,7 @@ public class KissSearchProvider implements SearchProvider {
                 .build();
 
         String responseBody = GeneralUtils.getWebPage(search);
-        if (responseBody.contains("Mini browsers")) {
-            throw new CloudFlareInitializationException();
-        }
-        //System.out.print(responseBody);
+
         Element resultTable = isolate(responseBody);
 
         if (resultTable == null) {
@@ -86,8 +80,8 @@ public class KissSearchProvider implements SearchProvider {
         return results;
     }
 
-    private FormEncodingBuilder searchTemplate() {
-        FormEncodingBuilder searchTemplate = new FormEncodingBuilder();
+    private FormBody.Builder searchTemplate() {
+        FormBody.Builder searchTemplate = new FormBody.Builder();
         for (int i = 0; i < NUM_GENRES; ++i) {
             searchTemplate.add("genres", "0");
         }

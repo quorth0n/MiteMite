@@ -1,6 +1,7 @@
 package dulleh.akhyou.Anime;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -130,7 +131,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
         }
     }
 
-    public void setAnime (Anime anime) {
+    public void setAnime (@NonNull Anime anime) {
         Picasso.with(getActivity()).invalidate(anime.getImageUrl());
         episodesAdapter.setAnime(anime.getEpisodes(), isInFavourites(anime));
         setToolbarTitle(anime.getTitle());

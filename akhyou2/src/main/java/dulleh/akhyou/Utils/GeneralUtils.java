@@ -8,10 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import org.jsoup.Jsoup;
 
@@ -20,24 +16,31 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import de.greenrobot.event.EventBus;
-import dulleh.akhyou.MainApplication;
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Source;
 import dulleh.akhyou.Models.SourceProviders.SourceProvider;
 import dulleh.akhyou.Utils.Events.SnackbarEvent;
+import okhttp3.Request;
+import okhttp3.Response;
 import rx.exceptions.OnErrorThrowable;
 
 public class GeneralUtils {
+
+    public static Response makeRequest (final Request request) {
+        try {
+            return OK.INSTANCE.Client.newCall(request).execute();
+        } catch (IOException io) {
+            throw OnErrorThrowable.from(io);
+        }
+    }
+
     public static String getWebPage (final String url) {
         return GeneralUtils.getWebPage(new Request.Builder().url(url).build());
     }
 
     public static String getWebPage (final Request request) {
-        OkHttpClient client = new OkHttpClient();
-        client.setCookieHandler(CloudflareHttpClient.INSTANCE.getCookieManager());
         try {
-            Response response = client.newCall(request).execute();
-            return response.body().string();
+            return GeneralUtils.makeRequest(request).body().string();
         } catch (IOException e) {
             throw OnErrorThrowable.from(new Throwable("Failed to connect.", e));
         }
@@ -112,7 +115,7 @@ public class GeneralUtils {
         return Jsoup.parse(body).select("div#player").first().nextElementSibling().html();
     }
 
-    public static String formattedGeneres (String[] genres) {
+    public static String formattedGenres(String[] genres) {
         StringBuilder genresBuilder = new StringBuilder();
         for (String genre : genres) {
             genresBuilder.append(" ");
@@ -144,10 +147,6 @@ public class GeneralUtils {
             io.printStackTrace();
             return null;
         }
-    }
-
-    public static boolean isAccentColour (int colorInt) {
-        return colorInt == MainApplication.RED_ACCENT_RGB;
     }
 
     public static int determineProviderType (String url) throws Exception{

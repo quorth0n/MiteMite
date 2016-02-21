@@ -26,13 +26,9 @@
 
 package dulleh.akhyou.Utils;
 
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.annimon.stream.Stream;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -41,24 +37,25 @@ import org.mozilla.javascript.Scriptable;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.CookieHandler;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
-import java.net.HttpCookie;
 import java.net.URI;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import dulleh.akhyou.Lib.PersistentCookieStore;
+import okhttp3.Cookie;
+import okhttp3.Request;
+import okhttp3.Response;
+import rx.Observable;
+import rx.Subscriber;
+import rx.exceptions.OnErrorThrowable;
+import rx.schedulers.Schedulers;
 
 /**
  * A singleton Http Client that bypasses Cloudflare authentication.
  * It does so by pretending to be a regular user when the connection is first made, after which it stores
  * the authorization cookie for upcoming sessions. Note that the singleton has to be initialized
  * by calling the `onCreate` method before it can be used for making connections.
- *
  */
 public enum CloudflareHttpClient {
     INSTANCE;
@@ -72,71 +69,70 @@ public enum CloudflareHttpClient {
     private final Pattern stripPattern = Pattern.compile("\\s{3,}[a-z](?: = |\\.).+");
     private final Pattern jsPattern = Pattern.compile("[\\n\\\\']");
 
-    private OkHttpClient client;
-    private CookieManager cookieManager;
     private AtomicInteger numInitialized;
 
-    public CookieManager getCookieManager() {
-        return cookieManager;
-    }
-
-    public boolean forceSolve = false;
-
-    /**
-     * We use a persistent Cookie storage to minimize the need of doing the high-latency connections
-     * to Cloudflare protected servers.
-     * @param context The Android application's context. It's used to get the cache directory.
-     */
-    public void onCreate(android.content.Context context) {
+    public void onCreate() {
         numInitialized = new AtomicInteger(0);
-        client = new OkHttpClient();
-        cookieManager = new CookieManager(new PersistentCookieStore(context),
-                                          CookiePolicy.ACCEPT_ALL);
-
-        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-        CookieHandler.setDefault(cookieManager);
-        client.setCookieHandler(cookieManager);
 
         registerSites();
     }
 
-    public void registerSites () {
-        for (String url : CLOUDFLARE_URLS) {
-            registerSite(url);
-        }
+    public boolean isInitialized() {
+        return numInitialized.get() == CLOUDFLARE_URLS.length;
     }
 
     /**
      * Registers a Cloudflare site so it can be used without delay when needed. The first registration
      * always takes at least 5 seconds, so this is run on a separate thread.
-     * @param url The URL of the site we want to register, with the http:// prefix
+     * CLOUDFLARE_URLS  The URL of the site we want to register, with the http:// prefix
      */
-    public void registerSite(final String url) {
-        new CloudflareAsyncRegister().execute(url);
+    public void registerSites () {
+        numInitialized.set(0);
+
+        Observable.from(CLOUDFLARE_URLS)
+                .observeOn(Schedulers.io())
+                .map(s -> new Request.Builder().url(s).build())
+                .map(s -> CloudflareHttpClient.INSTANCE.execute(s))
+                .subscribe(new Subscriber<Response>() {
+                    @Override
+                    public void onNext(Response response) {
+                        response.body().close();
+                        if (CloudflareHttpClient.INSTANCE.numInitialized.incrementAndGet() == CLOUDFLARE_URLS.length)
+                            onCompleted();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        System.out.println(isInitialized());
+                        unsubscribe();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.w("Cloudflare", "Couldn't register CloudFlare site", e);
+                    }
+                });
     }
 
-    public boolean initialized() {
-        return numInitialized.get() == CLOUDFLARE_URLS.length;
-    }
+    private Response execute(Request request) throws OnErrorThrowable {
+        Response resp = GeneralUtils.makeRequest(request);
 
-    public Response execute(Request request) throws IOException, CloudflareException {
-        Response resp = client.newCall(request).execute();
         String refresh = resp.header("Refresh");
         String server = resp.header("Server");
 
-        List<HttpCookie> cookies = cookieManager.getCookieStore().get(request.uri());
-        boolean hasCookie = Stream.of(cookies).anyMatch(c -> c.getName().equals("cf_clearance"));
+        if (refresh != null && (refresh.contains("URL=/cdn-cgi/") ||
+                server != null && server.equals("cloudflare-nginx"))) {
 
-        if (hasCookie)
+            System.out.println("solving cloudflare");
+            return solveCloudflareRx(resp);
+        }
+
+        List<Cookie> cookies = OK.INSTANCE.Client.cookieJar().loadForRequest(request.url());
+        boolean hasCookie = Stream.of(cookies).anyMatch(c -> c.name().equals("cf_clearance"));
+
+        if (hasCookie) {
+            System.out.println("has cookie");
             return resp;
-        //doesn't have cookie
-        if (forceSolve) {
-            return solveCloudflare(resp);
-        } else if (refresh != null && refresh.contains("URL=/cdn-cgi/") &&
-                server != null && server.equals("cloudflare-nginx")) {
-
-            //System.out.println("solving cloudflare");
-            return solveCloudflare(resp);
         }
 
         return resp;
@@ -173,6 +169,14 @@ public enum CloudflareHttpClient {
         return function;
     }
 
+    private Response solveCloudflareRx (Response response) throws OnErrorThrowable{
+        try {
+            return solveCloudflare(response);
+        } catch (IOException | CloudflareException e) {
+            throw OnErrorThrowable.from(e);
+        }
+    }
+
     private Response solveCloudflare(Response response) throws IOException, CloudflareException {
         // Cloudflare requires 5 seconds of waiting before posting the response
         try {
@@ -180,8 +184,9 @@ public enum CloudflareHttpClient {
         } catch (InterruptedException ignored) {
             // We cannot really do anything meaningful here
         }
-        URI url = response.request().uri();
-        String domain = url.getHost();
+
+        URI uri = response.request().url().uri();
+        String domain = uri.getHost();
 
         Document page = Jsoup.parse(response.body().string());
         String challenge = page.select("[name=jschl_vc]").first().attr("value");
@@ -198,36 +203,16 @@ public enum CloudflareHttpClient {
             Object jsResult = context.evaluateString(scope, function, "<cloudflare>", 1, null);
             long answer = new BigDecimal(jsResult.toString()).longValue() + domain.length();
             String submitUrl = String.format("%s://%s/cdn-cgi/l/chk_jschl?pass=%s&jschl_answer=%d&jschl_vc=%s",
-                    url.getScheme(), domain, challengePass, answer, challenge);
+                    uri.getScheme(), domain, challengePass, answer, challenge);
 
             Request solved = new Request.Builder()
                     .url(submitUrl)
-                    .header("Referer", url.toString())
+                    .header("Referer", uri.toString())
                     .build();
 
-            return client.newCall(solved).execute();
+            return OK.INSTANCE.Client.newCall(solved).execute();
         } finally {
             Context.exit();
-        }
-    }
-
-    private static class CloudflareAsyncRegister extends AsyncTask<String, Void, Void> {
-        @Override
-        protected void onPostExecute(Void ignored) {
-            super.onPostExecute(ignored);
-            CloudflareHttpClient.INSTANCE.numInitialized.incrementAndGet();
-        }
-
-        @Override
-        protected Void doInBackground(String... urls) {
-            for (String url : urls) {
-                try {
-                    CloudflareHttpClient.INSTANCE.execute(new Request.Builder().url(url).build());
-                } catch (IOException | CloudflareException e) {
-                    Log.w("Cloudflare", "Couldn't register CloudFlare site", e);
-                }
-            }
-            return null;
         }
     }
 }

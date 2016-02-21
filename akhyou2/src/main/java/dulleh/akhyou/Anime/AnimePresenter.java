@@ -155,7 +155,9 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
         }
 
         if (lastAnime != null && lastAnime.getEpisodes() != null) {
-            getView().setAnime(lastAnime);
+            if (getView() != null) {
+                getView().setAnime(lastAnime);
+            }
             fetchAnime(true);
         } else {
             fetchAnime(false);
@@ -179,7 +181,6 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
                     try {
                         return Observable.just(animeProvider.updateCachedAnime(lastAnime));
                     } catch (CloudFlareInitializationException cf) {
-                            CloudflareHttpClient.INSTANCE.forceSolve = true;
                             CloudflareHttpClient.INSTANCE.registerSites();
                             return Observable.error(new Throwable("Wait 5 seconds and try again (or don't)."));
                     }
@@ -187,7 +188,6 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
                 try {
                     return Observable.just(animeProvider.fetchAnime(lastAnime.getUrl()));
                 } catch (CloudFlareInitializationException cf) {
-                    CloudflareHttpClient.INSTANCE.forceSolve = true;
                     CloudflareHttpClient.INSTANCE.registerSites();
                     return Observable.error(new Throwable("Wait 5 seconds and try again (or don't)."));
                 }
@@ -282,7 +282,6 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
                 try {
                     return Observable.just(animeProvider.fetchSources(url));
                 } catch (CloudFlareInitializationException cf) {
-                    CloudflareHttpClient.INSTANCE.forceSolve = true;
                     CloudflareHttpClient.INSTANCE.registerSites();
                     return Observable.error(new Throwable("Wait 5 seconds and try again (or don't)."));
                 }
@@ -369,10 +368,6 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
                 actionOnClick,
                 getView().getResources().getColor(R.color.accent)
         ));
-    }
-
-    public void postSuccess (String successMessage) {
-        EventBus.getDefault().post(new SnackbarEvent(successMessage));
     }
 
 }

@@ -16,10 +16,6 @@ public class RamSearchProvider implements SearchProvider{
 
     @Override
     public List<Anime> searchFor(String searchTerm) throws OnErrorThrowable {
-        if (searchTerm == null || searchTerm.trim().isEmpty()) {
-            throw OnErrorThrowable.from(new Throwable("Please enter a search term."));
-        }
-
         String url = BASE_URL + GeneralUtils.encodeForUtf8(searchTerm);
 
         String responseBody = GeneralUtils.getWebPage(url);

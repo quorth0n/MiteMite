@@ -10,13 +10,7 @@ import java.util.List;
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Episode;
 import dulleh.akhyou.Models.Source;
-import dulleh.akhyou.Models.SourceProviders.DailyMotionSourceProvider;
-import dulleh.akhyou.Models.SourceProviders.EngineSourceProvider;
-import dulleh.akhyou.Models.SourceProviders.GoSourceProvider;
-import dulleh.akhyou.Models.SourceProviders.Mp4UploadSourceProvider;
 import dulleh.akhyou.Models.SourceProviders.SourceProvider;
-import dulleh.akhyou.Models.SourceProviders.VkSourceProvider;
-import dulleh.akhyou.Models.SourceProviders.YourUploadSourceProvider;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
@@ -136,7 +130,7 @@ public class RushAnimeProvider implements AnimeProvider {
 
         String[] genres = currentSplit[0].split(", ");
         anime.setGenres(genres);
-        anime.setGenresString(GeneralUtils.formattedGeneres(genres));
+        anime.setGenresString(GeneralUtils.formattedGenres(genres));
 
         return anime;
     }

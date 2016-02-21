@@ -37,11 +37,13 @@ public class KissAnimeProvider implements AnimeProvider {
 
     @Override
     public Anime fetchAnime(String url) throws OnErrorThrowable, CloudFlareInitializationException {
-        String body = GeneralUtils.getWebPage(url);
-
-        if (body.contains("Mini browsers")) {
+/*
+        if (!CloudflareHttpClient.INSTANCE.isInitialized()) {
             throw new CloudFlareInitializationException();
         }
+*/
+
+        String body = GeneralUtils.getWebPage(url);
 
         Document doc = Jsoup.parse(body);
         Anime anime = new Anime()
@@ -63,10 +65,6 @@ public class KissAnimeProvider implements AnimeProvider {
     @Override
     public List<Source> fetchSources(String url) throws OnErrorThrowable, CloudFlareInitializationException {
         String body = GeneralUtils.getWebPage(url);
-
-        if (body.contains("Mini browsers")) {
-            throw new CloudFlareInitializationException();
-        }
 
         Elements downloads = Jsoup.parse(body).select("#selectQuality option");
         List<Source> sources = new ArrayList<>(downloads.size());

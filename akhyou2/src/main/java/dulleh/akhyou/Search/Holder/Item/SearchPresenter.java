@@ -108,55 +108,62 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
 
     public void search () {
         isRefreshing = true;
-        if (getView() != null && !getView().isRefreshing()) {
-            getView().updateRefreshing();
-        }
 
-        if (subscription != null && !subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
+        if (searchTerm == null || searchTerm.trim().isEmpty()) {
 
-        subscription = Observable.defer(new Func0<Observable<List<Anime>>>() {
-            @Override
-            public Observable<List<Anime>> call() {
-                try {
-                    return Observable.just(searchProvider.searchFor(searchTerm));
-                } catch (CloudFlareInitializationException cf) {
-                    CloudflareHttpClient.INSTANCE.forceSolve = true;
-                    CloudflareHttpClient.INSTANCE.registerSites();
-                    return Observable.error(CLOUDFLARETHROWABLE);
-                }
+            postError(new Throwable("Please enter a search term."));
+
+        } else {
+
+            if (getView() != null && !getView().isRefreshing()) {
+                getView().updateRefreshing();
             }
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(this.deliver())
-                .subscribe(new Subscriber<List<Anime>>() {
-                    @Override
-                    public void onNext(List<Anime> animes) {
-                        SearchHolderFragment.searchResultsCache.set(providerType, animes);
-                        isRefreshing = false;
-                        getView().updateSearchResults();
-                        this.unsubscribe();
+
+            if (subscription != null && !subscription.isUnsubscribed()) {
+                subscription.unsubscribe();
+            }
+
+            subscription = Observable.defer(new Func0<Observable<List<Anime>>>() {
+                @Override
+                public Observable<List<Anime>> call() {
+                    try {
+                        return Observable.just(searchProvider.searchFor(searchTerm));
+                    } catch (CloudFlareInitializationException cf) {
+                        CloudflareHttpClient.INSTANCE.registerSites();
+                        return Observable.error(CLOUDFLARETHROWABLE);
                     }
+                }
+            })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .compose(this.deliver())
+                    .subscribe(new Subscriber<List<Anime>>() {
+                        @Override
+                        public void onNext(List<Anime> animes) {
+                            SearchHolderFragment.searchResultsCache.set(providerType, animes);
+                            isRefreshing = false;
+                            getView().updateSearchResults();
+                            this.unsubscribe();
+                        }
 
-                    @Override
-                    public void onCompleted() {
-                        // should be using Observable.just() as onCompleted is never called
-                        // and it only runs once.
-                    }
+                        @Override
+                        public void onCompleted() {
+                            // should be using Observable.just() as onCompleted is never called
+                            // and it only runs once.
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        isRefreshing = false;
-                        SearchHolderFragment.searchResultsCache.set(providerType, new ArrayList<>(0));
-                        getView().updateSearchResults();
+                        @Override
+                        public void onError(Throwable e) {
+                            isRefreshing = false;
+                            SearchHolderFragment.searchResultsCache.set(providerType, new ArrayList<>(0));
+                            getView().updateSearchResults();
 
-                        postError(e);
+                            postError(e);
 
-                        this.unsubscribe();
-                    }
-                });
+                            this.unsubscribe();
+                        }
+                    });
+        }
     }
 
     public void postError (Throwable e) {
@@ -177,10 +184,6 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
                 getView().getResources().getColor(R.color.accent)
         ));
 
-    }
-
-    public void postSuccess () {
-        EventBus.getDefault().post(new SnackbarEvent("SUCCESS"));
     }
 
 }
