@@ -17,7 +17,6 @@ import dulleh.akhyou.Utils.Events.LastAnimeEvent;
 import dulleh.akhyou.Utils.Events.OpenAnimeEvent;
 import dulleh.akhyou.Utils.Events.SearchEvent;
 import dulleh.akhyou.Utils.Events.SearchSubmittedEvent;
-import dulleh.akhyou.Utils.Events.SettingsItemSelectedEvent;
 import dulleh.akhyou.Utils.Events.SnackbarEvent;
 import dulleh.akhyou.Utils.GeneralUtils;
 import nucleus.presenter.RxPresenter;

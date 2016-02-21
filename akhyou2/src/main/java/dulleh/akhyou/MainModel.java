@@ -30,7 +30,6 @@ public class MainModel {
     public static final String AUTO_UPDATE_PREF = "should_auto_update_preference";
     public static final String OPEN_TO_LAST_ANIME_PREF ="open_to_last_anime_preference";
 
-    public static final String HB_USER_DISPLAY_NAME_PREF = "hb_user_display_name_pref";
     public static final String HB_USERNAME_PREF = "hb_username_preference";
     public static final String HB_PASSWORD_PREF = "hb_password_preference";
     public static final String HB_AUTH_TOKEN_PREF = "hb_auth_token_preference";

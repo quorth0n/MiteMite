@@ -3,6 +3,7 @@ package dulleh.akhyou;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -36,7 +37,6 @@ import dulleh.akhyou.Settings.SettingsFragment;
 import dulleh.akhyou.Utils.AdapterClickListener;
 import dulleh.akhyou.Utils.Events.CircularTransform;
 import dulleh.akhyou.Utils.Events.OpenAnimeEvent;
-import dulleh.akhyou.Utils.Events.SettingsItemSelectedEvent;
 import dulleh.akhyou.Utils.Events.SnackbarEvent;
 import nucleus.factory.RequiresPresenter;
 import nucleus.view.NucleusAppCompatActivity;
@@ -83,7 +83,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
             }
         });
 
-        RelativeLayout drawerUserButton = (RelativeLayout) findViewById(R.id.drawer_user);
+        View drawerUserButton = (View) findViewById(R.id.user_selectable);
         drawerUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,7 +218,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
         }
     }
 
-    public void requestFragment (String tag) {
+    public void requestFragment (@NonNull String tag) {
         boolean seaInBackStack = false;
         boolean aniInBackStack = false;
         boolean setInBackStack = false;
@@ -376,6 +376,8 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
     }
 
     public void refreshDrawerUser(String hbUsername, String avatar, String cover) {
+        int avatarLength = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, Resources.getSystem().getDisplayMetrics());
+
         if (hbUsername == null) {
             hbUsername = getString(R.string.hummingbird_username_placeholder);
         }
@@ -383,24 +385,26 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
 
         RequestCreator avatarRequest;
         if (avatar != null) {
-            avatarRequest = Picasso.with(this).load(avatar);
+            avatarRequest = Picasso.with(this)
+                    .load(avatar)
+                    .transform(new CircularTransform(avatarLength, 0));
         } else {
-            avatarRequest = Picasso.with(this).load(R.drawable.user_stock_avatar);
+            avatarRequest = Picasso.with(this)
+                    .load(R.drawable.user_stock_avatar);
         }
 
         RequestCreator coverRequest;
         if (cover != null) {
-            coverRequest = Picasso.with(this).load(cover);
+            coverRequest = Picasso.with(this)
+                    .load(cover);
         } else {
-            coverRequest = Picasso.with(this).load(R.drawable.user_stock_cover);
+            coverRequest = Picasso.with(this)
+                    .load(R.drawable.user_stock_cover);
         }
-
-        int avatarLength = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, Resources.getSystem().getDisplayMetrics());
 
         avatarRequest
                 .fit()
                 .centerCrop()
-                .transform(new CircularTransform(avatarLength, 0))
                 .into(userAvatarImageView);
 
         coverRequest

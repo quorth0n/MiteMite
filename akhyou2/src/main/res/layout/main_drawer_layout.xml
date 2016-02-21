@@ -73,6 +73,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginBottom="8dp" />
 
+        <View
+            android:id="@+id/user_selectable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/transparent_selectable" />
+
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
