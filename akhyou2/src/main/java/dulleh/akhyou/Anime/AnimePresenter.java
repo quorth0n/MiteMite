@@ -322,7 +322,12 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
         videoSubscription = Observable.defer(new Func0<Observable<Source>>() {
             @Override
             public Observable<Source> call() {
-                return Observable.just(animeProvider.fetchVideo(source));
+                try {
+                    return Observable.just(animeProvider.fetchVideo(source));
+                } catch (CloudFlareInitializationException cf) {
+                    CloudflareHttpClient.INSTANCE.registerSites();
+                    return Observable.error(new Throwable("Wait 5 seconds and try again (or don't)."));
+                }
             }
         })
                 .subscribeOn(Schedulers.io())

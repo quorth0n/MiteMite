@@ -26,11 +26,10 @@ public class KissSearchProvider implements SearchProvider {
 
     @Override
     public List<Anime> searchFor(String searchTerm) throws OnErrorThrowable, CloudFlareInitializationException {
-/*
+
         if (!CloudflareHttpClient.INSTANCE.isInitialized()) {
             throw new CloudFlareInitializationException();
         }
-*/
 
         RequestBody query = searchTemplate()
                 .add("animeName", searchTerm)

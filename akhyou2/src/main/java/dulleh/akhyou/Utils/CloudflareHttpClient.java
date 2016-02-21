@@ -61,7 +61,8 @@ public enum CloudflareHttpClient {
     INSTANCE;
 
     private static final String[] CLOUDFLARE_URLS = {
-        "https://kissanime.to"
+            "https://kissanime.to",
+            "http://www.animerush.tv/"
     };
 
     private final Pattern functionPattern = Pattern.compile("setTimeout\\(\\s*function\\s*\\(\\)\\s*\\{(.*)f\\.submit", Pattern.DOTALL);
@@ -70,15 +71,17 @@ public enum CloudflareHttpClient {
     private final Pattern jsPattern = Pattern.compile("[\\n\\\\']");
 
     private AtomicInteger numInitialized;
+    private boolean isInitializing;
 
     public void onCreate() {
         numInitialized = new AtomicInteger(0);
+        isInitializing = false;
 
         registerSites();
     }
 
     public boolean isInitialized() {
-        return numInitialized.get() == CLOUDFLARE_URLS.length;
+        return !isInitializing;
     }
 
     /**
@@ -87,6 +90,7 @@ public enum CloudflareHttpClient {
      * CLOUDFLARE_URLS  The URL of the site we want to register, with the http:// prefix
      */
     public void registerSites () {
+        isInitializing = true;
         numInitialized.set(0);
 
         Observable.from(CLOUDFLARE_URLS)
@@ -103,7 +107,7 @@ public enum CloudflareHttpClient {
 
                     @Override
                     public void onCompleted() {
-                        System.out.println(isInitialized());
+                        isInitializing = false;
                         unsubscribe();
                     }
 
@@ -123,7 +127,6 @@ public enum CloudflareHttpClient {
         if (refresh != null && (refresh.contains("URL=/cdn-cgi/") ||
                 server != null && server.equals("cloudflare-nginx"))) {
 
-            System.out.println("solving cloudflare");
             return solveCloudflareRx(resp);
         }
 
@@ -131,7 +134,6 @@ public enum CloudflareHttpClient {
         boolean hasCookie = Stream.of(cookies).anyMatch(c -> c.name().equals("cf_clearance"));
 
         if (hasCookie) {
-            System.out.println("has cookie");
             return resp;
         }
 

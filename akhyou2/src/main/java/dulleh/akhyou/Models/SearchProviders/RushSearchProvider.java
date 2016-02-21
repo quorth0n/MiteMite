@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dulleh.akhyou.Models.Anime;
+import dulleh.akhyou.Utils.CloudFlareInitializationException;
+import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
@@ -15,7 +17,12 @@ public class RushSearchProvider implements SearchProvider{
     private static final String BASE_URL = "http://www.animerush.tv/search.php?searchquery=";
 
     @Override
-    public List<Anime> searchFor(String searchTerm){
+    public List<Anime> searchFor(String searchTerm) throws CloudFlareInitializationException {
+
+        if (!CloudflareHttpClient.INSTANCE.isInitialized()) {
+            throw new CloudFlareInitializationException();
+        }
+
         String url = BASE_URL + GeneralUtils.encodeForUtf8(searchTerm);
 
         String responseBody = GeneralUtils.getWebPage(url);

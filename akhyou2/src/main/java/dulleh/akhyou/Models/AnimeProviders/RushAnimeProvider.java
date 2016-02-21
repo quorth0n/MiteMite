@@ -11,6 +11,8 @@ import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Episode;
 import dulleh.akhyou.Models.Source;
 import dulleh.akhyou.Models.SourceProviders.SourceProvider;
+import dulleh.akhyou.Utils.CloudFlareInitializationException;
+import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
@@ -18,7 +20,12 @@ public class RushAnimeProvider implements AnimeProvider {
     private Element animeBox;
 
     @Override
-    public Anime fetchAnime(String url) throws OnErrorThrowable{
+    public Anime fetchAnime(String url) throws OnErrorThrowable, CloudFlareInitializationException {
+
+        if (!CloudflareHttpClient.INSTANCE.isInitialized()) {
+            throw new CloudFlareInitializationException();
+        }
+
         String body = GeneralUtils.getWebPage(url);
 
         animeBox = isolate(body);
@@ -45,7 +52,7 @@ public class RushAnimeProvider implements AnimeProvider {
     }
 
     @Override
-    public Anime updateCachedAnime(Anime cachedAnime) throws OnErrorThrowable {
+    public Anime updateCachedAnime(Anime cachedAnime) throws OnErrorThrowable, CloudFlareInitializationException {
         Anime updatedAnime = fetchAnime(cachedAnime.getUrl());
 
         updatedAnime.inheritWatchedFrom(cachedAnime.getEpisodes());
@@ -56,7 +63,12 @@ public class RushAnimeProvider implements AnimeProvider {
     }
 
     @Override
-    public List<Source> fetchSources(String url) throws OnErrorThrowable{
+    public List<Source> fetchSources(String url) throws OnErrorThrowable, CloudFlareInitializationException {
+
+        if (!CloudflareHttpClient.INSTANCE.isInitialized()) {
+            throw new CloudFlareInitializationException();
+        }
+
         String body = GeneralUtils.getWebPage(url);
 
         Element sourcesBox = isolate(body)
@@ -67,7 +79,12 @@ public class RushAnimeProvider implements AnimeProvider {
     }
 
     @Override
-    public Source fetchVideo(Source source) throws OnErrorThrowable {
+    public Source fetchVideo(Source source) throws OnErrorThrowable, CloudFlareInitializationException {
+
+        if (!CloudflareHttpClient.INSTANCE.isInitialized()) {
+            throw new CloudFlareInitializationException();
+        }
+
         String pageBody = GeneralUtils.getWebPage(source.getPageUrl());
 
         Element videoBox = isolate(pageBody)

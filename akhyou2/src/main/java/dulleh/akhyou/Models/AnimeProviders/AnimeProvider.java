@@ -15,6 +15,6 @@ public interface AnimeProvider {
 
     List<Source> fetchSources (String url) throws OnErrorThrowable, CloudFlareInitializationException;
 
-    Source fetchVideo (Source source) throws OnErrorThrowable;
+    Source fetchVideo (Source source) throws OnErrorThrowable, CloudFlareInitializationException;
 
 }
