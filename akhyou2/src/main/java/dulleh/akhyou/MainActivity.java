@@ -3,6 +3,7 @@ package dulleh.akhyou;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.transition.TransitionInflater;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -31,6 +33,8 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 import dulleh.akhyou.Anime.AnimeFragment;
 import dulleh.akhyou.Models.Anime;
+import dulleh.akhyou.Models.SharedElementTransitionBundle;
+import dulleh.akhyou.Search.Holder.Item.SearchFragment;
 import dulleh.akhyou.Search.Holder.SearchHolderFragment;
 import dulleh.akhyou.Settings.HummingbirdSettings.HummingbirdHolderFragment;
 import dulleh.akhyou.Settings.SettingsFragment;
@@ -53,6 +57,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
     private ImageView userAvatarImageView;
     private ImageView userCoverImageView;
 
+    public static final String TRANSITION_NAME_KEY = "trans_name";
     public static final String SEARCH_FRAGMENT = "SEA";
     public static final String ANIME_FRAGMENT = "ANI";
     public static final String SETTINGS_FRAGMENT = "SET";
@@ -78,7 +83,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
         drawerSettingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                requestFragment(MainActivity.SETTINGS_FRAGMENT);
+                requestFragment(MainActivity.SETTINGS_FRAGMENT, null);
                 closeDrawer();
             }
         });
@@ -87,7 +92,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
         drawerUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requestFragment(HUMMINGBIRD_SETTINGS_FRAGMENT);
+                requestFragment(HUMMINGBIRD_SETTINGS_FRAGMENT, null);
                 closeDrawer();
             }
         });
@@ -218,7 +223,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
         }
     }
 
-    public void requestFragment (@NonNull String tag) {
+    public void requestFragment (@NonNull String tag, @Nullable SharedElementTransitionBundle transitionBundle) {
         boolean seaInBackStack = false;
         boolean aniInBackStack = false;
         boolean setInBackStack = false;
@@ -279,10 +284,24 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
                 Fragment animeFragment = fragmentManager.findFragmentByTag(ANIME_FRAGMENT);
 
                 if (animeFragment == null) {
+                    /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                            && transitionBundle != null
+                            && transitionBundle.baseName.equals(SearchFragment.POSTER_TRANSITION_BASE_NAME)) {
 
-                    fragmentTransaction
-                            .setCustomAnimations(R.anim.enter_right, 0, 0, R.anim.exit_right)
-                            .replace(R.id.container, new AnimeFragment(), ANIME_FRAGMENT);
+                        animeFragment = new AnimeFragment();
+                        animeFragment.setArguments(transitionBundle.bundle);
+                        animeFragment.setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.change_image_transform));
+                        animeFragment.setEnterTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.explode));
+
+                        fragmentTransaction
+                                .addSharedElement(transitionBundle.sharedElement, transitionBundle.name)
+                                .replace(R.id.container, animeFragment, ANIME_FRAGMENT);
+
+                    } else {*/
+                        fragmentTransaction
+                                .setCustomAnimations(R.anim.enter_right, 0, 0, R.anim.exit_right)
+                                .replace(R.id.container, new AnimeFragment(), ANIME_FRAGMENT);
+                    //}
 
                 } else {
                     fragmentManager.popBackStackImmediate(ANIME_FRAGMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -340,17 +359,10 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
     }
 
     @Override
-    public void onCLick(Anime item, @Nullable Integer position) {
+    public void onCLick(Anime item, @Nullable Integer position, @Nullable View view) {
         EventBus.getDefault().postSticky(new OpenAnimeEvent(item));
 
-        requestFragment(MainActivity.ANIME_FRAGMENT);
-
-        /*if (fragmentManager.findFragmentByTag(SETTINGS_FRAGMENT) != null) {
-            fragmentManager
-                    .beginTransaction()
-                    .remove(fragmentManager.findFragmentByTag(SETTINGS_FRAGMENT))
-                    .commit();
-        }*/
+        requestFragment(MainActivity.ANIME_FRAGMENT, null);
 
         closeDrawer();
     }

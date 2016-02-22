@@ -55,7 +55,6 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
         if (savedState != null && savedState.containsKey(LAST_ANIME_BUNDLE_KEY)) {
             lastAnime = savedState.getParcelable(LAST_ANIME_BUNDLE_KEY);
         }
-
     }
 
     @Override

@@ -58,7 +58,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    adapterClickListener.onCLick(getItem(position), position);
+                    adapterClickListener.onCLick(getItem(position), position, view);
                 }
             });
         }

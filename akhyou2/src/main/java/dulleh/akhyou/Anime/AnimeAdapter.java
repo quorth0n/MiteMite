@@ -1,6 +1,7 @@
 package dulleh.akhyou.Anime;
 
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private final int unwatchedColour;
     private final int watchedColour;
     private boolean isInFavourites;
+    private String transitionName;
 
     public AnimeAdapter(List<Episode> episodes, AnimeFragment animeFragment, int unwatchedColour, int watchedColour) {
         this.episodes = episodes;
@@ -61,7 +63,7 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
-        public ImageView coverImageView;
+        public ImageView posterImageView;
         public TextView descView;
         public TextView genresView;
         public TextView alternateTitleView;
@@ -71,7 +73,7 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         public HeaderViewHolder(View v) {
             super(v);
-            coverImageView = (ImageView) v.findViewById(R.id.anime_image_view);
+            posterImageView = (ImageView) v.findViewById(R.id.anime_image_view);
             descView = (TextView) v.findViewById(R.id.anime_desc_view);
             genresView = (TextView) v.findViewById(R.id.anime_genres_view);
             alternateTitleView = (TextView) v.findViewById(R.id.anime_alternate_title_view);
@@ -97,7 +99,7 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     }
                 });
 
-                headerViewHolder.coverImageView.setOnClickListener(new View.OnClickListener() {
+                headerViewHolder.posterImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         animeFragment.showImageDialog();
@@ -127,14 +129,16 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 Anime anime = animeFragment.getPresenter().lastAnime;
                  HeaderViewHolder headerViewHolder = (HeaderViewHolder) viewHolder;
 
-                 //if (!hasMajorColour) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    headerViewHolder.posterImageView.setTransitionName(transitionName);
+
                  Picasso.with(animeFragment.getActivity())
                          .load(anime.getImageUrl())
                          .error(R.drawable.placeholder)
                          .fit()
                          .centerCrop()
                          .transform(paletteTransform)
-                         .into(headerViewHolder.coverImageView, new Callback.EmptyCallback() {
+                         .into(headerViewHolder.posterImageView, new Callback.EmptyCallback() {
                              @Override
                              public void onSuccess() {
                                  if (animeFragment.getPresenter() != null) { // lazy fix for nulls pointers when the presenter has already been destroyed
@@ -143,24 +147,13 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                              }
                          });
 
-                 headerViewHolder.genresView.setText(anime.getGenresString());
-                 headerViewHolder.descView.setText(anime.getDesc());
-                 headerViewHolder.alternateTitleView.setText(anime.getAlternateTitle());
-                 headerViewHolder.dateView.setText(anime.getDate());
-                 headerViewHolder.statusView.setText(anime.getStatus());
-                 headerViewHolder.favouriteFab.setImageDrawable(favouriteIcon());
-                 /// / CHECK IF IN FAVOURITES
-                 //drawerCheckBox.setChecked(isInFavourites);
+                headerViewHolder.genresView.setText(anime.getGenresString());
+                headerViewHolder.descView.setText(anime.getDesc());
+                headerViewHolder.alternateTitleView.setText(anime.getAlternateTitle());
+                headerViewHolder.dateView.setText(anime.getDate());
+                headerViewHolder.statusView.setText(anime.getStatus());
+                headerViewHolder.favouriteFab.setImageDrawable(favouriteIcon());
 
-
-        /*} else {
-            Picasso.with(getActivity())
-                .load(anime.getImageUrl())
-                .error(R.drawable.placeholder)
-                .fit()
-                .centerCrop()
-                .into(drawerImage);
-        }*/
             } else if (viewHolder instanceof EpisodeViewHolder) {
                 EpisodeViewHolder episodeViewHolder = (EpisodeViewHolder) viewHolder;
                 final int actualPosition = position - 1;
@@ -175,7 +168,7 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 episodeViewHolder.titleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        animeFragment.onCLick(episodes.get(actualPosition), actualPosition);
+                        animeFragment.onCLick(episodes.get(actualPosition), actualPosition, view);
                     }
                 });
 
@@ -190,6 +183,10 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         } else {
             animeFragment.getPresenter().postError(new Throwable("No anime to display."));
         }
+    }
+
+    public void setTransitionName (final String transitionName) {
+        this.transitionName = transitionName;
     }
 
     @Override

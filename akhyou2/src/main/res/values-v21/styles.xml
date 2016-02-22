@@ -2,10 +2,8 @@
 <resources>
 
     <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!--
-                <item name="colorPrimary">@color/md_grey_500</item>
-                <item name="colorPrimaryDark">@color/md_grey_700</item>
-        -->
+
+        <item name="android:windowContentTransitions">true</item>
 
         <item name="android:statusBarColor">@android:color/transparent</item>
 

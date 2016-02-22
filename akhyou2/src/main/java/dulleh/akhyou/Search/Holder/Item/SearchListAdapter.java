@@ -1,6 +1,8 @@
 package dulleh.akhyou.Search.Holder.Item;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,10 +68,17 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
         viewHolder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                searchFragment.onCLick(getItem(position), null);
+                searchFragment.onCLick(getItem(position), null, viewHolder.imageView);
             }
         });
 
+        setTransitionName(viewHolder, String.valueOf(position));
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setTransitionName (final ViewHolder viewHolder, String uniqueIdentifier) {
+        searchFragment.transitionName = SearchFragment.POSTER_TRANSITION_BASE_NAME + uniqueIdentifier;
+        viewHolder.imageView.setTransitionName(searchFragment.transitionName);
     }
 
     private List<Anime> searchResults () {

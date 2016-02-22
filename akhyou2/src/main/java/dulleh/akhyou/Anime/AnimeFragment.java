@@ -50,11 +50,6 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-
-        TypedValue colorPrimary = new TypedValue();
-        getActivity().getTheme().resolveAttribute(R.attr.colorPrimary, colorPrimary, true);
-
-        episodesAdapter = new AnimeAdapter(new ArrayList<>(), this, getResources().getColor(android.R.color.black), getResources().getColor(colorPrimary.resourceId));
         setHasOptionsMenu(true);
     }
 
@@ -62,6 +57,15 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.anime_fragment, container, false);
+
+        TypedValue colorPrimary = new TypedValue();
+        getActivity().getTheme().resolveAttribute(R.attr.colorPrimary, colorPrimary, true);
+
+        episodesAdapter = new AnimeAdapter(new ArrayList<>(), this, getResources().getColor(android.R.color.black), getResources().getColor(colorPrimary.resourceId));
+
+        if (getArguments() != null) {
+            episodesAdapter.setTransitionName(getArguments().getString(MainActivity.TRANSITION_NAME_KEY));
+        }
 
         relativeLayout = (RelativeLayout) view.findViewById(R.id.anime_fragment_top_level);
 
@@ -184,7 +188,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
     }
 
     @Override
-    public void onCLick(Episode episode, @Nullable Integer position) {
+    public void onCLick(Episode episode, @Nullable Integer position, @Nullable View view) {
         getPresenter().fetchSources(episode.getUrl());
         this.position = position;
     }

@@ -2,6 +2,7 @@ package dulleh.akhyou.Search.Holder.Item;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.DimenRes;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.transition.TransitionInflater;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,6 +27,7 @@ import de.greenrobot.event.EventBus;
 import dulleh.akhyou.MainActivity;
 import dulleh.akhyou.MainApplication;
 import dulleh.akhyou.Models.Anime;
+import dulleh.akhyou.Models.SharedElementTransitionBundle;
 import dulleh.akhyou.R;
 import dulleh.akhyou.Search.Holder.SearchHolderAdapter;
 import dulleh.akhyou.Search.Holder.SearchHolderFragment;
@@ -36,6 +39,10 @@ import nucleus.view.NucleusSupportFragment;
 
 @RequiresPresenter(SearchPresenter.class)
 public class SearchFragment extends NucleusSupportFragment<SearchPresenter> implements AdapterClickListener<Anime> {
+    public final static String POSTER_TRANSITION_BASE_NAME = "poster_transition_";
+
+    public String transitionName;
+
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView.Adapter searchAdapter;
 
@@ -147,8 +154,21 @@ public class SearchFragment extends NucleusSupportFragment<SearchPresenter> impl
     }
 
     @Override
-    public void onCLick(Anime anime, @Nullable Integer position) {
-        ((MainActivity) getActivity()).requestFragment(MainActivity.ANIME_FRAGMENT);
+    public void onCLick(Anime anime, @Nullable Integer position, View view) {
+
+        Bundle bundle = new Bundle();
+        bundle.putString(MainActivity.TRANSITION_NAME_KEY, transitionName);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setSharedElementReturnTransition(TransitionInflater.from(getActivity()).inflateTransition(R.transition.change_image_transform));
+            setExitTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.explode));
+
+            ((MainActivity) getActivity()).requestFragment(MainActivity.ANIME_FRAGMENT,
+                    new SharedElementTransitionBundle(view, POSTER_TRANSITION_BASE_NAME, transitionName, bundle));
+        } else {
+            ((MainActivity) getActivity()).requestFragment(MainActivity.ANIME_FRAGMENT, null);
+        }
+
         EventBus.getDefault().postSticky(new OpenAnimeEvent(anime));
     }
 

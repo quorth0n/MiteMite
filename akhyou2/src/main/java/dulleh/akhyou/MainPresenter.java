@@ -100,7 +100,7 @@ public class MainPresenter extends RxPresenter<MainActivity>{
 
                     @Override
                     public void onCompleted() {
-                        getView().requestFragment(MainActivity.SEARCH_FRAGMENT);
+                        getView().requestFragment(MainActivity.SEARCH_FRAGMENT, null);
                         this.unsubscribe();
                     }
 
@@ -129,16 +129,13 @@ public class MainPresenter extends RxPresenter<MainActivity>{
     public void onFreshStart (MainActivity mainActivity) {
         if (mainModel.getLastAnime() != null && MainModel.openToLastAnime) {
             EventBus.getDefault().postSticky(new OpenAnimeEvent(mainModel.getLastAnime()));
-            mainActivity.requestFragment(MainActivity.ANIME_FRAGMENT);
+            mainActivity.requestFragment(MainActivity.ANIME_FRAGMENT, null);
         } else {
-            mainActivity.requestFragment(MainActivity.SEARCH_FRAGMENT);
+            mainActivity.requestFragment(MainActivity.SEARCH_FRAGMENT, null);
         }
         if (mainModel.shouldAutoUpdate()) {
             checkForUpdate();
         }
-
-        //System.out.println(mainModel.loginHummingbird());
-
     }
 
     private void checkForUpdate () {
@@ -204,7 +201,7 @@ public class MainPresenter extends RxPresenter<MainActivity>{
                 getView().getSupportFragmentManager().popBackStack();
             }
             if (getView().getSupportFragmentManager().findFragmentByTag(MainActivity.SEARCH_FRAGMENT) == null) {
-                getView().requestFragment(MainActivity.SEARCH_FRAGMENT);
+                getView().requestFragment(MainActivity.SEARCH_FRAGMENT, null);
             }
         }
         EventBus.getDefault().postSticky(new SearchEvent(event.searchTerm));
@@ -212,7 +209,7 @@ public class MainPresenter extends RxPresenter<MainActivity>{
 
     public void onEvent (HummingbirdSettingsEvent event) {
         if (getView() != null) {
-            getView().requestFragment(MainActivity.HUMMINGBIRD_SETTINGS_FRAGMENT);
+            getView().requestFragment(MainActivity.HUMMINGBIRD_SETTINGS_FRAGMENT, null);
         }
     }
 

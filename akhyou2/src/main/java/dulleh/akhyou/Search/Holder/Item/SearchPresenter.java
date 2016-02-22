@@ -110,6 +110,9 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
         isRefreshing = true;
 
         if (searchTerm == null || searchTerm.trim().isEmpty()) {
+            isRefreshing = false;
+            SearchHolderFragment.searchResultsCache.set(providerType, new ArrayList<>(0));
+            getView().updateSearchResults();
 
             postError(new Throwable("Please enter a search term."));
 
