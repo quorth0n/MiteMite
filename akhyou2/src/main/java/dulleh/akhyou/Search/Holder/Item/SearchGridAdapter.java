@@ -69,14 +69,15 @@ public class SearchGridAdapter extends RecyclerView.Adapter<SearchGridAdapter.Vi
             }
         });
 
-        setTransitionName(viewHolder, String.valueOf(position));
+        //setTransitionName(viewHolder, String.valueOf(position));
     }
-
+/*
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setTransitionName (final ViewHolder viewHolder, String uniqueIdentifier) {
         searchFragment.transitionName = SearchFragment.POSTER_TRANSITION_BASE_NAME + uniqueIdentifier;
         viewHolder.imageView.setTransitionName(searchFragment.transitionName);
     }
+*/
 
     private List<Anime> searchResults () {
         return SearchHolderFragment.searchResultsCache.get(searchFragment.getPresenter().providerType);

@@ -32,7 +32,7 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private final int unwatchedColour;
     private final int watchedColour;
     private boolean isInFavourites;
-    private String transitionName;
+    //private String transitionName;
 
     public AnimeAdapter(List<Episode> episodes, AnimeFragment animeFragment, int unwatchedColour, int watchedColour) {
         this.episodes = episodes;
@@ -129,8 +129,10 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 Anime anime = animeFragment.getPresenter().lastAnime;
                  HeaderViewHolder headerViewHolder = (HeaderViewHolder) viewHolder;
 
+                /*
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     headerViewHolder.posterImageView.setTransitionName(transitionName);
+                */
 
                  Picasso.with(animeFragment.getActivity())
                          .load(anime.getImageUrl())
@@ -184,10 +186,11 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             animeFragment.getPresenter().postError(new Throwable("No anime to display."));
         }
     }
-
+/*
     public void setTransitionName (final String transitionName) {
         this.transitionName = transitionName;
     }
+*/
 
     @Override
     public int getItemCount() {

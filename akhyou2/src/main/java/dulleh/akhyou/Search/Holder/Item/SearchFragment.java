@@ -39,9 +39,9 @@ import nucleus.view.NucleusSupportFragment;
 
 @RequiresPresenter(SearchPresenter.class)
 public class SearchFragment extends NucleusSupportFragment<SearchPresenter> implements AdapterClickListener<Anime> {
-    public final static String POSTER_TRANSITION_BASE_NAME = "poster_transition_";
+    //public final static String POSTER_TRANSITION_BASE_NAME = "poster_transition_";
 
-    public String transitionName;
+    //public String transitionName;
 
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView.Adapter searchAdapter;
@@ -155,8 +155,8 @@ public class SearchFragment extends NucleusSupportFragment<SearchPresenter> impl
 
     @Override
     public void onCLick(Anime anime, @Nullable Integer position, View view) {
-
-        Bundle bundle = new Bundle();
+        /*
+        bundle = new Bundle();
         bundle.putString(MainActivity.TRANSITION_NAME_KEY, transitionName);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -166,8 +166,9 @@ public class SearchFragment extends NucleusSupportFragment<SearchPresenter> impl
             ((MainActivity) getActivity()).requestFragment(MainActivity.ANIME_FRAGMENT,
                     new SharedElementTransitionBundle(view, POSTER_TRANSITION_BASE_NAME, transitionName, bundle));
         } else {
+        */
             ((MainActivity) getActivity()).requestFragment(MainActivity.ANIME_FRAGMENT, null);
-        }
+        //}
 
         EventBus.getDefault().postSticky(new OpenAnimeEvent(anime));
     }

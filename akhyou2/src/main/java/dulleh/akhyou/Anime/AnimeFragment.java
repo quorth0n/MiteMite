@@ -62,10 +62,11 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
         getActivity().getTheme().resolveAttribute(R.attr.colorPrimary, colorPrimary, true);
 
         episodesAdapter = new AnimeAdapter(new ArrayList<>(), this, getResources().getColor(android.R.color.black), getResources().getColor(colorPrimary.resourceId));
-
+/*
         if (getArguments() != null) {
             episodesAdapter.setTransitionName(getArguments().getString(MainActivity.TRANSITION_NAME_KEY));
         }
+*/
 
         relativeLayout = (RelativeLayout) view.findViewById(R.id.anime_fragment_top_level);
 
