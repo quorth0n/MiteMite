@@ -1,0 +1,69 @@
+<resources>
+    <string name="app_name">"Akhyou!"</string>
+
+    <string name="settings_item">"Настройки"</string>
+    <string name="search_item">"Поиск"</string>
+    <string name="favourites_item">"Избранное"</string>
+    <string name="imageContentDesc">"Anime Poster"</string>
+    <string name="update_title">"Доступно обновление!"</string>
+    <string name="update">"UPDATE"</string>
+
+    <string name="yes">"Да"</string>
+    <string name="no">"Нет"</string>
+    <string name="requires_restart">"(требуется перезапуск)"</string>
+
+    <string name="licences_preference_title">"Лицензии"</string>
+    <string name="licences_preference_summary">"Спасибо, за эти open-source проекты."</string>
+
+    <string name="auto_update_preference_title">"Автоматическое обновление?"</string>
+
+    <string name="open_to_last_anime_preference_title">"Открывать последнее просмотренное аниме?"</string>
+
+    <string name="search_grid_preference_title">"Layout поиска"</string>
+    <string name="search_grid_option_card">"Плакаты и элементы"</string>
+    <string name="search_grid_option_poster">"Плакаты"</string>
+
+    <string name="theme_preference_title">"Тема"</string>
+    <string name="theme_dialog_title">"Темы"</string>
+
+    <string name="contact_preference_title">"Отправить отзыв"</string>
+    <string name="contact_preference_summary">"Отправить email разработчику."</string>
+
+    <string name="pink_theme">"Розовый"</string>
+    <string name="purple_theme">"Фиолетовый"</string>
+    <string name="deep_purple_theme">"Темно-фиолетовый"</string>
+    <string name="indigo_theme">"Индиго"</string>
+    <string name="light_blue_theme">"Светло-синий"</string>
+    <string name="cyan_theme">"Циан"</string>
+    <string name="teal_theme">"Зеленовато-голубой"</string>
+    <string name="green_theme">"Зеленый"</string>
+    <string name="light_green_theme">"Светло-зеленый"</string>
+    <string name="lime_theme">"Лайм"</string>
+    <string name="yellow_theme">"Желтый"</string>
+    <string name="orange_theme">"Оранжевый"</string>
+    <string name="deep_orange_theme">"Темно-оранжевый"</string>
+    <string name="brown_theme">"Коричневый"</string>
+    <string name="grey_theme">"Серый"</string>
+    <string name="blue_grey_theme">"Серо-голубой"</string>
+    <string name="akhyou_red_theme">"Akhyou! Красный"</string>
+
+    <string name="sources">"Источники"</string>
+    <string name="quality">"Качество"</string>
+    <string name="stream">"Стрим"</string>
+    <string name="download">"Скачать"</string>
+    <string name="cancel">"Отмена"</string>
+
+    <string name="status_title">"Статус:"</string>
+    <string name="alternate_title_title">"Альтернативное Название:"</string>
+    <string name="date_title">"Дата Выпуска:"</string>
+    <string name="usernameOrEmail">"Имя пользователя / Email"</string>
+    <string name="hb_username_hint">"Ваше имя пользователя или email Hummingbird.me"</string>
+    <string name="hb_password_hint">"Ваш пароль (пшшш)"</string>
+    <string name="password">"Пароль"</string>
+    <string name="hummingbird_preference_title">"Hummingbird Настройки Аккаунта"</string>
+    <string name="hummingbird_preference_summary">"Настройки Scrobbling для Hummingbird.me"</string>
+    <string name="settings_tab">"НАСТРОЙКИ"</string>
+    <string name="history_tab">"ИСТОРИЯ"</string>
+    <string name="hummingbird_username_placeholder">"Сделайте аккаунт Hummingbird.me для функции Scrobbling."</string>
+    <string name="hummingbird_history_placeholder">"sorry, but currently this part of the app is all looks and no bang :P"</string>
+</resources>
