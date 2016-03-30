@@ -78,15 +78,15 @@ public class GeneralUtils {
         }
     }
 
-    private static String getFileNameFromUrl (String url) {
-        return url.substring(url.lastIndexOf("/") + 1);
+    private static String getFileExtensionFromUrl (String url) {
+        return url.substring(url.lastIndexOf("."));
     }
 
-    public static void internalDownload (DownloadManager downloadManager, String url) {
-        String title = getFileNameFromUrl(url);
+    public static void internalDownload (DownloadManager downloadManager, String url, String title) {
+        String fileName = title.trim() + getFileExtensionFromUrl(url);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        request.setTitle(title);
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, title);
+        request.setTitle(fileName);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
         request.setMimeType("video/*");
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         //request.allowScanningByMediaScanner();

@@ -248,8 +248,7 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
 
     public void downloadOrStream (Video video, boolean download) {
         if (download) {
-            GeneralUtils.internalDownload((DownloadManager) getView().getActivity().getSystemService(Context.DOWNLOAD_SERVICE), video.getUrl());
-            //GeneralUtils.lazyDownload((AppCompatActivity) getView().getActivity(), video.getUrl());
+            GeneralUtils.internalDownload((DownloadManager) getView().getActivity().getSystemService(Context.DOWNLOAD_SERVICE), video.getUrl(), lastAnime.getEpisodes().get(getView().position).getTitle());
         } else {
             postIntent(video.getUrl());
         }
