@@ -45,7 +45,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
     private RelativeLayout relativeLayout;
     private SwipeRefreshLayout refreshLayout;
     private SearchView searchView;
-    private Integer position;
+    public Integer position;
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -112,6 +112,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
 
             searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
+            searchView.setMaxWidth(10000000); //god...
             searchView.setQueryHint(getString(R.string.search_item));
             searchView.setIconifiedByDefault(true);
             searchView.setIconified(true);
@@ -217,7 +218,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
                     .callback(new MaterialDialog.ButtonCallback() {
 
                         @Override
-                        public void onPositive(MaterialDialog dialog) {
+                        public void onPositive(MaterialDialog dialog) { //stream
                             super.onPositive(dialog);
                             getPresenter().fetchVideo(sources.get(dialog.getSelectedIndex()), false);
                             if (position != null) {
@@ -226,7 +227,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
                         }
 
                         @Override
-                        public void onNegative(MaterialDialog dialog) {
+                        public void onNegative(MaterialDialog dialog) { //download
                             super.onNegative(dialog);
                             getPresenter().fetchVideo(sources.get(dialog.getSelectedIndex()), true);
                             if (position != null) {

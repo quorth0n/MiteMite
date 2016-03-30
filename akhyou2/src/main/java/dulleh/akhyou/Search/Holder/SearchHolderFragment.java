@@ -80,6 +80,7 @@ public class SearchHolderFragment extends Fragment{
 
             SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
+            searchView.setMaxWidth(10000000); //god...
             searchView.setQueryHint(getString(R.string.search_item));
             searchView.setIconifiedByDefault(false);
             searchView.setIconified(false);
