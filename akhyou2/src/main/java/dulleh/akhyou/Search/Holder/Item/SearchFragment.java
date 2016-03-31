@@ -1,6 +1,7 @@
 package dulleh.akhyou.Search.Holder.Item;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -61,7 +62,22 @@ public class SearchFragment extends NucleusSupportFragment<SearchPresenter> impl
         switch (SearchHolderFragment.SEARCH_GRID_TYPE) {
             case 0:
                 searchAdapter = new SearchGridAdapter(this);
-                searchResultsView.setLayoutManager(new GridLayoutManager(container.getContext(), 2, GridLayoutManager.VERTICAL, false));
+
+                int columns = 2;
+
+                switch (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_LAYOUTDIR_MASK) {
+                    case Configuration.SCREENLAYOUT_SIZE_LARGE:
+                        columns = 3;
+                        break;
+                    case Configuration.SCREENLAYOUT_SIZE_SMALL:
+                        columns = 1;
+                }
+
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    columns = 3;
+                }
+
+                searchResultsView.setLayoutManager(new GridLayoutManager(container.getContext(), columns, GridLayoutManager.VERTICAL, false));
                 break;
 
             case 1:

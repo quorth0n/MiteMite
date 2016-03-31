@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -55,8 +56,9 @@ public class SearchGridAdapter extends RecyclerView.Adapter<SearchGridAdapter.Vi
 
         Picasso.with(context)
                 .load(anime.getImageUrl())
-                .error(R.drawable.placeholder)
+                .error(R.drawable.error_stock)
                 .fit()
+                //.memoryPolicy(MemoryPolicy.NO_STORE)
                 .centerCrop()
                 .into(viewHolder.imageView);
 
