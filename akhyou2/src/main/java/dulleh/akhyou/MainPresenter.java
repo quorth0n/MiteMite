@@ -3,6 +3,8 @@ package dulleh.akhyou;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import org.jsoup.Jsoup;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,8 @@ public class MainPresenter extends RxPresenter<MainActivity>{
 
     private MainModel mainModel;
 
+    private boolean needFragment = false;
+
     @Override
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
@@ -50,6 +54,11 @@ public class MainPresenter extends RxPresenter<MainActivity>{
 
         if (mainModel != null && mainModel.hasSharedPreferences()) {
             mainModel.refreshHbDisplayNameAndUser();
+        }
+
+        if (needFragment) {
+            view.requestFragment(MainActivity.SEARCH_FRAGMENT, null);
+            needFragment = false;
         }
 
     }
@@ -100,7 +109,51 @@ public class MainPresenter extends RxPresenter<MainActivity>{
 
                     @Override
                     public void onCompleted() {
-                        getView().requestFragment(MainActivity.SEARCH_FRAGMENT, null);
+                        if (getView() != null) {
+                            getView().requestFragment(MainActivity.SEARCH_FRAGMENT, null);
+                        } else {
+                            needFragment = true;
+                        }
+                        this.unsubscribe();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        getView().showSnackBar(new SnackbarEvent(GeneralUtils.formatError(e)));
+                        this.unsubscribe();
+                    }
+                });
+    }
+
+    public void launchFromMalLink (String url) {
+        Observable.just(url)
+                .subscribeOn(Schedulers.io())
+                .map(a -> a.substring(a.indexOf("http://")).trim())
+                .map(a -> {
+                    if (a.contains(" ")) {
+                        return a.substring(0, a.indexOf(" "));
+                    } else {
+                        return a;
+                    }
+                })
+                .map(u -> GeneralUtils.getWebPage(u))
+                .map(body -> Jsoup.parse(body).select("head > title").first())
+                .map(element -> element.text().substring(0, element.text().lastIndexOf("-") - 1))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onNext(String title) {
+                        EventBus.getDefault().postSticky(new SearchEvent(title));
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        if (getView() != null) {
+                            getView().requestFragment(MainActivity.SEARCH_FRAGMENT, null);
+                        } else {
+                            needFragment = true;
+                        }
                         this.unsubscribe();
                     }
 

@@ -1,9 +1,9 @@
 package dulleh.akhyou;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.List;
 
@@ -34,7 +35,6 @@ import de.greenrobot.event.EventBus;
 import dulleh.akhyou.Anime.AnimeFragment;
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.SharedElementTransitionBundle;
-import dulleh.akhyou.Search.Holder.Item.SearchFragment;
 import dulleh.akhyou.Search.Holder.SearchHolderFragment;
 import dulleh.akhyou.Settings.HummingbirdSettings.HummingbirdHolderFragment;
 import dulleh.akhyou.Settings.SettingsFragment;
@@ -88,7 +88,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
             }
         });
 
-        View drawerUserButton = (View) findViewById(R.id.user_selectable);
+        View drawerUserButton = findViewById(R.id.user_selectable);
         drawerUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,11 +104,9 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
         userAvatarImageView = (ImageView) findViewById(R.id.drawer_user_avatar);
         userCoverImageView = (ImageView) findViewById(R.id.drawer_user_cover);
 
-        //getPresenter().refreshFavouritesList();
         setFavouritesAdapter();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //toolbar.setContentInsetsRelative(0, 0);
         toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -126,13 +124,28 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
         if (openingIntent.getAction() != null && openingIntent.getAction().equals(Intent.ACTION_SEND)) {
             String intentExtra = openingIntent.getStringExtra(Intent.EXTRA_TEXT);
 
-            if (intentExtra != null && intentExtra.contains("hummingbird.me/anime/")) {
-                getPresenter().launchFromHbLink(intentExtra);
+            if (intentExtra != null) {
+                intentExtra = intentExtra.toLowerCase();
+                if (intentExtra.contains("hummingbird.me/anime/")) {
+                    getPresenter().launchFromHbLink(intentExtra);
+                } else if (intentExtra.contains("myanimelist.net/anime/")) {
+                    getPresenter().launchFromMalLink(intentExtra);
+                }
             }
 
         } else if (savedInstanceState == null){
             getPresenter().onFreshStart(this);
         }
+
+        RxPermissions.getInstance(this)
+                .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(granted -> {
+                    if (granted) {
+                        showSnackBar(new SnackbarEvent("yep i got permission bro"));
+                    } else {
+                        showSnackBar(new SnackbarEvent("aww no download 4 u"));
+                    }
+                });
 
     }
 

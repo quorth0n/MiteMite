@@ -42,9 +42,11 @@ buildscript {
     }
 
     dependencies {
-        classpath 'me.tatarka:gradle-retrolambda:3.2.0'
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
         classpath 'io.fabric.tools:gradle:1.+'
     }
+
+    configurations.classpath.exclude group: 'com.android.tools.external.lombok'
 }
 
 repositories {
@@ -85,7 +87,7 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp-urlconnection:3.1.2'
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:retrofit:2.0.0'
     compile 'com.squareup.retrofit:converter-jackson:2.0.0-beta2'
     compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
 // networking - json
@@ -104,6 +106,7 @@ dependencies {
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.5.2@aar'
 // debug
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
