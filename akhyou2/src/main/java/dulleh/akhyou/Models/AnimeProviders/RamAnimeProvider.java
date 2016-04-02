@@ -6,6 +6,8 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Episode;
@@ -57,7 +59,7 @@ public class RamAnimeProvider implements AnimeProvider {
     public List<Source> fetchSources(String url) throws OnErrorThrowable {
         String body = GeneralUtils.getWebPage(url);
 
-        return parseForSources(isolateForSources(body));
+        return parseForSources(url, isolateForSources(body));
     }
 
     @Override
@@ -113,7 +115,7 @@ public class RamAnimeProvider implements AnimeProvider {
         return episodes;
     }
 
-    private List<Source> parseForSources (Elements sourcesElements) throws OnErrorThrowable{
+    private List<Source> parseForSources (String url, Elements sourcesElements) throws OnErrorThrowable{
 
         List<Source> sources = new ArrayList<>(sourcesElements.size());
 
@@ -129,11 +131,23 @@ public class RamAnimeProvider implements AnimeProvider {
 
             SourceProvider sourceProvider = GeneralUtils.determineSourceProvider(title.toLowerCase());
             if (sourceProvider != null) {
-                sources.add(new Source()
-                                .setPageUrl(BASE_URL + sourceElement.attr("href"))
-                                .setTitle(title.trim())
-                                .setSourceProvider(sourceProvider)
-                );
+
+                String subUrl = sourceElement.attr("href");
+                if (subUrl != null) {
+                    subUrl = subUrl.trim();
+                }
+
+                Source source = new Source()
+                        .setTitle(title.trim())
+                        .setSourceProvider(sourceProvider);
+
+                if (subUrl == null || subUrl.trim().isEmpty() || subUrl.equals("#")) {
+                    source.setPageUrl(url);
+                } else {
+                    source.setPageUrl(BASE_URL + subUrl);
+                }
+
+                sources.add(source);
             }
         }
 
@@ -141,9 +155,20 @@ public class RamAnimeProvider implements AnimeProvider {
     }
 
     private String parseForEmbedUrl (String body) {
-        return Jsoup.parse(body)
+        String embedUrl = Jsoup.parse(body)
                 .select("body > div.darkness > div > div > div.col-md-10 > div:nth-child(1) > div.tab-content.embed-responsive.embed-responsive-16by9 > div > iframe")
                 .attr("src");
+
+        if (!embedUrl.contains("http")) {
+            Pattern pattern = Pattern.compile("//.+");
+            Matcher matcher = pattern.matcher(embedUrl);
+
+            if (matcher.matches()) {
+                embedUrl = embedUrl.replaceFirst("//", "http://");
+            }
+        }
+
+        return embedUrl;
     }
 
 }
