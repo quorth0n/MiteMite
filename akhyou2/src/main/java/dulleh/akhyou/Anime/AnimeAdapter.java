@@ -1,8 +1,8 @@
 package dulleh.akhyou.Anime;
 
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -221,9 +221,9 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private Drawable favouriteIcon () {
         if (isInFavourites) {
-            return animeFragment.getResources().getDrawable(R.drawable.ic_favorite_white_24dp);
+            return ResourcesCompat.getDrawable(animeFragment.getResources(), R.drawable.ic_favorite_white_24px, null);
         } else {
-            return animeFragment.getResources().getDrawable(R.drawable.ic_favorite_border_white_24dp);
+            return ResourcesCompat.getDrawable(animeFragment.getResources(), R.drawable.ic_favorite_border_white_24px, null);
         }
     }
 

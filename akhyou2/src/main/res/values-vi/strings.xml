@@ -70,5 +70,6 @@
     <string name="history_tab">LỊCH SỬ</string>
     <string name="hummingbird_history_placeholder">Xin lỗi, chức năng này hiện tại chưa hoạt động trên ứng dụng</string>
     <string name="hummingbird_username_placeholder">Đồng bộ hóa với hummingbird.me</string>
+    <string name="share">Share</string>
 
 </resources>

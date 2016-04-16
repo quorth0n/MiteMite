@@ -40,6 +40,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="72dp"
             android:paddingEnd="72dp"
+            android:textIsSelectable="true"
             android:textColor="?attr/colorPrimaryDark"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -53,6 +54,7 @@
             android:paddingBottom="16dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
+            android:textIsSelectable="true"
             android:textColor="@android:color/black"
             android:background="@android:color/white"
             android:gravity="fill_horizontal" />
@@ -81,9 +83,9 @@
                 android:paddingTop="2sp"
                 android:paddingRight="8dp"
                 android:paddingBottom="4dp"
+                android:alpha="0.7"
                 android:textSize="14sp"
                 android:textColor="@android:color/white"
-                android:alpha="0.7"
                 android:textStyle="bold"
                 android:text="@string/alternate_title_title" />
 
@@ -164,7 +166,7 @@
         android:id="@+id/favourite_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_favorite_white_24dp"
+        android:src="@drawable/ic_favorite_white_24px"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="16dp"

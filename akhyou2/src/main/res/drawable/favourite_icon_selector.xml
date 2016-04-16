@@ -2,9 +2,9 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_checked="false"
-        android:drawable="@drawable/ic_favorite_border_white_24dp" />
+        android:drawable="@drawable/ic_favorite_border_white_24px" />
 
     <item android:state_checked="true"
-        android:drawable="@drawable/ic_favorite_white_24dp" />
+        android:drawable="@drawable/ic_favorite_white_24px" />
 
 </selector>

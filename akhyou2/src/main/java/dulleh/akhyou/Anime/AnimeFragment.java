@@ -1,6 +1,8 @@
 package dulleh.akhyou.Anime;
 
 import android.Manifest;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -105,12 +107,28 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
         if (getView() != null) {
             super.onCreateOptionsMenu(menu, inflater);
 
+            MenuItem shareItem = menu.findItem(R.id.share_item);
             MenuItem searchItem = menu.findItem(R.id.search_item);
 
-            if (searchItem == null) {
+            if (searchItem == null || shareItem == null) {
                 inflater.inflate(R.menu.search_menu, menu);
+                shareItem = menu.findItem(R.id.share_item);
                 searchItem = menu.findItem(R.id.search_item);
             }
+
+            shareItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    if (getPresenter() != null && getPresenter().lastAnime != null) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(getPresenter().lastAnime.getUrl()));
+                        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                            startActivity(intent);
+                        }
+                    }
+                    return true;
+                }
+            });
 
             searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
@@ -279,7 +297,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
 
     public void showImageDialog () {
         if (getPresenter().lastAnime != null) {
-            getActivity().getLayoutInflater().inflate(R.layout.image_dialog_content, relativeLayout);
+            getActivity().getLayoutInflater().inflate(R.layout.full_width_image_view, relativeLayout);
 
             ImageView imageView = (ImageView) getActivity().findViewById(R.id.image_dialog_image_view);
             imageView.setOnClickListener(new View.OnClickListener() {

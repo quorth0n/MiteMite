@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_user"
+    android:layout_width="match_parent"
+    android:layout_height="168dp"
+    android:layout_alignParentTop="true">
+
+    <ImageView
+        android:id="@+id/drawer_user_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/drawer_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/drawer_user_cover"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:textSize="14sp"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="1.2"
+        android:shadowDy="1.2"
+        android:shadowRadius="1.2"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@android:color/white" />
+
+    <ImageView
+        android:id="@+id/drawer_user_avatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_above="@id/drawer_user_name"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp" />
+
+    <View
+        android:id="@+id/user_selectable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/transparent_selectable" />
+
+</RelativeLayout>

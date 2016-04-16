@@ -3,14 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity" >
 
-    <item android:id="@+id/search_item" android:title="@string/search_item"
+    <item android:id="@+id/search_item"
+        android:title="@string/search_item"
         android:orderInCategory="100" app:showAsAction="always"
-        android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
+        android:icon="@drawable/ic_search_white_24px"
         app:actionViewClass="android.support.v7.widget.SearchView" />
 
-    <!--
-        <item android:id="@+id/settings_item" android:title="@string/settings_item"
-            android:orderInCategory="100" app:showAsAction="never" />
-    -->
+    <item android:id="@+id/share_item"
+        android:title="@string/share"
+        android:icon="@drawable/ic_share_white_24px"
+        android:orderInCategory="200"
+        app:showAsAction="ifRoom" />
 
 </menu>
