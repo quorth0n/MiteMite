@@ -1,5 +1,6 @@
 package dulleh.akhyou.Anime;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +23,7 @@ import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -229,10 +231,16 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
                         @Override
                         public void onNegative(MaterialDialog dialog) { //download
                             super.onNegative(dialog);
-                            getPresenter().fetchVideo(sources.get(dialog.getSelectedIndex()), true);
-                            if (position != null) {
-                                episodesAdapter.setWatched(position);
-                            }
+                            RxPermissions.getInstance(getContext())
+                                    .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                    .subscribe(granted -> {
+                                        if (granted) {
+                                            getPresenter().fetchVideo(sources.get(dialog.getSelectedIndex()), true);
+                                            if (position != null) {
+                                                episodesAdapter.setWatched(position);
+                                            }
+                                        }
+                                    });
                         }
 
                         @Override

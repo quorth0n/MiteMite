@@ -1,6 +1,5 @@
 package dulleh.akhyou;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -27,7 +26,6 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
-import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.List;
 
@@ -136,16 +134,6 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
         } else if (savedInstanceState == null){
             getPresenter().onFreshStart(this);
         }
-
-        RxPermissions.getInstance(this)
-                .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .subscribe(granted -> {
-                    if (granted) {
-                        showSnackBar(new SnackbarEvent("yep i got permission bro"));
-                    } else {
-                        showSnackBar(new SnackbarEvent("aww no download 4 u"));
-                    }
-                });
 
     }
 
