@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package dulleh.akhyou.Lib.PersistentCookieJar;
+package dulleh.akhyou.LazyLibs.PersistentCookieJar;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import dulleh.akhyou.Lib.PersistentCookieJar.cache.CookieCache;
-import dulleh.akhyou.Lib.PersistentCookieJar.persistence.CookiePersistor;
+import dulleh.akhyou.LazyLibs.PersistentCookieJar.cache.CookieCache;
+import dulleh.akhyou.LazyLibs.PersistentCookieJar.persistence.CookiePersistor;
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
 

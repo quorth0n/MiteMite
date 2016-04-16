@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dulleh.akhyou.Lib.PersistentCookieJar.cache;
+package dulleh.akhyou.LazyLibs.PersistentCookieJar.cache;
 
 import java.util.Collection;
 import java.util.HashSet;

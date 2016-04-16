@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dulleh.akhyou.Lib.PersistentCookieJar.cache;
+package dulleh.akhyou.LazyLibs.PersistentCookieJar.cache;
 
 import java.util.ArrayList;
 import java.util.Collection;

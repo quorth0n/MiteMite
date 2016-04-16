@@ -14,11 +14,34 @@
  * limitations under the License.
  */
 
-package dulleh.akhyou.Lib.PersistentCookieJar;
+package dulleh.akhyou.LazyLibs.PersistentCookieJar.persistence;
 
-import okhttp3.CookieJar;
+import java.util.Collection;
+import java.util.List;
 
-public interface ClearableCookieJar extends CookieJar {
+import okhttp3.Cookie;
 
+public interface CookiePersistor {
+
+    List<Cookie> loadAll();
+
+    /**
+     * Persist all cookies, existing cookies will be overwritten.
+     *
+     * @param cookies cookies persist
+     */
+    void saveAll(Collection<Cookie> cookies);
+
+    /**
+     * Removes indicated cookies from persistence.
+     *
+     * @param cookies cookies to remove from persistence
+     */
+    void removeAll(Collection<Cookie> cookies);
+
+    /**
+     * Clear all cookies from persistence.
+     */
     void clear();
+
 }

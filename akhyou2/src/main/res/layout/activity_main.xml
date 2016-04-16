@@ -34,7 +34,7 @@
         android:layout_gravity="start"
         android:background="@android:color/white" >
 
-        <include layout="@layout/main_drawer_layout"
+        <include layout="@layout/drawer_layout"
             android:fitsSystemWindows="true"/>
 
     </android.support.design.widget.NavigationView>

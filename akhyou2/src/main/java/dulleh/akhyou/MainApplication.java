@@ -3,16 +3,20 @@ package dulleh.akhyou;
 import android.app.Application;
 import android.content.Context;
 
-import com.crashlytics.android.Crashlytics;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import com.squareup.picasso.Picasso;
 
+import org.acra.ACRA;
+import org.acra.annotation.ReportsCrashes;
+
 import dulleh.akhyou.Utils.OK;
 import dulleh.akhyou.Utils.CloudflareHttpClient;
-import io.fabric.sdk.android.Fabric;
 
+@ReportsCrashes(
+        formUri = "https://collector.tracepot.com/02e21e70"
+)
 public class MainApplication extends Application{
     public static int RED_ACCENT_RGB = 16777215;
 
@@ -30,7 +34,7 @@ public class MainApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+        ACRA.init(this);
         refWatcher = LeakCanary.install(this);
 
         OK.INSTANCE.createClient(getApplicationContext());

@@ -2,12 +2,11 @@ package dulleh.akhyou.Utils;
 
 import android.content.Context;
 
-import dulleh.akhyou.Lib.PersistentCookieJar.ClearableCookieJar;
-import dulleh.akhyou.Lib.PersistentCookieJar.PersistentCookieJar;
-import dulleh.akhyou.Lib.PersistentCookieJar.cache.SetCookieCache;
-import dulleh.akhyou.Lib.PersistentCookieJar.persistence.SharedPrefsCookiePersistor;
+import dulleh.akhyou.LazyLibs.PersistentCookieJar.ClearableCookieJar;
+import dulleh.akhyou.LazyLibs.PersistentCookieJar.PersistentCookieJar;
+import dulleh.akhyou.LazyLibs.PersistentCookieJar.cache.SetCookieCache;
+import dulleh.akhyou.LazyLibs.PersistentCookieJar.persistence.SharedPrefsCookiePersistor;
 import okhttp3.OkHttpClient;
-
 
 public enum OK {
     INSTANCE;

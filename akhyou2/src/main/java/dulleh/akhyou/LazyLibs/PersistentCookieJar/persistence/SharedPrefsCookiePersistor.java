@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dulleh.akhyou.Lib.PersistentCookieJar.persistence;
+package dulleh.akhyou.LazyLibs.PersistentCookieJar.persistence;
 
 import android.content.Context;
 import android.content.SharedPreferences;
