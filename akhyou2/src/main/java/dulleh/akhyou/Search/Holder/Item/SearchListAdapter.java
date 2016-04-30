@@ -1,8 +1,6 @@
 package dulleh.akhyou.Search.Holder.Item;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;

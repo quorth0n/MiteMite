@@ -105,7 +105,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
         setFavouritesAdapter();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
+        toolbar.setNavigationIcon(R.drawable.ic_menu_white_24px);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -378,9 +378,9 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
         favouritesList.setAdapter(drawerAdapter);
     }
 
-    public void favouritesChanged () {
+    public void favouritesChanged (List<Anime> favourites) {
         if (drawerAdapter != null) {
-            drawerAdapter.setFavourites(getPresenter().getFavourites());
+            drawerAdapter.setFavourites(favourites);
             drawerAdapter.notifyDataSetChanged();
         } else {
             setFavouritesAdapter();

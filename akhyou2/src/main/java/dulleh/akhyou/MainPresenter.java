@@ -1,5 +1,6 @@
 package dulleh.akhyou;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -227,24 +228,34 @@ public class MainPresenter extends RxPresenter<MainActivity>{
     public void onEvent (FavouriteEvent event) {
         // colors are inconsistent for whatever reason, causing duplicate favourites,
         // so Set is pretty useless ;-;
-        try {
-            if (event.addToFavourites) {
-                mainModel.addToFavourites(event.anime);
-            } else {
-                mainModel.removeFromFavourites(event.anime);
-            }
+
+        // set mainModel if needed and possible
+        if (mainModel == null) {
             if (getView() != null) {
-                getView().favouritesChanged();
+                mainModel = new MainModel(getView().getPreferences(Context.MODE_PRIVATE));
             }
-        } catch (Exception e) {
-            postError(e);
+        }
+
+        if (mainModel != null) {
+            try {
+                if (event.addToFavourites) {
+                    mainModel.addToFavourites(event.anime);
+                } else {
+                    mainModel.removeFromFavourites(event.anime);
+                }
+                if (getView() != null) {
+                    getView().favouritesChanged(getFavourites());
+                }
+            } catch (Exception e) {
+                postError(e);
+            }
         }
     }
 
     public void onEvent (LastAnimeEvent event) {
             // THIS METHOD IS BEING EXECUTED
         if (mainModel.updateLastAnimeAndFavourite(event.anime) && getView() != null) {
-            getView().favouritesChanged();
+            getView().favouritesChanged(getFavourites());
         }
     }
 
@@ -283,7 +294,9 @@ public class MainPresenter extends RxPresenter<MainActivity>{
     }
 
     public void onEvent (SnackbarEvent event) {
-        getView().showSnackBar(event);
+        if (getView() != null) {
+            getView().showSnackBar(event);
+        }
     }
 
     public void postError (Throwable e) {
