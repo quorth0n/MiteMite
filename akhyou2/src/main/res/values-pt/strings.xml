@@ -1,0 +1,75 @@
+<resources>
+    <!--
+    Translations by @Slytrimz
+    https://github.com/Slytrimz
+    -->
+    <string name="app_name">Akhyou!</string>
+
+    <string name="settings_item">Definições</string>
+    <string name="search_item">Procurar</string>
+    <string name="favourites_item">Favoritos</string>
+    <string name="imageContentDesc">Posters de Anime</string>
+    <string name="update_title">Existe uma atualizaçao disponível!</string>
+    <string name="update">ACTUALIZAR</string>
+
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="requires_restart">(requer reiniciar)</string>
+
+    <string name="licences_preference_title">Licenças</string>
+    <string name="licences_preference_summary">Obrigado a este grandes projectos de código aberto.</string>
+
+    <string name="auto_update_preference_title">Auto actualizar?</string>
+
+    <string name="open_to_last_anime_preference_title">Abrir o último anime visto?</string>
+
+    <string name="search_grid_preference_title">Disposição de procura</string>
+    <string name="search_grid_option_card">Posters e detalhes</string>
+    <string name="search_grid_option_poster">Posters</string>
+
+    <string name="theme_preference_title">Tema</string>
+    <string name="theme_dialog_title">Temas</string>
+
+    <string name="contact_preference_title">Enviar opiniões</string>
+    <string name="contact_preference_summary">Contactar o desenvolvedor.</string>
+
+    <string name="pink_theme">Rosa</string>
+    <string name="purple_theme">Violeta</string>
+    <string name="deep_purple_theme">Roxo</string>
+    <string name="indigo_theme">Indigo</string>
+    <string name="light_blue_theme">Azul Claro</string>
+    <string name="cyan_theme">Ciano</string>
+    <string name="teal_theme">Turquesa</string>
+    <string name="green_theme">Verde</string>
+    <string name="light_green_theme">Verde Claro</string>
+    <string name="lime_theme">Lima</string>
+    <string name="yellow_theme">Amarelo</string>
+    <string name="orange_theme">Laranja</string>
+    <string name="deep_orange_theme">Laranja Escuro</string>
+    <string name="brown_theme">Castanho</string>
+    <string name="grey_theme">Cinzento</string>
+    <string name="blue_grey_theme">Azul Cinzento</string>
+    <string name="akhyou_red_theme">Vermelho Akhyou!</string>
+
+    <string name="sources">Fontes</string>
+    <string name="quality">Qualidade</string>
+    <string name="stream">Stream</string>
+    <string name="download">Descarregar</string>
+    <string name="cancel">Cancelar</string>
+
+    <string name="status_title">Estado:</string>
+    <string name="alternate_title_title">Título Alternativo:</string>
+    <string name="date_title">Data de Lançamento</string>
+    <string name="usernameOrEmail">Usuário / Email</string>
+    <string name="hb_username_hint">O teu usuário ou email de hummingbird.me</string>
+    <string name="hb_password_hint">A tua palavra chave (shh)</string>
+    <string name="password">Palavra chave</string>
+    <string name="hummingbird_preference_title">Configuração de conta de Hummingbird</string>
+    <string name="hummingbird_preference_summary">Scrobbling settings for Hummingbird.me</string>
+    <string name="settings_tab">DEFINIÇÕES</string>
+    <string name="history_tab">HISTÓRICO</string>
+    <string name="hummingbird_username_placeholder">Sync with hummingbird.me</string>
+    <string name="hummingbird_history_placeholder">sorry, but currently this part of the app is all looks and no bang :P</string>
+    <string name="share">Partilha</string>
+
+</resources>
