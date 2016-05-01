@@ -1,5 +1,6 @@
 package dulleh.akhyou;
 
+import android.content.Context;
 import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,19 +10,27 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
+
 import java.util.List;
 
 import dulleh.akhyou.Models.Anime;
-import dulleh.akhyou.Utils.AdapterClickListener;
+import dulleh.akhyou.Utils.Events.CircularTransform;
+import dulleh.akhyou.Utils.Events.DrawerAdapterClickListener;
 
 public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final AdapterClickListener<Anime> adapterClickListener;
+    private final DrawerAdapterClickListener adapterClickListener;
     private static final int VIEW_TYPE_HEADER = -1;
     private static final int VIEW_TYPE_ITEM = 0;
 
+    private final Context context;
     private List<Anime> favourites;
+    private String hbUsername, avatar, cover;
+    private int avatarLength;
 
-    public DrawerAdapter (AdapterClickListener<Anime> adapterClickListener, List<Anime> favourites) {
+    public DrawerAdapter (Context context, DrawerAdapterClickListener adapterClickListener, List<Anime> favourites) {
+        this.context = context;
         this.adapterClickListener = adapterClickListener;
         this.favourites = favourites;
     }
@@ -32,10 +41,19 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         if (viewType == VIEW_TYPE_HEADER) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.drawer_favourite_header, parent, false);
+                    .inflate(R.layout.drawer_header, parent, false);
+
+            View drawerUserButton = view.findViewById(R.id.user_selectable);
+            drawerUserButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    adapterClickListener.onUserItemClicked();
+                }
+            });
+
+
             return new HeaderViewHolder(view);
         }
 
@@ -46,7 +64,41 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ItemViewHolder) {
+        if (holder instanceof HeaderViewHolder) {
+            HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
+
+            headerViewHolder.usernameTextView.setText(hbUsername);
+
+            RequestCreator avatarRequest;
+            if (avatar != null) {
+                avatarRequest = Picasso.with(context)
+                        .load(avatar)
+                        .transform(new CircularTransform(avatarLength, 0));
+            } else {
+                avatarRequest = Picasso.with(context)
+                        .load(R.drawable.user_stock_avatar);
+            }
+
+            RequestCreator coverRequest;
+            if (cover != null) {
+                coverRequest = Picasso.with(context)
+                        .load(cover);
+            } else {
+                coverRequest = Picasso.with(context)
+                        .load(R.drawable.user_stock_cover);
+            }
+
+            avatarRequest
+                    .fit()
+                    .centerCrop()
+                    .into(headerViewHolder.userAvatarImageView);
+
+            coverRequest
+                    .fit()
+                    .centerCrop()
+                    .into(headerViewHolder.userCoverImageView);
+        }
+        else {
             ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
             int majorColour = getItem(position).getMajorColour();
             if (majorColour == 0) {
@@ -65,7 +117,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     private Anime getItem (int position) {
-        return favourites.get(position -1);
+        return favourites.get(position - 1);
     }
 
     @Override
@@ -73,10 +125,15 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return favourites.size() + 1;
     }
 
+    public void setAvatarLength(int avatarLength) {
+        this.avatarLength = avatarLength;
+    }
+
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         public RelativeLayout itemView;
         public TextView titleView;
         public ImageView iconView;
+
         public ItemViewHolder(View v) {
             super(v);
             itemView = (RelativeLayout) v.findViewById(R.id.drawer_favourite_item);
@@ -86,9 +143,23 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
+        public TextView usernameTextView;
+        public ImageView userAvatarImageView;
+        public ImageView userCoverImageView;
+
         public HeaderViewHolder(View v) {
             super(v);
+
+            usernameTextView = (TextView) v.findViewById(R.id.drawer_user_name);
+            userAvatarImageView = (ImageView) v.findViewById(R.id.drawer_user_avatar);
+            userCoverImageView = (ImageView) v.findViewById(R.id.drawer_user_cover);
         }
+    }
+
+    public void updateUserData (String hbUsername, String avatar, String cover) {
+        this.hbUsername = hbUsername;
+        this.avatar = avatar;
+        this.cover = cover;
     }
 
     @Override

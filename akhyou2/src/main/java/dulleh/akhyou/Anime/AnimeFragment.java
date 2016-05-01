@@ -120,8 +120,9 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     if (getPresenter() != null && getPresenter().lastAnime != null) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse(getPresenter().lastAnime.getUrl()));
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.putExtra(Intent.EXTRA_TEXT, getPresenter().lastAnime.getUrl());
+                        intent.setType("text/plain");
                         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
                             startActivity(intent);
                         }
@@ -136,6 +137,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
             searchView.setQueryHint(getString(R.string.search_item));
             searchView.setIconifiedByDefault(true);
             searchView.setIconified(true);
+            searchView.setAlpha(1f);
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {

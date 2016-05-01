@@ -15,17 +15,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.transition.TransitionInflater;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
 
 import java.util.List;
 
@@ -36,30 +31,28 @@ import dulleh.akhyou.Models.SharedElementTransitionBundle;
 import dulleh.akhyou.Search.Holder.SearchHolderFragment;
 import dulleh.akhyou.Settings.HummingbirdSettings.HummingbirdHolderFragment;
 import dulleh.akhyou.Settings.SettingsFragment;
-import dulleh.akhyou.Utils.AdapterClickListener;
-import dulleh.akhyou.Utils.Events.CircularTransform;
+import dulleh.akhyou.Utils.Events.DrawerAdapterClickListener;
 import dulleh.akhyou.Utils.Events.OpenAnimeEvent;
 import dulleh.akhyou.Utils.Events.SnackbarEvent;
 import nucleus.factory.RequiresPresenter;
 import nucleus.view.NucleusAppCompatActivity;
 
 @RequiresPresenter(MainPresenter.class)
-public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implements AdapterClickListener<Anime>{
+public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implements DrawerAdapterClickListener{
     private SharedPreferences sharedPreferences;
     private android.support.v4.app.FragmentManager fragmentManager;
     private FrameLayout parentLayout;
     private DrawerLayout drawerLayout;
     private RecyclerView favouritesList;
     private DrawerAdapter drawerAdapter;
-    private TextView usernameTextView;
-    private ImageView userAvatarImageView;
-    private ImageView userCoverImageView;
 
     public static final String TRANSITION_NAME_KEY = "trans_name";
     public static final String SEARCH_FRAGMENT = "SEA";
     public static final String ANIME_FRAGMENT = "ANI";
     public static final String SETTINGS_FRAGMENT = "SET";
     public static final String HUMMINGBIRD_SETTINGS_FRAGMENT = "HUM";
+
+    private int avatarLength;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +70,8 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
+        avatarLength = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, Resources.getSystem().getDisplayMetrics());
+
         RelativeLayout drawerSettingsButton = (RelativeLayout) findViewById(R.id.drawer_settings);
         drawerSettingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,21 +81,8 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
             }
         });
 
-        View drawerUserButton = findViewById(R.id.user_selectable);
-        drawerUserButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requestFragment(HUMMINGBIRD_SETTINGS_FRAGMENT, null);
-                closeDrawer();
-            }
-        });
-
         favouritesList = (RecyclerView) findViewById(R.id.drawer_recycler_view);
         favouritesList.setLayoutManager(new LinearLayoutManager(this));
-
-        usernameTextView = (TextView) findViewById(R.id.drawer_user_name);
-        userAvatarImageView = (ImageView) findViewById(R.id.drawer_user_avatar);
-        userCoverImageView = (ImageView) findViewById(R.id.drawer_user_cover);
 
         setFavouritesAdapter();
 
@@ -369,12 +351,14 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
     }
 
     @Override
-    public void onLongClick(Anime item, @Nullable Integer position) {
-
+    public void onUserItemClicked () {
+        requestFragment(HUMMINGBIRD_SETTINGS_FRAGMENT, null);
+        closeDrawer();
     }
 
     private void setFavouritesAdapter () {
-        drawerAdapter = new DrawerAdapter(this, getPresenter().getFavourites());
+        drawerAdapter = new DrawerAdapter(this, this, getPresenter().getFavourites());
+        drawerAdapter.setAvatarLength((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, Resources.getSystem().getDisplayMetrics()));
         favouritesList.setAdapter(drawerAdapter);
     }
 
@@ -389,41 +373,11 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
     }
 
     public void refreshDrawerUser(String hbUsername, String avatar, String cover) {
-        int avatarLength = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, Resources.getSystem().getDisplayMetrics());
-
         if (hbUsername == null) {
             hbUsername = getString(R.string.hummingbird_username_placeholder);
         }
-        usernameTextView.setText(hbUsername);
-
-        RequestCreator avatarRequest;
-        if (avatar != null) {
-            avatarRequest = Picasso.with(this)
-                    .load(avatar)
-                    .transform(new CircularTransform(avatarLength, 0));
-        } else {
-            avatarRequest = Picasso.with(this)
-                    .load(R.drawable.user_stock_avatar);
-        }
-
-        RequestCreator coverRequest;
-        if (cover != null) {
-            coverRequest = Picasso.with(this)
-                    .load(cover);
-        } else {
-            coverRequest = Picasso.with(this)
-                    .load(R.drawable.user_stock_cover);
-        }
-
-        avatarRequest
-                .fit()
-                .centerCrop()
-                .into(userAvatarImageView);
-
-        coverRequest
-                .fit()
-                .centerCrop()
-                .into(userCoverImageView);
+        drawerAdapter.updateUserData(hbUsername, avatar, cover);
+        drawerAdapter.notifyDataSetChanged();
     }
 
     public void promptForUpdate (String newUpdateVersion) {

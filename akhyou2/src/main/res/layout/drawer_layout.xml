@@ -32,15 +32,10 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/drawer_user_layout"
-        android:id="@+id/drawer_user"
-        />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/drawer_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/drawer_user"
         android:layout_above="@id/drawer_settings"/>
 
     <View android:layout_width="match_parent"

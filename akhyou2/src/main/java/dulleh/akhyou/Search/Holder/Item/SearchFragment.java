@@ -126,6 +126,7 @@ public class SearchFragment extends NucleusSupportFragment<SearchPresenter> impl
         searchView.setQueryHint(getString(R.string.search_item));
         searchView.setIconifiedByDefault(false);
         searchView.setIconified(false);
+        searchView.setAlpha(1f);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
