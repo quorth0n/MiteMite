@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import de.greenrobot.event.EventBus;
@@ -66,9 +68,9 @@ public class MainModel {
     }
 
     public void refreshFavourites () {
-        Set<String> favourites = new HashSet<>(sharedPreferences.getStringSet(FAVOURITES_PREF, new HashSet<>()));
+        Set<String> favourites = new LinkedHashSet<>(sharedPreferences.getStringSet(FAVOURITES_PREF, new HashSet<>()));
 
-        favouritesMap = new HashMap<>(favourites.size());
+        favouritesMap = new LinkedHashMap<>(favourites.size());
         for (String favourite : favourites) {
             Anime anime = deserializeAnime(favourite);
             if (anime != null) {
