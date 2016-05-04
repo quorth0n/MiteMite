@@ -1,0 +1,75 @@
+<resources>
+    <!--
+    Translations by @iaai
+    https://github.com/iaai
+    -->
+    <string name="app_name">Akhyou!</string>
+
+    <string name="settings_item">الإعدادات</string>
+    <string name="search_item">بحث</string>
+    <string name="favourites_item">المفضلة</string>
+    <string name="imageContentDesc">صورة الأنمي</string>
+    <string name="update_title">يوجد تحديث جديد!</string>
+    <string name="update">تحديث</string>
+
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="requires_restart">(يتطلب إعادة تشغيل)</string>
+
+    <string name="licences_preference_title">الرخصة</string>
+    <string name="licences_preference_summary">شكراً للمشاريع مفتوحة المصدر.</string>
+
+    <string name="auto_update_preference_title">تحديث تلقائي؟</string>
+
+    <string name="open_to_last_anime_preference_title">فتح آخر أنمي شاهدته؟</string>
+
+    <string name="search_grid_preference_title">طريقة عرض البحث</string>
+    <string name="search_grid_option_card">الصورة والتفاصيل</string>
+    <string name="search_grid_option_poster">الصورة فقط</string>
+
+    <string name="theme_preference_title">النمط</string>
+    <string name="theme_dialog_title">الأنماط</string>
+
+    <string name="contact_preference_title">أرسل إقتراح</string>
+    <string name="contact_preference_summary">تواصل بالإيميل مع المطور.</string>
+
+    <string name="pink_theme">وردي</string>
+    <string name="purple_theme">بنفسجي</string>
+    <string name="deep_purple_theme">بنفسجي غامق</string>
+    <string name="indigo_theme">نيلي</string>
+    <string name="light_blue_theme">أزرق فاتح</string>
+    <string name="cyan_theme">أزرق سماوي</string>
+    <string name="teal_theme">تركوازي</string>
+    <string name="green_theme">أخضر</string>
+    <string name="light_green_theme">أخضر فاتح</string>
+    <string name="lime_theme">ليموني</string>
+    <string name="yellow_theme">أصفر</string>
+    <string name="orange_theme">برتقالي</string>
+    <string name="deep_orange_theme">برتقالي غامق</string>
+    <string name="brown_theme">بني</string>
+    <string name="grey_theme">رمادي</string>
+    <string name="blue_grey_theme">أزرق رمادي</string>
+    <string name="akhyou_red_theme">Akhyou! أحمر</string>
+
+    <string name="sources">المصادر</string>
+    <string name="quality">الجودة</string>
+    <string name="stream">تشغيل</string>
+    <string name="download">تنزيل</string>
+    <string name="cancel">إلغاء</string>
+
+    <string name="status_title">الحالة:</string>
+    <string name="alternate_title_title">عنوان بديل:</string>
+    <string name="date_title">تاريخ الإصدار:</string>
+    <string name="usernameOrEmail">إسم المستخدم \ الإيميل</string>
+    <string name="hb_username_hint">إسم المستخدم أو الإيميل في موقع hummingbird.me</string>
+    <string name="hb_password_hint">كلمة المرور (shh)</string>
+    <string name="password">كلمة المرور</string>
+    <string name="hummingbird_preference_title">إعدادات عضوية Hummingbird</string>
+    <string name="hummingbird_preference_summary">Scrobbling settings for Hummingbird.me</string>
+    <string name="settings_tab">الإعدادات</string>
+    <string name="history_tab">سجل التاريخ</string>
+    <string name="hummingbird_username_placeholder">زامن مع hummingbird.me</string>
+    <string name="hummingbird_history_placeholder">عذراً، ولكن هذه الصفحة للمشاهدة فقط</string>
+    <string name="share">مشاركة</string>
+
+</resources>
