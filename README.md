@@ -1,4 +1,4 @@
-# Akhyou!  
+# Akhyou! [![Travis](https://img.shields.io/travis/dulleh/akhyou.svg?maxAge=2592000)](https://travis-ci.org/dulleh/akhyou) [![GitHub release](https://img.shields.io/github/release/dulleh/akhyou.svg?maxAge=2592000)](https://github.com/dulleh/akhyou/releases)
 **An anime streaming app for Android. [Download now.](https://github.com/dulleh/akhyou/blob/master/akhyou-latest.apk?raw=true)**
 
 ![Akhyou! Logo Large](/AKHYOU-FINAL-LOGO-SMALL.png "AKHYOU!")
