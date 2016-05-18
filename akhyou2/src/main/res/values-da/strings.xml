@@ -1,0 +1,75 @@
+<resources>
+    <!--
+    Translations by @Blazeflack
+    https://github.com/Blazeflack
+    -->
+    <string name="app_name">Akhyou!</string>
+
+    <string name="settings_item">Indstillinger</string>
+    <string name="search_item">Søg</string>
+    <string name="favourites_item">Favoritter</string>
+    <string name="imageContentDesc">Anime plakat</string>
+    <string name="update_title">Der er en tilgængelig opdatering!</string>
+    <string name="update">OPDATER</string>
+
+    <string name="yes">Ja</string>
+    <string name="no">Nej</string>
+    <string name="requires_restart">(kræver genstart)</string>
+
+    <string name="licences_preference_title">Licenser</string>
+    <string name="licences_preference_summary">Tak til disse fantastiske open source projekter.</string>
+
+    <string name="auto_update_preference_title">Auto-opdatering?</string>
+
+    <string name="open_to_last_anime_preference_title">Åbn til senest sete anime?</string>
+
+    <string name="search_grid_preference_title">Søgning layout</string>
+    <string name="search_grid_option_card">Plakater og detaljer</string>
+    <string name="search_grid_option_poster">Plakater</string>
+
+    <string name="theme_preference_title">Tema</string>
+    <string name="theme_dialog_title">Temaer</string>
+
+    <string name="contact_preference_title">Send feedback</string>
+    <string name="contact_preference_summary">Send email til udvikleren.</string>
+
+    <string name="pink_theme">Lyserød</string>
+    <string name="purple_theme">Lilla</string>
+    <string name="deep_purple_theme">Dyb lilla</string>
+    <string name="indigo_theme">Indigo</string>
+    <string name="light_blue_theme">Lyseblå</string>
+    <string name="cyan_theme">Cyan</string>
+    <string name="teal_theme">Turkis</string>
+    <string name="green_theme">Grøn</string>
+    <string name="light_green_theme">Lysegrøn</string>
+    <string name="lime_theme">Lime</string>
+    <string name="yellow_theme">Gul</string>
+    <string name="orange_theme">Orange</string>
+    <string name="deep_orange_theme">Dyb Orange</string>
+    <string name="brown_theme">Brun</string>
+    <string name="grey_theme">Grå</string>
+    <string name="blue_grey_theme">Blågrå</string>
+    <string name="akhyou_red_theme">Akhyou! Rød</string>
+
+    <string name="sources">Kilder</string>
+    <string name="quality">Kvalitet</string>
+    <string name="stream">Stream</string>
+    <string name="download">Download</string>
+    <string name="cancel">Annullér</string>
+
+    <string name="status_title">Status:</string>
+    <string name="alternate_title_title">Alternativ Titel:</string>
+    <string name="date_title">Udgivelsesdato:</string>
+    <string name="usernameOrEmail">Brugernavn / Email</string>
+    <string name="hb_username_hint">Dit hummingbird.me brugernavn eller email</string>
+    <string name="hb_password_hint">Dit password (shh)</string>
+    <string name="password">Password</string>
+    <string name="hummingbird_preference_title">Hummingbird Konto Indstillinger</string>
+    <string name="hummingbird_preference_summary">Scrobble indstillinger for Hummingbird.me</string>
+    <string name="settings_tab">INDSTILLINGER</string>
+    <string name="history_tab">HISTORIK</string>
+    <string name="hummingbird_username_placeholder">Synkronisér med hummingbird.me</string>
+    <string name="hummingbird_history_placeholder">beklager, på nuværende tidspunkt er denne del af appen kun til pynt :P</string>
+    <string name="share">Del</string>
+
+</resources>
