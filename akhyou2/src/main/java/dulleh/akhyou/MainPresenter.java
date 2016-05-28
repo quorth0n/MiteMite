@@ -76,6 +76,7 @@ public class MainPresenter extends RxPresenter<MainActivity>{
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mainModel.saveFavourites();
         mainModel = null;
     }
 
