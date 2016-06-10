@@ -46,8 +46,6 @@ public class KissAnimeProvider implements AnimeProvider {
 
         String body = GeneralUtils.getWebPage(url);
 
-        System.out.println("anime:" + url);
-
         Document doc = Jsoup.parse(body);
 
         Anime anime = new Anime()

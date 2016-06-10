@@ -41,8 +41,6 @@ public class KissSearchProvider implements SearchProvider {
                 .post(query)
                 .build();
 
-        System.out.println("search:" + BASE_URL + SEARCH_URL);
-
         String responseBody = GeneralUtils.getWebPage(search);
 
         Element resultTable = isolate(responseBody);
