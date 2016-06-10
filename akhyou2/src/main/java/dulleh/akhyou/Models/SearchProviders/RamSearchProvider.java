@@ -49,7 +49,7 @@ public class RamSearchProvider implements SearchProvider{
         List<Anime> animes = new ArrayList<>(searchResults.size());
 
         for (Element searchResult : searchResults) {
-            Anime anime = new Anime().setProviderType(Anime.ANIME_RAM);
+            Anime anime = new Anime().setProviderType(Anime.RAM);
 
             anime.setTitle(searchResult.select("h2").text());
             anime.setUrl("http://www.animeram.co" + searchResult.attr("href"));

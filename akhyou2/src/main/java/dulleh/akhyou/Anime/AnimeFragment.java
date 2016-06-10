@@ -2,7 +2,6 @@ package dulleh.akhyou.Anime;
 
 import android.Manifest;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -137,7 +136,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
             searchView.setQueryHint(getString(R.string.search_item));
             searchView.setIconifiedByDefault(true);
             searchView.setIconified(true);
-            searchView.setAlpha(1f);
+            searchView.setAlpha(1.0f);
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {

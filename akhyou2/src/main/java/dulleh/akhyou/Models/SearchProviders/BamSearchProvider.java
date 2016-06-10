@@ -50,7 +50,7 @@ public class BamSearchProvider implements SearchProvider{
 
         for (Element searchResult : searchResults) {
             Anime anime = new Anime()
-                    .setProviderType(Anime.ANIME_BAM)
+                    .setProviderType(Anime.BAM)
                     .setUrl("http://www.animebam.net" + searchResult.attr("href"));
 
             searchResult = searchResult.child(0);

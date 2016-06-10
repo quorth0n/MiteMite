@@ -24,7 +24,7 @@ public class BamAnimeProvider implements AnimeProvider {
 
         Anime anime = new Anime()
                 .setUrl(url)
-                .setProviderType(Anime.ANIME_BAM);
+                .setProviderType(Anime.BAM);
 
         anime = parseForInfo(main, anime);
 

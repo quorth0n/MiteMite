@@ -151,12 +151,12 @@ public class GeneralUtils {
 
     public static int determineProviderType (String url) throws Exception{
         url = url.toUpperCase();
-        if (url.contains(Anime.ANIME_RUSH_TITLE)) {
-            return Anime.ANIME_RUSH;
-        } else if (url.contains(Anime.ANIME_RAM_TITLE)) {
-            return Anime.ANIME_RAM;
-        } else if (url.contains(Anime.ANIME_BAM_TITLE)) {
-            return Anime.ANIME_BAM;
+        if (url.contains(Anime.RUSH_TITLE)) {
+            return Anime.RUSH;
+        } else if (url.contains(Anime.RAM_TITLE)) {
+            return Anime.RAM;
+        } else if (url.contains(Anime.BAM_TITLE)) {
+            return Anime.BAM;
         }
         throw new Exception("Unsupported source");
     }

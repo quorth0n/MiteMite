@@ -24,7 +24,8 @@ import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
 public class KissAnimeProvider implements AnimeProvider {
-    private static final String BASE_URL = "https://kissanime.to";
+    static String BASE_URL = "https://kissanime.to";
+    static int providerType = Anime.KISS;
     private static final Pattern EXTRACT_STATUS = Pattern.compile("Status:\\s*(.*?)\\s{2,}Views");
 
     private static final byte[] DECODE_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".getBytes(Charset.forName("UTF-8"));
@@ -43,15 +44,18 @@ public class KissAnimeProvider implements AnimeProvider {
             throw new CloudFlareInitializationException();
         }
 
-
         String body = GeneralUtils.getWebPage(url);
 
+        System.out.println("anime:" + url);
+
         Document doc = Jsoup.parse(body);
+
         Anime anime = new Anime()
                 .setUrl(url)
-                .setProviderType(Anime.ANIME_KISS);
+                .setProviderType(providerType);
         anime = parseInfo(doc, anime);
         anime.setEpisodes(parseEpisodes(doc));
+
         return anime;
     }
 

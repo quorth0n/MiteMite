@@ -44,16 +44,16 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
     public void setProviderType (int providerType) {
         this.providerType = providerType;
         switch (providerType) {
-            case Anime.ANIME_RUSH:
+            case Anime.RUSH:
                 searchProvider = new RushSearchProvider();
                 break;
-            case Anime.ANIME_RAM:
+            case Anime.RAM:
                 searchProvider = new RamSearchProvider();
                 break;
-            case Anime.ANIME_BAM:
+            case Anime.BAM:
                 searchProvider = new BamSearchProvider();
                 break;
-            case Anime.ANIME_KISS:
+            case Anime.KISS:
                 searchProvider = new KissSearchProvider();
                 break;
         }

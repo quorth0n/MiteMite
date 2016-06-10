@@ -61,7 +61,7 @@ public class RushSearchProvider implements SearchProvider{
     private List<Anime> parseResults (Elements searchResults) {
         List<Anime> animes = new ArrayList<>(searchResults.size());
         for (Element searchResult : searchResults) {
-            Anime anime = new Anime().setProviderType(Anime.ANIME_RUSH);
+            Anime anime = new Anime().setProviderType(Anime.RUSH);
 
             anime.setTitle(searchResult.select("h3").text().trim()
             /*

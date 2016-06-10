@@ -19,8 +19,9 @@ import okhttp3.RequestBody;
 import rx.exceptions.OnErrorThrowable;
 
 public class KissSearchProvider implements SearchProvider {
-    private static final String BASE_URL = "https://kissanime.to";
-    private static final String SEARCH_URL = "https://kissanime.to/AdvanceSearch";
+    static String BASE_URL = "https://kissanime.to";
+    static String SEARCH_URL = "https://kissanime.to/AdvanceSearch";
+    static int providerType = Anime.KISS;
     private static final Pattern PARSER = Pattern.compile(".*src=\"(.*?)\".*href=\"(.*)\">(.*?)</a>.*<p>\\s*(.*?)\\s*</p>", Pattern.DOTALL);
     private static final int NUM_GENRES = 47;
 
@@ -37,9 +38,10 @@ public class KissSearchProvider implements SearchProvider {
 
         Request search = new Request.Builder()
                 .url(SEARCH_URL)
-                .header("Content-Type", "application/x-www-form-urlencoded")
                 .post(query)
                 .build();
+
+        System.out.println("search:" + BASE_URL + SEARCH_URL);
 
         String responseBody = GeneralUtils.getWebPage(search);
 
@@ -54,7 +56,7 @@ public class KissSearchProvider implements SearchProvider {
 
     @Override
     public Element isolate(String document) {
-        return Jsoup.parse(document).select(".listing").first();
+        return Jsoup.parse(document).select("table.listing").first();
     }
 
     @Override
@@ -65,7 +67,7 @@ public class KissSearchProvider implements SearchProvider {
     private List<Anime> parseElements(Elements rows) {
         List<Anime> results = new ArrayList<>(rows.size());
         for (Element row : rows) {
-            Anime anime = new Anime().setProviderType(Anime.ANIME_KISS);
+            Anime anime = new Anime().setProviderType(providerType);
             String titleTag = row.attr("title");
             Matcher matcher = PARSER.matcher(titleTag);
             if (matcher.find()) {

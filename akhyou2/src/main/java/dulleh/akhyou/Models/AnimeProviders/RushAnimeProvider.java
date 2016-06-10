@@ -35,7 +35,7 @@ public class RushAnimeProvider implements AnimeProvider {
         }
 
         Anime anime = new Anime()
-                .setProviderType(Anime.ANIME_RUSH)
+                .setProviderType(Anime.RUSH)
                 .setUrl(url);
 
         animeBox = animeBox.select("div.amin_box2").first();

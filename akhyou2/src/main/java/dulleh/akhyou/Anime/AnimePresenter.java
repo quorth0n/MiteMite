@@ -114,16 +114,16 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
     private Anime setAnimeProvider (Anime anime) {
         if (anime.getProviderType() != null) {
             switch (anime.getProviderType()) {
-                case Anime.ANIME_RUSH:
+                case Anime.RUSH:
                     animeProvider = new RushAnimeProvider();
                     break;
-                case Anime.ANIME_RAM:
+                case Anime.RAM:
                     animeProvider = new RamAnimeProvider();
                     break;
-                case Anime.ANIME_BAM:
+                case Anime.BAM:
                     animeProvider = new BamAnimeProvider();
                     break;
-                case Anime.ANIME_KISS:
+                case Anime.KISS:
                     animeProvider = new KissAnimeProvider();
                     break;
                 default:

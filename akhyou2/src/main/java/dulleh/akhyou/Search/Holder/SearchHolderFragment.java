@@ -31,10 +31,10 @@ public class SearchHolderFragment extends Fragment{
 
     public SearchHolderFragment () {
         if (searchResultsCache.isEmpty()) {
-            searchResultsCache.add(Anime.ANIME_RUSH, new ArrayList<>(0));
-            searchResultsCache.add(Anime.ANIME_RAM, new ArrayList<>(0));
-            searchResultsCache.add(Anime.ANIME_BAM, new ArrayList<>(0));
-            searchResultsCache.add(Anime.ANIME_KISS, new ArrayList<>(0));
+            searchResultsCache.add(Anime.RUSH, new ArrayList<>(0));
+            searchResultsCache.add(Anime.RAM, new ArrayList<>(0));
+            searchResultsCache.add(Anime.BAM, new ArrayList<>(0));
+            searchResultsCache.add(Anime.KISS, new ArrayList<>(0));
         }
     }
 

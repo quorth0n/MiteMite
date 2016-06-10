@@ -34,7 +34,7 @@ public class RamAnimeProvider implements AnimeProvider {
         Elements episodes = animeBox.select("div.container > div > div > div.col-md-10 > div.cblock > ul").first().children();
 
         Anime anime = new Anime()
-                .setProviderType(Anime.ANIME_RAM)
+                .setProviderType(Anime.RAM)
                 .setUrl(url);
 
         anime = parseForInfo(info, anime);

@@ -22,16 +22,16 @@ public class SearchHolderAdapter extends FragmentStatePagerAdapter{
 
         switch(position) {
             case 0:
-                args.putInt(PROVIDER_TYPE_KEY, Anime.ANIME_RUSH);
+                args.putInt(PROVIDER_TYPE_KEY, Anime.RUSH);
                 break;
             case 1:
-                args.putInt(PROVIDER_TYPE_KEY, Anime.ANIME_RAM);
+                args.putInt(PROVIDER_TYPE_KEY, Anime.RAM);
                 break;
             case 2:
-                args.putInt(PROVIDER_TYPE_KEY, Anime.ANIME_BAM);
+                args.putInt(PROVIDER_TYPE_KEY, Anime.BAM);
                 break;
             case 3:
-                args.putInt(PROVIDER_TYPE_KEY, Anime.ANIME_KISS);
+                args.putInt(PROVIDER_TYPE_KEY, Anime.KISS);
                 break;
         }
 
@@ -48,13 +48,13 @@ public class SearchHolderAdapter extends FragmentStatePagerAdapter{
     public CharSequence getPageTitle(int position) {
         switch(position) {
             case 0:
-                return Anime.ANIME_RUSH_TITLE;
+                return Anime.RUSH_TITLE;
             case 1:
-                return Anime.ANIME_RAM_TITLE;
+                return Anime.RAM_TITLE;
             case 2:
-                return Anime.ANIME_BAM_TITLE;
+                return Anime.BAM_TITLE;
             case 3:
-                return Anime.ANIME_KISS_TITLE;
+                return Anime.KISS_TITLE;
             default:
                 throw new RuntimeException("No title for this tab number. (sea)");
         }

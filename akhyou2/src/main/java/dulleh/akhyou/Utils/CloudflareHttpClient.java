@@ -62,11 +62,11 @@ public enum CloudflareHttpClient {
 
     private static final String[] CLOUDFLARE_URLS = {
             "https://kissanime.to",
-            "http://www.animerush.tv/"
+            "http://www.animerush.tv"
     };
 
     private final Pattern functionPattern = Pattern.compile("setTimeout\\(\\s*function\\s*\\(\\)\\s*\\{(.*)f\\.submit", Pattern.DOTALL);
-    private final Pattern assignPattern = Pattern.compile("a\\.value =(.+?) \\+ .+?;");
+    private final Pattern assignPattern = Pattern.compile("a\\.value =(.+?) \\+ .*");
     private final Pattern stripPattern = Pattern.compile("\\s{3,}[a-z](?: = |\\.).+");
     private final Pattern jsPattern = Pattern.compile("[\\n\\\\']");
 
