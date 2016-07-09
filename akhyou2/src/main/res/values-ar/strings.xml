@@ -71,5 +71,6 @@
     <string name="hummingbird_username_placeholder">زامن مع hummingbird.me</string>
     <string name="hummingbird_history_placeholder">عذراً، ولكن هذه الصفحة للمشاهدة فقط</string>
     <string name="share">مشاركة</string>
+    <string name="download_preference_title">Download location</string>
 
 </resources>

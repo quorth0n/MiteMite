@@ -3,8 +3,10 @@ package dulleh.akhyou.Anime;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v7.graphics.Palette;
 import android.view.View;
@@ -21,6 +23,7 @@ import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Source;
 import dulleh.akhyou.Models.Video;
 import dulleh.akhyou.R;
+import dulleh.akhyou.Settings.SettingsFragment;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
 import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.Events.FavouriteEvent;
@@ -246,15 +249,20 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
         EventBus.getDefault().post(new FavouriteEvent(b, lastAnime));
     }
 
-    public void downloadOrStream (Video video, boolean download) {
-        if (download) {
-            GeneralUtils.internalDownload((DownloadManager) getView().getActivity().getSystemService(Context.DOWNLOAD_SERVICE), video.getUrl(), lastAnime.getEpisodes().get(getView().position).getTitle());
-        } else {
-            postIntent(video.getUrl());
-        }
+    public void download (String url, String fileName) {
+        SharedPreferences preferences = getView().getActivity().getPreferences(Context.MODE_PRIVATE);
+        DownloadManager downloadManager = (DownloadManager) getView().getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.setTitle(fileName);
+        request.setDestinationInExternalPublicDir(preferences.getString(SettingsFragment.DOWNLOAD_LOCATION_PREFERENCE, Environment.DIRECTORY_DOWNLOADS), fileName);
+        request.setMimeType("video/*");
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+        downloadManager.enqueue(request);
     }
 
-    private void postIntent (String videoUrl) {
+    public void postIntent (String videoUrl) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.parse(videoUrl), "video/*");
         if (intent.resolveActivity(getView().getActivity().getPackageManager()) != null) {

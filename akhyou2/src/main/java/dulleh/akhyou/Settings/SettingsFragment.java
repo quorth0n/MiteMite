@@ -1,9 +1,11 @@
 package dulleh.akhyou.Settings;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.nononsenseapps.filepicker.FilePickerActivity;
 
 import de.greenrobot.event.EventBus;
 import dulleh.akhyou.BuildConfig;
@@ -29,10 +32,15 @@ public class SettingsFragment extends Fragment {
     //TODO: REFACTOR THIS INTO MVP STRUCTURE
     public static final String THEME_PREFERENCE = "theme_preference";
     public static final String SEARCH_GRID_PREFERENCE = "search_grid_preference";
+    public static final String DOWNLOAD_LOCATION_PREFERENCE = "download_location_preference";
 
+    public static final int DOWNLOAD_LOCATION_REQUEST_CODE = 1;
+
+    private TextView downloadLocationSummary;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private CharSequence[] themeTitles;
+    private String downloadLocationFilePath;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,6 +110,24 @@ public class SettingsFragment extends Fragment {
                             }
                         })
                         .show();
+            }
+        });
+
+        RelativeLayout downloadLocationItem = (RelativeLayout) view.findViewById(R.id.search_download_location_item);
+        downloadLocationSummary = (TextView) downloadLocationItem.findViewById(R.id.preference_summary_text);
+        downloadLocationFilePath = getSummary(DOWNLOAD_LOCATION_PREFERENCE);
+        downloadLocationSummary.setText(downloadLocationFilePath);
+        downloadLocationItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), FilePickerActivity.class);
+
+                i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true);
+                i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
+                i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
+                i.putExtra(FilePickerActivity.EXTRA_START_PATH, downloadLocationFilePath);
+
+                startActivityForResult(i, DOWNLOAD_LOCATION_REQUEST_CODE);
             }
         });
 
@@ -184,6 +210,16 @@ public class SettingsFragment extends Fragment {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == DOWNLOAD_LOCATION_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+            downloadLocationFilePath = data.getData().getPath();
+            downloadLocationSummary.setText(downloadLocationFilePath);
+            editor.putString(DOWNLOAD_LOCATION_PREFERENCE, downloadLocationFilePath);
+            editor.apply();
+        }
+    }
+
     public void setToolbarTitle (String title) {
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(title);
     }
@@ -245,8 +281,15 @@ public class SettingsFragment extends Fragment {
 
             }
         } else if (key.equals(SEARCH_GRID_PREFERENCE)) {
+
             int searchGridPref = sharedPreferences.getInt(SEARCH_GRID_PREFERENCE, 0);
             return searchGridSummaryUpdate(searchGridPref);
+
+        } else if (key.equals(DOWNLOAD_LOCATION_PREFERENCE)) {
+
+            String defaultDownloadLocationFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
+            return sharedPreferences.getString(DOWNLOAD_LOCATION_PREFERENCE, defaultDownloadLocationFilePath);
+
         }
         return null;
     }

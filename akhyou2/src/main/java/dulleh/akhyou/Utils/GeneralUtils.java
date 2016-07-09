@@ -83,7 +83,8 @@ public class GeneralUtils {
     }
 
     public static void internalDownload (DownloadManager downloadManager, String url, String title) {
-        String fileName = title.trim() + getFileExtensionFromUrl(url);
+        //String fileName = title.trim() + getFileExtensionFromUrl(url);
+        String fileName = title.trim() + ".mp4";
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setTitle(fileName);
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);

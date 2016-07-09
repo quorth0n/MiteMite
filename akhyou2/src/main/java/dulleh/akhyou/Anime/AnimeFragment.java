@@ -39,6 +39,7 @@ import dulleh.akhyou.Models.Video;
 import dulleh.akhyou.R;
 import dulleh.akhyou.Utils.AdapterClickListener;
 import dulleh.akhyou.Utils.Events.SearchSubmittedEvent;
+import dulleh.akhyou.Utils.GeneralUtils;
 import nucleus.factory.RequiresPresenter;
 import nucleus.view.NucleusSupportFragment;
 
@@ -290,7 +291,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
-                        getPresenter().downloadOrStream(videos.get(i), download);
+                        downloadOrStream(videos.get(i), download);
                     }
                 })
                 .show();
@@ -336,9 +337,17 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
 
     public void shareVideo (Source source, boolean download) {
         if (source.getVideos().size() == 1) {
-            getPresenter().downloadOrStream(source.getVideos().get(0), download);
+            downloadOrStream(source.getVideos().get(0), download);
         } else {
             showVideosDialog(source.getVideos(), download);
+        }
+    }
+
+    private void downloadOrStream (Video video, boolean download) {
+        if (download) {
+            getPresenter().download(video.getUrl(), getPresenter().lastAnime.getEpisodes().get(position).getTitle() + ".mp4");
+        } else {
+            getPresenter().postIntent(video.getUrl());
         }
     }
 

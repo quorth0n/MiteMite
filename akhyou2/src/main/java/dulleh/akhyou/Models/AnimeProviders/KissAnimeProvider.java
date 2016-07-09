@@ -39,7 +39,6 @@ public class KissAnimeProvider implements AnimeProvider {
 
     @Override
     public Anime fetchAnime(String url) throws OnErrorThrowable, CloudFlareInitializationException {
-
         if (!CloudflareHttpClient.INSTANCE.isInitialized()) {
             throw new CloudFlareInitializationException();
         }
