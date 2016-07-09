@@ -72,5 +72,6 @@
     <string name="hummingbird_history_placeholder">عذراً، ولكن هذه الصفحة للمشاهدة فقط</string>
     <string name="share">مشاركة</string>
     <string name="download_preference_title">Download location</string>
+    <string name="reset_to_default">Reset to default</string>
 
 </resources>

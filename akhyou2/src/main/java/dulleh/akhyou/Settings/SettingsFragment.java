@@ -26,6 +26,7 @@ import dulleh.akhyou.BuildConfig;
 import dulleh.akhyou.MainActivity;
 import dulleh.akhyou.MainModel;
 import dulleh.akhyou.R;
+import dulleh.akhyou.Settings.HummingbirdSettings.ResettableFilePickerActivity;
 import dulleh.akhyou.Utils.Events.HummingbirdSettingsEvent;
 
 public class SettingsFragment extends Fragment {
@@ -120,12 +121,13 @@ public class SettingsFragment extends Fragment {
         downloadLocationItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getContext(), FilePickerActivity.class);
+                Intent i = new Intent(getContext(), ResettableFilePickerActivity.class);
 
                 i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true);
                 i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
                 i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
                 i.putExtra(FilePickerActivity.EXTRA_START_PATH, downloadLocationFilePath);
+                i.putExtra(ResettableFilePickerActivity.EXTRA_DEFAULT_PATH, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
 
                 startActivityForResult(i, DOWNLOAD_LOCATION_REQUEST_CODE);
             }
