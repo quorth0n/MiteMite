@@ -5,3 +5,14 @@
 .DS_Store
 /build
 /.idea
+akhyou2-debug.apk
+akhyou2/fabric.properties
+akhyou2/mapping.txt
+app/libs/
+captures/Snapshot_2015.12.21_14.37.09.hprof
+captures/SystemInfo_2015.07.21_12.39.34.txt
+manifest-merger-debug-report.txt
+manifest-merger-release-report.txt
+.gitignore
+Akhyou.iml
+akhyou2.iml

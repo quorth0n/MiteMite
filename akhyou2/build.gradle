@@ -1,15 +1,19 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
 
     defaultConfig {
         applicationId "dulleh.akhyou"
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 2
         versionName "2.0.5"
+
+        jackOptions {
+            enabled true
+        }
     }
     buildTypes {
         release {
@@ -38,21 +42,16 @@ buildscript {
     repositories {
         mavenCentral()
     }
-
-    dependencies {
-        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
-    }
-
-    configurations.classpath.exclude group: 'com.android.tools.external.lombok'
 }
 
 repositories {
+    jcenter()
     mavenCentral()
     maven { url "https://jitpack.io" }
+    maven {url = "http://dl.bintray.com/davideas/maven" }
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 
 def appendVersionName(variant, defaultConfig) {
     variant.outputs.each { output ->
@@ -71,27 +70,28 @@ def appendVersionName(variant, defaultConfig) {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // android
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:recyclerview-v7:23.3.0'
-    compile 'com.android.support:cardview-v7:23.3.0'
-    compile 'com.android.support:design:23.3.0'
-    compile 'com.android.support:palette-v7:23.3.0'
+    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.android.support:recyclerview-v7:24.0.0'
+    compile 'com.android.support:cardview-v7:24.0.0'
+    compile 'com.android.support:design:24.0.0'
+    compile 'com.android.support:palette-v7:24.0.0'
     // ui
-    compile 'com.afollestad:material-dialogs:0.7.6.0'
+    compile 'com.afollestad.material-dialogs:core:0.8.6.1'
     compile 'com.nononsenseapps:filepicker:3.0.0'
+    compile 'eu.davidea:flexible-adapter:4.2.0'
     // networking
-    compile 'com.squareup.okhttp3:okhttp:3.1.2'
-    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.1.2'
+    compile 'com.squareup.okhttp3:okhttp:3.4.0'
+    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.4.0'
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.squareup.retrofit2:retrofit:2.0.0'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit:converter-jackson:2.0.0-beta2'
     compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
     // networking - json
-    compile 'com.fasterxml.jackson.core:jackson-core:2.6.0'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.6.0'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.8.0'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.0'
     // networking - jsoup
-    compile 'org.jsoup:jsoup:1.8.1'
+    compile 'org.jsoup:jsoup:1.9.2'
     // networking - javascript
     compile 'org.mozilla:rhino:1.7.7'
     compile 'com.annimon:stream:1.0.6'
