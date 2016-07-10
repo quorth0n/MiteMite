@@ -41,7 +41,6 @@ repositories {
     jcenter()
     mavenCentral()
     maven { url "https://jitpack.io" }
-    maven {url = "http://dl.bintray.com/davideas/maven" }
 }
 
 apply plugin: 'com.android.application'
