@@ -13,15 +13,21 @@ import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Episode;
 import dulleh.akhyou.Models.Source;
 import dulleh.akhyou.Models.SourceProviders.SourceProvider;
+import dulleh.akhyou.Utils.CloudFlareInitializationException;
+import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
 public class RamAnimeProvider implements AnimeProvider {
-    private static final String BASE_URL = "http://www.animeram.co";
+    private static final String BASE_URL = "http://www.animeram.io";
 
     @Override
-    public Anime fetchAnime(String url) throws OnErrorThrowable {
+    public Anime fetchAnime(String url) throws OnErrorThrowable, CloudFlareInitializationException {
         String body = GeneralUtils.getWebPage(url);
+
+        if (!CloudflareHttpClient.INSTANCE.isInitialized()) {
+            throw new CloudFlareInitializationException();
+        }
 
         if (!hasAnime(body)) {
             throw OnErrorThrowable.from(new Throwable("Failed to retrieve anime."));
@@ -45,7 +51,7 @@ public class RamAnimeProvider implements AnimeProvider {
     }
 
     @Override
-    public Anime updateCachedAnime(Anime cachedAnime) throws OnErrorThrowable {
+    public Anime updateCachedAnime(Anime cachedAnime) throws OnErrorThrowable, CloudFlareInitializationException {
         Anime updatedAnime = fetchAnime(cachedAnime.getUrl());
 
         updatedAnime.inheritWatchedFrom(cachedAnime.getEpisodes());

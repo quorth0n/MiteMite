@@ -62,7 +62,8 @@ public enum CloudflareHttpClient {
 
     private static final String[] CLOUDFLARE_URLS = {
             "https://kissanime.to",
-            "http://www.animerush.tv"
+            "http://www.animerush.tv",
+            "http://www.animeram.io"
     };
 
     private final Pattern functionPattern = Pattern.compile("setTimeout\\(\\s*function\\s*\\(\\)\\s*\\{(.*)f\\.submit", Pattern.DOTALL);
