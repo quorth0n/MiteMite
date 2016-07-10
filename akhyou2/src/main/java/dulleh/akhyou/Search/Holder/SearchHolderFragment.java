@@ -21,6 +21,7 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import dulleh.akhyou.Models.Anime;
+import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.R;
 import dulleh.akhyou.Settings.SettingsFragment;
 import dulleh.akhyou.Utils.Events.SearchEvent;
@@ -31,10 +32,10 @@ public class SearchHolderFragment extends Fragment{
 
     public SearchHolderFragment () {
         if (searchResultsCache.isEmpty()) {
-            searchResultsCache.add(Anime.RUSH, new ArrayList<>(0));
-            searchResultsCache.add(Anime.RAM, new ArrayList<>(0));
-            searchResultsCache.add(Anime.BAM, new ArrayList<>(0));
-            searchResultsCache.add(Anime.KISS, new ArrayList<>(0));
+            searchResultsCache.add(Providers.RUSH, new ArrayList<>(0));
+            searchResultsCache.add(Providers.RAM, new ArrayList<>(0));
+            searchResultsCache.add(Providers.BAM, new ArrayList<>(0));
+            searchResultsCache.add(Providers.KISS, new ArrayList<>(0));
         }
     }
 

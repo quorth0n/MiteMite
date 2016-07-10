@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Episode;
+import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.Models.Source;
 import dulleh.akhyou.Models.SourceProviders.SourceProvider;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
@@ -19,7 +20,6 @@ import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
 public class RamAnimeProvider implements AnimeProvider {
-    private static final String BASE_URL = "http://www.animeram.io";
 
     @Override
     public Anime fetchAnime(String url) throws OnErrorThrowable, CloudFlareInitializationException {
@@ -40,7 +40,7 @@ public class RamAnimeProvider implements AnimeProvider {
         Elements episodes = animeBox.select("div.container > div > div > div.col-md-10 > div.cblock > ul").first().children();
 
         Anime anime = new Anime()
-                .setProviderType(Anime.RAM)
+                .setProviderType(Providers.RAM)
                 .setUrl(url);
 
         anime = parseForInfo(info, anime);
@@ -115,7 +115,7 @@ public class RamAnimeProvider implements AnimeProvider {
 
             episodes.add(new Episode()
                     .setTitle(title.trim())
-                    .setUrl(BASE_URL + info.first().attr("href")));
+                    .setUrl(Providers.RAM_BASE_URL + info.first().attr("href")));
         }
 
         return episodes;
@@ -150,7 +150,7 @@ public class RamAnimeProvider implements AnimeProvider {
                 if (subUrl == null || subUrl.trim().isEmpty() || subUrl.equals("#")) {
                     source.setPageUrl(url);
                 } else {
-                    source.setPageUrl(BASE_URL + subUrl);
+                    source.setPageUrl(Providers.RAM_BASE_URL + subUrl);
                 }
 
                 sources.add(source);

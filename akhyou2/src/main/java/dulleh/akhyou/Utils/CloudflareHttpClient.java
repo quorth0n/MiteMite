@@ -43,6 +43,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import dulleh.akhyou.Models.Providers;
 import okhttp3.Cookie;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -61,9 +62,9 @@ public enum CloudflareHttpClient {
     INSTANCE;
 
     private static final String[] CLOUDFLARE_URLS = {
-            "https://kissanime.to",
-            "http://www.animerush.tv",
-            "http://www.animeram.io"
+            Providers.KISS_BASE_URL,
+            Providers.RUSH_BASE_URL,
+            Providers.RAM_BASE_URL
     };
 
     private final Pattern functionPattern = Pattern.compile("setTimeout\\(\\s*function\\s*\\(\\)\\s*\\{(.*)f\\.submit", Pattern.DOTALL);

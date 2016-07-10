@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import dulleh.akhyou.Models.Anime;
+import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.Search.Holder.Item.SearchFragment;
 
 public class SearchHolderAdapter extends FragmentStatePagerAdapter{
@@ -22,16 +22,16 @@ public class SearchHolderAdapter extends FragmentStatePagerAdapter{
 
         switch(position) {
             case 0:
-                args.putInt(PROVIDER_TYPE_KEY, Anime.RUSH);
+                args.putInt(PROVIDER_TYPE_KEY, Providers.RUSH);
                 break;
             case 1:
-                args.putInt(PROVIDER_TYPE_KEY, Anime.RAM);
+                args.putInt(PROVIDER_TYPE_KEY, Providers.RAM);
                 break;
             case 2:
-                args.putInt(PROVIDER_TYPE_KEY, Anime.BAM);
+                args.putInt(PROVIDER_TYPE_KEY, Providers.BAM);
                 break;
             case 3:
-                args.putInt(PROVIDER_TYPE_KEY, Anime.KISS);
+                args.putInt(PROVIDER_TYPE_KEY, Providers.KISS);
                 break;
         }
 
@@ -48,13 +48,13 @@ public class SearchHolderAdapter extends FragmentStatePagerAdapter{
     public CharSequence getPageTitle(int position) {
         switch(position) {
             case 0:
-                return Anime.RUSH_TITLE;
+                return Providers.RUSH_TITLE;
             case 1:
-                return Anime.RAM_TITLE;
+                return Providers.RAM_TITLE;
             case 2:
-                return Anime.BAM_TITLE;
+                return Providers.BAM_TITLE;
             case 3:
-                return Anime.KISS_TITLE;
+                return Providers.KISS_TITLE;
             default:
                 throw new RuntimeException("No title for this tab number. (sea)");
         }

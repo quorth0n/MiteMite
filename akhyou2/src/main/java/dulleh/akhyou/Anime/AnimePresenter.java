@@ -20,8 +20,8 @@ import dulleh.akhyou.Models.AnimeProviders.RamAnimeProvider;
 import dulleh.akhyou.Models.AnimeProviders.RushAnimeProvider;
 import dulleh.akhyou.Models.AnimeProviders.AnimeProvider;
 import dulleh.akhyou.Models.Anime;
+import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.Models.Source;
-import dulleh.akhyou.Models.Video;
 import dulleh.akhyou.R;
 import dulleh.akhyou.Settings.SettingsFragment;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
@@ -117,16 +117,16 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
     private Anime setAnimeProvider (Anime anime) {
         if (anime.getProviderType() != null) {
             switch (anime.getProviderType()) {
-                case Anime.RUSH:
+                case Providers.RUSH:
                     animeProvider = new RushAnimeProvider();
                     break;
-                case Anime.RAM:
+                case Providers.RAM:
                     animeProvider = new RamAnimeProvider();
                     break;
-                case Anime.BAM:
+                case Providers.BAM:
                     animeProvider = new BamAnimeProvider();
                     break;
-                case Anime.KISS:
+                case Providers.KISS:
                     animeProvider = new KissAnimeProvider();
                     break;
                 default:

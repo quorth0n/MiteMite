@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dulleh.akhyou.Models.Anime;
+import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
 public class BamSearchProvider implements SearchProvider{
-    private static final String BASE_URL = "http://www.animebam.net/search?search=";
 
     @Override
     public List<Anime> searchFor(String searchTerm) throws OnErrorThrowable {
-        String url = BASE_URL + GeneralUtils.encodeForUtf8(searchTerm);
+        String url = Providers.BAM_SEARCH_URL + GeneralUtils.encodeForUtf8(searchTerm);
 
         String responseBody = GeneralUtils.getWebPage(url);
 
@@ -50,7 +50,7 @@ public class BamSearchProvider implements SearchProvider{
 
         for (Element searchResult : searchResults) {
             Anime anime = new Anime()
-                    .setProviderType(Anime.BAM)
+                    .setProviderType(Providers.BAM)
                     .setUrl("http://www.animebam.net" + searchResult.attr("href"));
 
             searchResult = searchResult.child(0);

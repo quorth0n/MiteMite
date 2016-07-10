@@ -9,6 +9,7 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import dulleh.akhyou.Models.Anime;
+import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.Models.SearchProviders.BamSearchProvider;
 import dulleh.akhyou.Models.SearchProviders.KissSearchProvider;
 import dulleh.akhyou.Models.SearchProviders.RamSearchProvider;
@@ -44,16 +45,16 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
     public void setProviderType (int providerType) {
         this.providerType = providerType;
         switch (providerType) {
-            case Anime.RUSH:
+            case Providers.RUSH:
                 searchProvider = new RushSearchProvider();
                 break;
-            case Anime.RAM:
+            case Providers.RAM:
                 searchProvider = new RamSearchProvider();
                 break;
-            case Anime.BAM:
+            case Providers.BAM:
                 searchProvider = new BamSearchProvider();
                 break;
-            case Anime.KISS:
+            case Providers.KISS:
                 searchProvider = new KissSearchProvider();
                 break;
         }

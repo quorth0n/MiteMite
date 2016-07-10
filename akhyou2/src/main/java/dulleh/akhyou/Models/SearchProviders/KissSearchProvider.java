@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import dulleh.akhyou.Models.Anime;
+import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
 import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.GeneralUtils;
@@ -19,9 +20,6 @@ import okhttp3.RequestBody;
 import rx.exceptions.OnErrorThrowable;
 
 public class KissSearchProvider implements SearchProvider {
-    static String BASE_URL = "https://kissanime.to";
-    static String SEARCH_URL = "https://kissanime.to/AdvanceSearch";
-    static int providerType = Anime.KISS;
     private static final Pattern PARSER = Pattern.compile(".*src=\"(.*?)\".*href=\"(.*)\">(.*?)</a>.*<p>\\s*(.*?)\\s*</p>", Pattern.DOTALL);
     private static final int NUM_GENRES = 47;
 
@@ -37,7 +35,7 @@ public class KissSearchProvider implements SearchProvider {
                 .build();
 
         Request search = new Request.Builder()
-                .url(SEARCH_URL)
+                .url(Providers.KISS_SEARCH_URL)
                 .post(query)
                 .build();
 
@@ -65,12 +63,12 @@ public class KissSearchProvider implements SearchProvider {
     private List<Anime> parseElements(Elements rows) {
         List<Anime> results = new ArrayList<>(rows.size());
         for (Element row : rows) {
-            Anime anime = new Anime().setProviderType(providerType);
+            Anime anime = new Anime().setProviderType(Providers.KISS);
             String titleTag = row.attr("title");
             Matcher matcher = PARSER.matcher(titleTag);
             if (matcher.find()) {
                 anime.setImageUrl(matcher.group(1))
-                     .setUrl(BASE_URL + matcher.group(2))
+                     .setUrl(Providers.KISS_BASE_URL + matcher.group(2))
                      .setTitle(matcher.group(3))
                      .setDesc(matcher.group(4));
             }

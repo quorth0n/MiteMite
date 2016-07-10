@@ -8,15 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dulleh.akhyou.Models.Anime;
+import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
 import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.GeneralUtils;
-import eu.davidea.flexibleadapter.FlexibleAdapter;
 import rx.exceptions.OnErrorThrowable;
 
 public class RamSearchProvider implements SearchProvider{
-    private static final String BASE_URL = "http://www.animeram.io/search?search=";
-
     @Override
     public List<Anime> searchFor(String searchTerm) throws OnErrorThrowable, CloudFlareInitializationException {
 
@@ -24,7 +22,7 @@ public class RamSearchProvider implements SearchProvider{
             throw new CloudFlareInitializationException();
         }
 
-        String url = BASE_URL + GeneralUtils.encodeForUtf8(searchTerm);
+        String url = Providers.RAM_SEARCH_URL + GeneralUtils.encodeForUtf8(searchTerm);
 
         String responseBody = GeneralUtils.getWebPage(url);
 
@@ -57,10 +55,10 @@ public class RamSearchProvider implements SearchProvider{
         List<Anime> animes = new ArrayList<>(searchResults.size());
 
         for (Element searchResult : searchResults) {
-            Anime anime = new Anime().setProviderType(Anime.RAM);
+            Anime anime = new Anime().setProviderType(Providers.RAM);
 
             anime.setTitle(searchResult.select("h2").text());
-            anime.setUrl("http://www.animeram.co" + searchResult.attr("href"));
+            anime.setUrl(Providers.RAM_BASE_URL + searchResult.attr("href"));
             anime.setImageUrl("http:" + searchResult.select("img").attr("src"));
             StringBuilder descBuilder = new StringBuilder();
             descBuilder.append(searchResult.select("div.first > div").first().text());

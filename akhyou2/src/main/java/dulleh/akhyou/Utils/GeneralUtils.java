@@ -17,7 +17,7 @@ import java.net.URLEncoder;
 
 import de.greenrobot.event.EventBus;
 import dulleh.akhyou.Models.Anime;
-import dulleh.akhyou.Models.Source;
+import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.Models.SourceProviders.SourceProvider;
 import dulleh.akhyou.Utils.Events.SnackbarEvent;
 import okhttp3.Request;
@@ -152,21 +152,21 @@ public class GeneralUtils {
 
     public static int determineProviderType (String url) throws Exception{
         url = url.toUpperCase();
-        if (url.contains(Anime.RUSH_TITLE)) {
-            return Anime.RUSH;
-        } else if (url.contains(Anime.RAM_TITLE)) {
-            return Anime.RAM;
-        } else if (url.contains(Anime.BAM_TITLE)) {
-            return Anime.BAM;
+        if (url.contains(Providers.RUSH_TITLE)) {
+            return Providers.RUSH;
+        } else if (url.contains(Providers.RAM_TITLE)) {
+            return Providers.RAM;
+        } else if (url.contains(Providers.BAM_TITLE)) {
+            return Providers.BAM;
         }
         throw new Exception("Unsupported source");
     }
 
 
     public static SourceProvider determineSourceProvider (String lowerCaseTitle) {
-        for (String sourceName : Source.sourceMap.keySet()) {
+        for (String sourceName : Providers.sourceMap.keySet()) {
             if (lowerCaseTitle.contains(sourceName)) {
-                return Source.sourceMap.get(sourceName);
+                return Providers.sourceMap.get(sourceName);
             }
         }
         return null;

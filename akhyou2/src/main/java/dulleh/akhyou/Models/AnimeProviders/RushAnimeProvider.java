@@ -9,6 +9,7 @@ import java.util.List;
 
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Episode;
+import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.Models.Source;
 import dulleh.akhyou.Models.SourceProviders.SourceProvider;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
@@ -35,7 +36,7 @@ public class RushAnimeProvider implements AnimeProvider {
         }
 
         Anime anime = new Anime()
-                .setProviderType(Anime.RUSH)
+                .setProviderType(Providers.RUSH)
                 .setUrl(url);
 
         animeBox = animeBox.select("div.amin_box2").first();
@@ -112,7 +113,7 @@ public class RushAnimeProvider implements AnimeProvider {
 
     private Element isolate (String document) {
         return Jsoup
-                .parse(document, "http://www.animerush.tv/")
+                .parse(document, Providers.RUSH_BASE_URL)
                 .select("div#left-column")
                 .first();
     }
@@ -185,21 +186,6 @@ public class RushAnimeProvider implements AnimeProvider {
                 sources.add(addSourceTitleUrlProvider(e, titleAndUrlElement, source, sourceProvider, titleBuilder));
             }
 
-
-
-/*
- * To check for if we're already on the source's episode page
- * currently no way to use this information so I'm commenting it out
-
-            if (!element.select("div.episode_on").isEmpty()) {
-                // it's on this page
-            } else {
-                // it's not on this page
-            }
-
-*/
-                //}
-            //}
         }
 
         return sources;

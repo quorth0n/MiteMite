@@ -9,6 +9,7 @@ import java.util.List;
 
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Episode;
+import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.Models.Source;
 import dulleh.akhyou.Models.SourceProviders.SourceProvider;
 import dulleh.akhyou.Utils.GeneralUtils;
@@ -24,7 +25,7 @@ public class BamAnimeProvider implements AnimeProvider {
 
         Anime anime = new Anime()
                 .setUrl(url)
-                .setProviderType(Anime.BAM);
+                .setProviderType(Providers.BAM);
 
         anime = parseForInfo(main, anime);
 
@@ -98,7 +99,7 @@ public class BamAnimeProvider implements AnimeProvider {
 
         for (Element episodeElement : episodeElements) {
              episodes.add(new Episode()
-                     .setUrl("http://www.animebam.net" + episodeElement.child(0).child(0).attr("href"))
+                     .setUrl(Providers.BAM_BASE_URL + episodeElement.child(0).child(0).attr("href"))
                      .setTitle(episodeElement.select("strong").text() + " " + episodeElement.select("i").first().text()));
         }
 
@@ -116,7 +117,7 @@ public class BamAnimeProvider implements AnimeProvider {
                         // no page url needed
                         .setTitle(title)
                         .setSourceProvider(sourceProvider)
-                        .setEmbedUrl("http://www.animebam.net" + e.select("iframe[src]").attr("src")));
+                        .setEmbedUrl(Providers.BAM_BASE_URL + e.select("iframe[src]").attr("src")));
             }
         }
 

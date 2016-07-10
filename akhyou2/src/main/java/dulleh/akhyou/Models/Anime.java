@@ -10,15 +10,6 @@ import java.util.List;
 import dulleh.akhyou.MainApplication;
 
 public class Anime implements Parcelable{
-    public static final int RUSH = 0;
-    public static final CharSequence RUSH_TITLE = "ANIMERUSH";
-    public static final int RAM = 1;
-    public static final CharSequence RAM_TITLE = "ANIMERAM";
-    public static final int BAM = 2;
-    public static final CharSequence BAM_TITLE = "ANIMEBAM";
-    public static final int KISS = 3;
-    public static final CharSequence KISS_TITLE = "KISSANIME";
-
     // has to be here cos conflicts with V
     public Anime () {}
 

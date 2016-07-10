@@ -14,20 +14,6 @@ import dulleh.akhyou.Models.SourceProviders.SourceProvider;
 import dulleh.akhyou.Models.SourceProviders.YourUploadSourceProvider;
 
 public class Source implements Serializable{
-    public static final Map<String, SourceProvider> sourceMap = initSourceList();
-
-    private static Map<String, SourceProvider> initSourceList () {
-        Map<String, SourceProvider> sourceMap = new HashMap<>();
-
-        sourceMap.put("mp4upload", new Mp4UploadSourceProvider());
-        sourceMap.put("dailymotion", new DailyMotionSourceProvider());
-        sourceMap.put("engine", new EngineSourceProvider());
-        sourceMap.put("yourupload", new YourUploadSourceProvider());
-        sourceMap.put("go", new GoSourceProvider());
-        sourceMap.put("abvideo", new AnimeBamSourceProvider());
-
-        return sourceMap;
-    }
 
     private String title;
     private String pageUrl;

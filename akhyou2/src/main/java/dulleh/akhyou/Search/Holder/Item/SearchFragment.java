@@ -26,6 +26,7 @@ import de.greenrobot.event.EventBus;
 import dulleh.akhyou.MainActivity;
 import dulleh.akhyou.MainApplication;
 import dulleh.akhyou.Models.Anime;
+import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.R;
 import dulleh.akhyou.Search.Holder.SearchHolderAdapter;
 import dulleh.akhyou.Search.Holder.SearchHolderFragment;
@@ -47,7 +48,7 @@ public class SearchFragment extends NucleusSupportFragment<SearchPresenter> impl
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        getPresenter().setProviderType(getArguments().getInt(SearchHolderAdapter.PROVIDER_TYPE_KEY, Anime.RUSH));
+        getPresenter().setProviderType(getArguments().getInt(SearchHolderAdapter.PROVIDER_TYPE_KEY, Providers.RUSH));
     }
 
     @Nullable

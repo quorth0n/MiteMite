@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Episode;
+import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.Models.Source;
 import dulleh.akhyou.Models.Video;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
@@ -24,8 +25,6 @@ import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
 public class KissAnimeProvider implements AnimeProvider {
-    static String BASE_URL = "https://kissanime.to";
-    static int providerType = Anime.KISS;
     private static final Pattern EXTRACT_STATUS = Pattern.compile("Status:\\s*(.*?)\\s{2,}Views");
 
     private static final byte[] DECODE_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".getBytes(Charset.forName("UTF-8"));
@@ -49,7 +48,7 @@ public class KissAnimeProvider implements AnimeProvider {
 
         Anime anime = new Anime()
                 .setUrl(url)
-                .setProviderType(providerType);
+                .setProviderType(Providers.KISS);
         anime = parseInfo(doc, anime);
         anime.setEpisodes(parseEpisodes(doc));
 
@@ -149,7 +148,7 @@ public class KissAnimeProvider implements AnimeProvider {
         for (Element episode : episodeElements) {
             episodes.add(new Episode()
                 .setTitle(episode.text())
-                .setUrl(BASE_URL + episode.attr("href")));
+                .setUrl(Providers.KISS_BASE_URL + episode.attr("href")));
         }
 
         return episodes;
