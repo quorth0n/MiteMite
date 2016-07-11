@@ -7,6 +7,9 @@
 -printmapping
 -printmapping mapping.txt
 
+-keep class dulleh.akhyou.Models.** { *; }
+-keep interface dulleh.akhyou.Models.** { *; }
+
 -keep class com.squareup.okhttp.** { *; }
 -keep interface com.squareup.okhttp.** { *; }
 -keep class okio.Okio.**
@@ -59,6 +62,24 @@
     private void readObject(java.io.ObjectInputStream);
     java.lang.Object writeReplace();
     java.lang.Object readResolve();
+}
+
+-keep class com.annimon.stream.** { *; }
+-keep interface com.annimon.stream.** { *; }
+-keepclasseswithmembers class * {
+    @com.annimon.stream.** *;
+}
+-keepclassmembers class * {
+    @com.annimon.stream.** *;
+}
+
+-keep class rx.** { *; }
+
+-keepnames class com.fasterxml.jackson.** { *; }
+ -dontwarn com.fasterxml.jackson.databind.**
+-keep class org.codehaus.** { *; }
+-keepclassmembers public final enum org.codehaus.jackson.annotate.JsonAutoDetect$Visibility {
+ public static final org.codehaus.jackson.annotate.JsonAutoDetect$Visibility *;
 }
 
 -dontobfuscate
