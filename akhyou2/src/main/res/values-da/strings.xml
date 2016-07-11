@@ -73,5 +73,6 @@
     <string name="share">Del</string>
     <string name="download_preference_title">Download location</string>
     <string name="reset_to_default">Reset to default</string>
+    <string name="user_cover_description">User cover image</string>
 
 </resources>

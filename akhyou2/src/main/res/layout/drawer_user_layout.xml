@@ -8,7 +8,13 @@
     <ImageView
         android:id="@+id/drawer_user_cover"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:contentDescription="@string/user_cover_description" />
+
+    <View android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@id/drawer_user_cover"
+        android:background="@drawable/horizontal_shadow_upsidedown_medium" />
 
     <TextView
         android:id="@+id/drawer_user_name"
