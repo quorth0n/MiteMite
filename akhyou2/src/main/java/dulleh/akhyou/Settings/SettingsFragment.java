@@ -197,7 +197,6 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //setToolbarTitle(getString(R.string.settings_item));
     }
 
     @Override
