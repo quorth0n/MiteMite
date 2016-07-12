@@ -10,11 +10,7 @@
     <include layout="@layout/hummingbird_item_username"
         android:id="@+id/username_preference_item" />
 
-    <include layout="@layout/settings_divider" />
-
     <include layout="@layout/hummingbird_item_password"
         android:id="@+id/password_preference_item" />
-
-    <include layout="@layout/settings_divider" />
 
 </LinearLayout>
