@@ -19,7 +19,6 @@ import dulleh.akhyou.R;
 import dulleh.akhyou.Search.Holder.SearchHolderAdapter;
 import dulleh.akhyou.Search.Holder.SearchHolderFragment;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
-import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.Events.SearchEvent;
 import dulleh.akhyou.Utils.Events.SnackbarEvent;
 import dulleh.akhyou.Utils.GeneralUtils;
@@ -32,7 +31,7 @@ import rx.functions.Func0;
 import rx.schedulers.Schedulers;
 
 public class SearchPresenter extends RxPresenter<SearchFragment> {
-    private static Throwable CLOUDFLARETHROWABLE = new Throwable("Wait 5 seconds and try again (or don't).");
+    private static Throwable CLOUDFLARE_THROWABLE = new Throwable("Wait 5 seconds and try again (or don't).");
     public int providerType;
 
     private Subscription subscription;
@@ -133,8 +132,8 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
                     try {
                         return Observable.just(searchProvider.searchFor(searchTerm));
                     } catch (CloudFlareInitializationException cf) {
-                        CloudflareHttpClient.INSTANCE.registerSites();
-                        return Observable.error(CLOUDFLARETHROWABLE);
+                        //CloudflareHttpClient.INSTANCE.registerSites();
+                        return Observable.error(CLOUDFLARE_THROWABLE);
                     }
                 }
             })

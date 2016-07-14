@@ -20,7 +20,6 @@ import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.Models.Source;
 import dulleh.akhyou.Models.Video;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
-import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
@@ -38,9 +37,9 @@ public class KissAnimeProvider implements AnimeProvider {
 
     @Override
     public Anime fetchAnime(String url) throws OnErrorThrowable, CloudFlareInitializationException {
-        if (!CloudflareHttpClient.INSTANCE.isInitialized()) {
-            throw new CloudFlareInitializationException();
-        }
+       // if (!CloudflareHttpClient.INSTANCE.isInitialized()) {
+        //    throw new CloudFlareInitializationException();
+        //}
 
         String body = GeneralUtils.getWebPage(url);
 
@@ -66,9 +65,9 @@ public class KissAnimeProvider implements AnimeProvider {
     @Override
     public List<Source> fetchSources(String url) throws OnErrorThrowable, CloudFlareInitializationException {
 
-        if (!CloudflareHttpClient.INSTANCE.isInitialized()) {
-            throw new CloudFlareInitializationException();
-        }
+        //if (!CloudflareHttpClient.INSTANCE.isInitialized()) {
+        //    throw new CloudFlareInitializationException();
+        //}
 
         String body = GeneralUtils.getWebPage(url);
 

@@ -12,7 +12,6 @@ import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
 
 import dulleh.akhyou.Utils.OK;
-import dulleh.akhyou.Utils.CloudflareHttpClient;
 
 @ReportsCrashes(
         formUri = "https://collector.tracepot.com/02e21e70"
@@ -29,7 +28,7 @@ public class MainApplication extends Application{
     /**
      * We use a persistent Cookie storage to minimize the need of doing the high-latency connections
      * to Cloudflare protected servers.
-     * The Android application's context is used to get the cache directory.
+     * The Android application's context is used to get a instance of SharedPreferences to load cookies from storage.
      */
     @Override
     public void onCreate() {
@@ -42,8 +41,6 @@ public class MainApplication extends Application{
         Picasso.setSingletonInstance(new Picasso.Builder(getApplicationContext())
                 .downloader(new OkHttp3Downloader(OK.INSTANCE.Client))
                 .build());
-
-        CloudflareHttpClient.INSTANCE.onCreate();
     }
 
 }

@@ -28,7 +28,9 @@ public class GeneralUtils {
 
     public static Response makeRequest (final Request request) {
         try {
-            return OK.INSTANCE.Client.newCall(request).execute();
+            Response response = OK.INSTANCE.Client.newCall(request).execute();
+            System.out.println(request.url() + " cookies: " + OK.INSTANCE.Client.cookieJar().loadForRequest(request.url()));
+            return response;
         } catch (IOException io) {
             throw OnErrorThrowable.from(io);
         }
@@ -171,38 +173,6 @@ public class GeneralUtils {
         }
         return null;
     }
-
-
-/*
-    public static void basicAsyncObservableVoid (BasicObservableable basicObservableable, String string) {
-
-        Observable.defer(new Func0<Observable<Boolean>>() {
-            @Override
-            public Observable<Boolean> call() {
-                return Observable.just(basicObservableable.execute(string));
-            }
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Boolean>() {
-                    @Override
-                    public void onNext(Boolean aBoolean) {
-
-                    }
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-                });
-
-    }
-*/
 
 }
 

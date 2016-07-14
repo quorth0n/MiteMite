@@ -2,10 +2,11 @@ package dulleh.akhyou.Utils;
 
 import android.content.Context;
 
-import dulleh.akhyou.LazyLibs.PersistentCookieJar.ClearableCookieJar;
-import dulleh.akhyou.LazyLibs.PersistentCookieJar.PersistentCookieJar;
-import dulleh.akhyou.LazyLibs.PersistentCookieJar.cache.SetCookieCache;
-import dulleh.akhyou.LazyLibs.PersistentCookieJar.persistence.SharedPrefsCookiePersistor;
+import com.franmontiel.persistentcookiejar.ClearableCookieJar;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+
 import okhttp3.OkHttpClient;
 
 public enum OK {
@@ -18,6 +19,7 @@ public enum OK {
 
         Client = new OkHttpClient.Builder()
                 .cookieJar(cookieJar)
+                .addInterceptor(new CloudflareInterceptor())
                 .build();
 
         return Client;

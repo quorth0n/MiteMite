@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
-import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.GeneralUtils;
 import okhttp3.FormBody;
 import okhttp3.Request;
@@ -26,9 +25,9 @@ public class KissSearchProvider implements SearchProvider {
     @Override
     public List<Anime> searchFor(String searchTerm) throws OnErrorThrowable, CloudFlareInitializationException {
 
-        if (!CloudflareHttpClient.INSTANCE.isInitialized()) {
-            throw new CloudFlareInitializationException();
-        }
+        //if (!CloudflareHttpClient.INSTANCE.isInitialized()) {
+        //    throw new CloudFlareInitializationException();
+        //}
 
         RequestBody query = searchTemplate()
                 .add("animeName", searchTerm)
@@ -36,6 +35,8 @@ public class KissSearchProvider implements SearchProvider {
 
         Request search = new Request.Builder()
                 .url(Providers.KISS_SEARCH_URL)
+                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0")
+                .addHeader("Referer", "http://kissanime.to/AdvanceSearch")
                 .post(query)
                 .build();
 
@@ -44,6 +45,11 @@ public class KissSearchProvider implements SearchProvider {
         Element resultTable = isolate(responseBody);
 
         if (resultTable == null) {
+
+            if (responseBody.contains("allow_5_secs")) {
+                throw new CloudFlareInitializationException();
+            }
+
             throw OnErrorThrowable.from(new Throwable("No search results"));
         }
 

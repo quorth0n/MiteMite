@@ -71,13 +71,12 @@ public class SettingsFragment extends Fragment {
         themeItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new MaterialDialog.Builder(getActivity())
+               new MaterialDialog.Builder(getActivity())
                         .title(R.string.theme_dialog_title)
                         .items(themeTitles)
                         .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
                             @Override
                             public boolean onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
-
                                 editor.putInt(THEME_PREFERENCE, i);
                                 editor.apply();
 

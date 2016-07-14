@@ -25,7 +25,6 @@ import dulleh.akhyou.Models.Source;
 import dulleh.akhyou.R;
 import dulleh.akhyou.Settings.SettingsFragment;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
-import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.Events.FavouriteEvent;
 import dulleh.akhyou.Utils.Events.LastAnimeEvent;
 import dulleh.akhyou.Utils.Events.OpenAnimeEvent;
@@ -183,14 +182,14 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
                     try {
                         return Observable.just(animeProvider.updateCachedAnime(lastAnime));
                     } catch (CloudFlareInitializationException cf) {
-                            CloudflareHttpClient.INSTANCE.registerSites();
+                            //CloudflareHttpClient.INSTANCE.registerSites();
                             return Observable.error(new Throwable("Wait 5 seconds and try again (or don't)."));
                     }
                 }
                 try {
                     return Observable.just(animeProvider.fetchAnime(lastAnime.getUrl()));
                 } catch (CloudFlareInitializationException cf) {
-                    CloudflareHttpClient.INSTANCE.registerSites();
+                    //CloudflareHttpClient.INSTANCE.registerSites();
                     return Observable.error(new Throwable("Wait 5 seconds and try again (or don't)."));
                 }
             }
@@ -288,7 +287,7 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
                 try {
                     return Observable.just(animeProvider.fetchSources(url));
                 } catch (CloudFlareInitializationException cf) {
-                    CloudflareHttpClient.INSTANCE.registerSites();
+                    //CloudflareHttpClient.INSTANCE.registerSites();
                     return Observable.error(new Throwable("Wait 5 seconds and try again (or don't)."));
                 }
             }
@@ -331,7 +330,7 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
                 try {
                     return Observable.just(animeProvider.fetchVideo(source));
                 } catch (CloudFlareInitializationException cf) {
-                    CloudflareHttpClient.INSTANCE.registerSites();
+                    //CloudflareHttpClient.INSTANCE.registerSites();
                     return Observable.error(new Throwable("Wait 5 seconds and try again (or don't)."));
                 }
             }

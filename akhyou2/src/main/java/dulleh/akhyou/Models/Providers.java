@@ -35,7 +35,7 @@ public class Providers {
     public static final String RUSH_BASE_URL = "http://www.animerush.tv";
     public static final String RAM_BASE_URL = "http://www.animeram.io";
     public static final String BAM_BASE_URL = "http://www.animebam.net";
-    public static final String KISS_BASE_URL = "https://kissanime.to";
+    public static final String KISS_BASE_URL = "http://kissanime.to";
 
     // Base search paths (must start with / )
     public static final String RUSH_SEARCH_EXT = "/search.php?searchquery=";

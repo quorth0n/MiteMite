@@ -10,7 +10,6 @@ import java.util.List;
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
-import dulleh.akhyou.Utils.CloudflareHttpClient;
 import dulleh.akhyou.Utils.GeneralUtils;
 import rx.exceptions.OnErrorThrowable;
 
@@ -19,9 +18,9 @@ public class RushSearchProvider implements SearchProvider{
     @Override
     public List<Anime> searchFor(String searchTerm) throws CloudFlareInitializationException {
 
-        if (!CloudflareHttpClient.INSTANCE.isInitialized()) {
-            throw new CloudFlareInitializationException();
-        }
+        //if (!CloudflareHttpClient.INSTANCE.isInitialized()) {
+         //   throw new CloudFlareInitializationException();
+        //}
 
         String url = Providers.RUSH_SEARCH_URL + GeneralUtils.encodeForUtf8(searchTerm);
 
