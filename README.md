@@ -23,7 +23,7 @@ There are no plans to release Akhyou! on the Play store in the future.
 
 ## Development  
 
-I welcome help with development, but, please, let me know if you're going to work on something. ^^  
+I welcome PRs. ^^
 
 ## Awesome libraries this app uses:  
 
@@ -36,4 +36,8 @@ I welcome help with development, but, please, let me know if you're going to wor
 7. [Material Dialogs](https://github.com/afollestad/material-dialogs)  
 8. [Jackson](https://github.com/FasterXML/jackson)  
 9. [LeakCanary](https://github.com/square/leakcanary)  
-10. [Crashlytics/Fabric](http://try.crashlytics.com/sdk-android/)  
+10. [NoNonsense-FilePicker](https://github.com/spacecowboy/NoNonsense-FilePicker)
+11. [FlexibleAdapter](https://github.com/davideas/FlexibleAdapter)
+12. [Retrofit](https://github.com/square/retrofit)
+13. [Rhino](https://github.com/mozilla/rhino)
+14. [RxBinding](https://github.com/JakeWharton/RxBinding)
