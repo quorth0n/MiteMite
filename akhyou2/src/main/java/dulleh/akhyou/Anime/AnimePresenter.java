@@ -233,7 +233,7 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
     }
 
     public void setMajorColour (Palette palette) {
-        if (palette != null) {
+        if (palette != null && lastAnime != null) {
             if (palette.getVibrantSwatch() != null) {
                 lastAnime.setMajorColour(palette.getVibrantSwatch().getRgb());
             } else if (palette.getLightVibrantSwatch() != null) {
