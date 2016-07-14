@@ -364,20 +364,25 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
     public void postError (Throwable e) {
         e.printStackTrace();
 
-        View.OnClickListener actionOnClick = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fetchAnime(true);
-            }
-        };
+        if (getView() != null) {
+            View.OnClickListener actionOnClick = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fetchAnime(true);
+                }
+            };
 
-        EventBus.getDefault().post(new SnackbarEvent(
-                GeneralUtils.formatError(e),
-                Snackbar.LENGTH_LONG,
-                "Retry",
-                actionOnClick,
-                getView().getResources().getColor(R.color.accent)
-        ));
+            EventBus.getDefault().post(new SnackbarEvent(
+                    GeneralUtils.formatError(e),
+                    Snackbar.LENGTH_LONG,
+                    "Retry",
+                    actionOnClick,
+                    getView().getResources().getColor(R.color.accent)
+            ));
+        } else {
+            EventBus.getDefault().post(new SnackbarEvent(GeneralUtils.formatError(e)));
+        }
+
     }
 
 }
