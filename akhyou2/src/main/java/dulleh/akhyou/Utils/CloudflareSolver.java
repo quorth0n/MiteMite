@@ -23,6 +23,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+// further guidance taken from:
+// https://github.com/inorichi/tachiyomi/blob/master/app/src/main/java/eu/kanade/tachiyomi/data/network/CloudflareInterceptor.kt
+// Licence available at https://github.com/inorichi/tachiyomi/blob/master/LICENSE (Apache 2.0)
+
 package dulleh.akhyou.Utils;
 
 import com.squareup.duktape.Duktape;
