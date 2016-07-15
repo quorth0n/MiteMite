@@ -29,7 +29,6 @@ public class GeneralUtils {
     public static Response makeRequest (final Request request) {
         try {
             Response response = OK.INSTANCE.Client.newCall(request).execute();
-            System.out.println(request.url() + " cookies: " + OK.INSTANCE.Client.cookieJar().loadForRequest(request.url()));
             return response;
         } catch (IOException io) {
             throw OnErrorThrowable.from(io);
@@ -80,23 +79,6 @@ public class GeneralUtils {
         }
     }
 
-    private static String getFileExtensionFromUrl (String url) {
-        return url.substring(url.lastIndexOf("."));
-    }
-
-    public static void internalDownload (DownloadManager downloadManager, String url, String title) {
-        //String fileName = title.trim() + getFileExtensionFromUrl(url);
-        String fileName = title.trim() + ".mp4";
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        request.setTitle(fileName);
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
-        request.setMimeType("video/*");
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        //request.allowScanningByMediaScanner();
-        // ^ opens a dialog to open your launcher for some reason.
-        downloadManager.enqueue(request);
-    }
-
     public static void lazyDownload(AppCompatActivity activity,  String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
@@ -129,7 +111,6 @@ public class GeneralUtils {
         return genresBuilder.toString();
     }
 
-    // Need to handle null by yourself
     @Nullable
     public static String serializeAnime(Anime anime) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -141,7 +122,6 @@ public class GeneralUtils {
         }
     }
 
-    // Need to handle null by yourself
     @Nullable
     public static Anime deserializeAnime(String serializedFavourite) {
         try {
