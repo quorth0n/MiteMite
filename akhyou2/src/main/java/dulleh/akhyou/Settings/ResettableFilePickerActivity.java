@@ -1,4 +1,4 @@
-package dulleh.akhyou.Settings.HummingbirdSettings;
+package dulleh.akhyou.Settings;
 
 import android.net.Uri;
 import android.os.Bundle;

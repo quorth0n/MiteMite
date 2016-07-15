@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
@@ -27,8 +27,8 @@ public class HummingbirdSettingsFragment extends NucleusSupportFragment<Hummingb
     private Subscription usernameListener;
     private Subscription passwordListener;
 
-    EditText usernameEditText;
-    EditText passwordEditText;
+    TextInputEditText usernameEditText;
+    TextInputEditText passwordEditText;
 
     private String username;
     private String password;
@@ -47,8 +47,8 @@ public class HummingbirdSettingsFragment extends NucleusSupportFragment<Hummingb
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.hummingbird_settings_fragment, container, false);
 
-        usernameEditText = (EditText) v.findViewById(R.id.username_edit_text);
-        passwordEditText = (EditText) v.findViewById(R.id.password_edit_text);
+        usernameEditText = (TextInputEditText) v.findViewById(R.id.username_edit_text);
+        passwordEditText = (TextInputEditText) v.findViewById(R.id.password_edit_text);
         usernameEditText.setText(username);
         passwordEditText.setText(password);
         subscribeUsernameListener();

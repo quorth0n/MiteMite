@@ -26,7 +26,6 @@ import dulleh.akhyou.BuildConfig;
 import dulleh.akhyou.MainActivity;
 import dulleh.akhyou.MainModel;
 import dulleh.akhyou.R;
-import dulleh.akhyou.Settings.HummingbirdSettings.ResettableFilePickerActivity;
 import dulleh.akhyou.Utils.Events.HummingbirdSettingsEvent;
 
 public class SettingsFragment extends Fragment {
