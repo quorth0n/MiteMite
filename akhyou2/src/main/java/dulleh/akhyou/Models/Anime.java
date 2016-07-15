@@ -101,7 +101,7 @@ public class Anime implements Parcelable{
     }
 
     public Anime setDesc(String desc) {
-        this.desc = desc.trim();
+        this.desc = desc;
         return this;
     }
 
@@ -110,7 +110,7 @@ public class Anime implements Parcelable{
     }
 
     public Anime setUrl(String url) {
-        this.url = url.trim();
+        this.url = url;
         return this;
     }
 
@@ -119,7 +119,7 @@ public class Anime implements Parcelable{
     }
 
     public Anime setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl.trim();
+        this.imageUrl = imageUrl;
         return this;
     }
 
@@ -155,7 +155,7 @@ public class Anime implements Parcelable{
     }
 
     public Anime setDate(String date) {
-        this.date = date.trim();
+        this.date = date;
         return this;
     }
 
@@ -164,7 +164,7 @@ public class Anime implements Parcelable{
     }
 
     public Anime setAlternateTitle(String alternateTitle) {
-        this.alternateTitle = alternateTitle.trim();
+        this.alternateTitle = alternateTitle;
         return this;
     }
 
@@ -173,7 +173,7 @@ public class Anime implements Parcelable{
     }
 
     public Anime setStatus(String status) {
-        this.status = status.trim();
+        this.status = status;
         return this;
     }
 
