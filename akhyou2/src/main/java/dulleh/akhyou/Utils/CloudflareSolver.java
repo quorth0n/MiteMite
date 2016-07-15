@@ -56,6 +56,9 @@ public class CloudflareSolver {
         Request request = response.request();
         String host = request.url().host();
 
+        System.out.println("request url: " + request.url());
+        System.out.println("host: " + host);
+
         Document doc = Jsoup.parse(response.body().string());
         String challenge = doc.select("[name=jschl_vc]").first().attr("value");
         String challengePass = doc.select("[name=pass]").first().attr("value");
@@ -75,7 +78,6 @@ public class CloudflareSolver {
         return new Request.Builder()
                 .url(submitUrl)
                 .addHeader("Referer", request.url().toString())
-                .addHeader("Transfer-Encoding", "chunked")
                 .build();
     }
 
