@@ -222,6 +222,7 @@ public class MainModel {
                 return null;
             }
         } catch (IOException io) {
+            io.printStackTrace();
             throw OnErrorThrowable.from(new Throwable("Checking update failed."));
         }
     }

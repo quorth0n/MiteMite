@@ -22,6 +22,10 @@ public class BamSearchProvider implements SearchProvider{
 
         Element searchResultsBox = isolate(responseBody);
 
+        if (searchResultsBox == null) {
+            throw OnErrorThrowable.from(new Throwable("Parsing failed."));
+        }
+
         if (!hasSearchResults(searchResultsBox)) {
             throw OnErrorThrowable.from(new Throwable("No search results."));
         }
