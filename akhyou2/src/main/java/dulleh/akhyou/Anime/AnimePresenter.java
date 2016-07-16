@@ -8,12 +8,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.view.View;
 
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import dulleh.akhyou.MainModel;
 import dulleh.akhyou.Models.AnimeProviders.BamAnimeProvider;
 import dulleh.akhyou.Models.AnimeProviders.KissAnimeProvider;
 import dulleh.akhyou.Models.AnimeProviders.RamAnimeProvider;
@@ -249,16 +251,22 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
     }
 
     public void download (String url, String fileName) {
-        SharedPreferences preferences = getView().getActivity().getPreferences(Context.MODE_PRIVATE);
-        DownloadManager downloadManager = (DownloadManager) getView().getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+        if (MainModel.externalDownload) {
+            if (getView() != null) {
+                GeneralUtils.lazyDownload((AppCompatActivity) getView().getActivity(), url);
+            }
+        } else {
+            SharedPreferences preferences = getView().getActivity().getPreferences(Context.MODE_PRIVATE);
+            DownloadManager downloadManager = (DownloadManager) getView().getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
 
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        request.setTitle(fileName);
-        request.setDestinationInExternalPublicDir(preferences.getString(SettingsFragment.DOWNLOAD_LOCATION_PREFERENCE, Environment.DIRECTORY_DOWNLOADS), fileName);
-        request.setMimeType("video/*");
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+            request.setTitle(fileName);
+            request.setDestinationInExternalPublicDir(preferences.getString(SettingsFragment.DOWNLOAD_LOCATION_PREFERENCE, Environment.DIRECTORY_DOWNLOADS), fileName);
+            request.setMimeType("video/*");
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
-        downloadManager.enqueue(request);
+            downloadManager.enqueue(request);
+        }
     }
 
     public void postIntent (String videoUrl) {

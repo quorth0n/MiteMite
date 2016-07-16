@@ -112,7 +112,31 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        RelativeLayout downloadLocationItem = (RelativeLayout) view.findViewById(R.id.search_download_location_item);
+        RelativeLayout externalDownloadItem = (RelativeLayout) view.findViewById(R.id.external_download_item);
+        CheckBox externalDownloadCheckBox = (CheckBox) externalDownloadItem.findViewById(R.id.preference_check_box);
+        externalDownloadCheckBox.setClickable(false);
+        TextView externalDownloadSummary = (TextView) externalDownloadItem.findViewById(R.id.preference_summary_text);
+        externalDownloadSummary.setText(yesNoSummaryUpdate(MainModel.externalDownload));
+        externalDownloadCheckBox.setChecked(MainModel.externalDownload);
+        externalDownloadCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                MainModel.externalDownload = b;
+
+                editor.putBoolean(MainModel.EXTERNAL_DOWNLOAD_PREF, b);
+                editor.apply();
+
+                externalDownloadSummary.setText(yesNoSummaryUpdate(b));
+            }
+        });
+        externalDownloadItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                externalDownloadCheckBox.toggle();
+            }
+        });
+
+        RelativeLayout downloadLocationItem = (RelativeLayout) view.findViewById(R.id.download_location_item);
         downloadLocationSummary = (TextView) downloadLocationItem.findViewById(R.id.preference_summary_text);
         downloadLocationFilePath = getSummary(DOWNLOAD_LOCATION_PREFERENCE);
         downloadLocationSummary.setText(downloadLocationFilePath);
@@ -133,6 +157,7 @@ public class SettingsFragment extends Fragment {
 
         RelativeLayout openToLastAnimeItem = (RelativeLayout) view.findViewById(R.id.open_to_last_anime_preference_item);
         CheckBox openToLastAnimeCheckBox = (CheckBox) openToLastAnimeItem.findViewById(R.id.preference_check_box);
+        openToLastAnimeCheckBox.setClickable(false);
         TextView openToLastAnimeSummary = (TextView) openToLastAnimeItem.findViewById(R.id.preference_summary_text);
         openToLastAnimeSummary.setText(yesNoSummaryUpdate(MainModel.openToLastAnime));
         openToLastAnimeCheckBox.setChecked(MainModel.openToLastAnime);
@@ -147,10 +172,17 @@ public class SettingsFragment extends Fragment {
                 openToLastAnimeSummary.setText(yesNoSummaryUpdate(b));
             }
         });
+        openToLastAnimeItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openToLastAnimeCheckBox.toggle();
+            }
+        });
 
         boolean shouldAutoUpdateVal = sharedPreferences.getBoolean(MainModel.AUTO_UPDATE_PREF, true);
         RelativeLayout autoUpdateItem = (RelativeLayout) view.findViewById(R.id.auto_update_preference_item);
         CheckBox autoUpdateCheckBox = (CheckBox) autoUpdateItem.findViewById(R.id.preference_check_box);
+        autoUpdateCheckBox.setClickable(false);
         ((TextView) autoUpdateItem.findViewById(R.id.preference_summary_text))
                 .setText("Current version: " + BuildConfig.VERSION_NAME);
         autoUpdateCheckBox.setChecked(shouldAutoUpdateVal);
@@ -159,6 +191,12 @@ public class SettingsFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 editor.putBoolean(MainModel.AUTO_UPDATE_PREF, b);
                 editor.apply();
+            }
+        });
+        autoUpdateItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                autoUpdateCheckBox.toggle();
             }
         });
 

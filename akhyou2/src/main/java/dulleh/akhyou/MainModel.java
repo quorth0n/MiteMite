@@ -27,10 +27,12 @@ import rx.exceptions.OnErrorThrowable;
 import rx.schedulers.Schedulers;
 
 public class MainModel {
+    // do not change unless you want to lose people's settings
     private static final String FAVOURITES_PREF = "favourites_preference";
     private static final String LAST_ANIME_PREF = "last_anime_preference";
     public static final String AUTO_UPDATE_PREF = "should_auto_update_preference";
     public static final String OPEN_TO_LAST_ANIME_PREF ="open_to_last_anime_preference";
+    public static final String EXTERNAL_DOWNLOAD_PREF = "external_download_preference";
 
     public static final String HB_USERNAME_PREF = "hb_username_preference";
     public static final String HB_PASSWORD_PREF = "hb_password_preference";
@@ -44,7 +46,9 @@ public class MainModel {
     // The key is the anime url.
     private HashMap<String, Anime> favouritesMap;
     private Anime lastAnime;
+    // defaults
     public static boolean openToLastAnime = true;
+    public static boolean externalDownload = false;
 
     private String hbAuthToken;
     private HBUser hbUser;
@@ -63,6 +67,7 @@ public class MainModel {
         refreshFavourites();
         refreshLastAnime();
         refreshOpenToLastAnime();
+        refreshExternalDownload();
         refreshHbAuthToken();
         refreshHbDisplayNameAndUser();
     }
@@ -89,6 +94,10 @@ public class MainModel {
 
     public void refreshOpenToLastAnime () {
         openToLastAnime = sharedPreferences.getBoolean(OPEN_TO_LAST_ANIME_PREF, true);
+    }
+
+    private void refreshExternalDownload() {
+        externalDownload = sharedPreferences.getBoolean(EXTERNAL_DOWNLOAD_PREF, false);
     }
 
     public boolean updateLastAnimeAndFavourite (Anime anime) {

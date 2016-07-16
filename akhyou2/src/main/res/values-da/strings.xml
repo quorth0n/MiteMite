@@ -71,8 +71,9 @@
     <string name="hummingbird_username_placeholder">Synkronisér med hummingbird.me</string>
     <string name="hummingbird_history_placeholder">beklager, på nuværende tidspunkt er denne del af appen kun til pynt :P</string>
     <string name="share">Del</string>
-    <string name="download_preference_title">Download location</string>
+    <string name="download_preference_title">Internal download location</string>
     <string name="reset_to_default">Reset to default</string>
     <string name="user_cover_description">User cover image</string>
+    <string name="external_download_preference_title">Download externally?</string>
 
 </resources>

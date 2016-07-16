@@ -71,8 +71,9 @@
     <string name="hummingbird_history_placeholder">Xin lỗi, chức năng này hiện tại chưa hoạt động trên ứng dụng</string>
     <string name="hummingbird_username_placeholder">Đồng bộ hóa với hummingbird.me</string>
     <string name="share">Chia sẻ</string>
-    <string name="download_preference_title">Vị trí lưu trữ</string>
+    <string name="download_preference_title">Internal download location</string>
     <string name="reset_to_default">Cài về mặc định</string>
     <string name="user_cover_description">Ảnh bìa</string>
+    <string name="external_download_preference_title">Download externally?</string>
 
 </resources>

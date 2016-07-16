@@ -67,8 +67,9 @@
     <string name="hummingbird_history_placeholder">sorry, but currently this part of the app is all looks and no bang :P</string>
     <string name="hummingbird_username_placeholder">Sync with hummingbird.me</string>
     <string name="share">Share</string>
-    <string name="download_preference_title">Download location</string>
+    <string name="download_preference_title">Internal download location</string>
     <string name="reset_to_default">Reset to default</string>
     <string name="user_cover_description">User cover image</string>
+    <string name="external_download_preference_title">Download externally?</string>
 
 </resources>
