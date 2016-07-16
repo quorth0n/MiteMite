@@ -244,6 +244,7 @@ public class MainPresenter extends RxPresenter<MainActivity>{
                 } else {
                     mainModel.removeFromFavourites(event.anime);
                 }
+                mainModel.saveFavourites();
                 if (getView() != null) {
                     getView().favouritesChanged(getFavourites());
                 }
@@ -256,6 +257,7 @@ public class MainPresenter extends RxPresenter<MainActivity>{
     public void onEvent (LastAnimeEvent event) {
             // THIS METHOD IS BEING EXECUTED
         if (mainModel.updateLastAnimeAndFavourite(event.anime) && getView() != null) {
+            mainModel.saveFavourites();
             getView().favouritesChanged(getFavourites());
         }
     }

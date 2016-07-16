@@ -208,7 +208,9 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
                         }
                         lastAnime = anime;
                         isRefreshing = false;
-                        getView().setAnime(lastAnime);
+                        if (getView() != null) {
+                            getView().setAnime(lastAnime);
+                        }
                         //EventBus.getDefault().post(new LastAnimeEvent(lastAnime)); would save it without a major colour
                         this.unsubscribe();
                     }
