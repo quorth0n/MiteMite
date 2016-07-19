@@ -13,4 +13,11 @@
     <include layout="@layout/hummingbird_item_password"
         android:id="@+id/password_preference_item" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="This stuff does nothing but set nice pictures in your drawer."
+        android:textColor="@color/white_transparent"/>
+
 </LinearLayout>

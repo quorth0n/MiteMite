@@ -36,11 +36,12 @@
         android:id="@+id/drawer_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/drawer_settings"/>
+        android:layout_above="@id/drawer_settings"
+        android:background="@android:color/white"/>
 
     <View android:layout_width="match_parent"
         android:layout_height="4dp"
         android:background="@drawable/horizontal_shadow_upsidedown_light"
-        android:layout_above="@id/drawer_settings"/>
+        android:layout_above="@id/drawer_settings" />
 
 </RelativeLayout>
