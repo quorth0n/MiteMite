@@ -25,6 +25,7 @@ import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.Models.Source;
 import dulleh.akhyou.R;
+import dulleh.akhyou.Utils.AdapterDataHandler;
 import dulleh.akhyou.Settings.SettingsFragment;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
 import dulleh.akhyou.Utils.Events.FavouriteEvent;
@@ -40,7 +41,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func0;
 import rx.schedulers.Schedulers;
 
-public class AnimePresenter extends RxPresenter<AnimeFragment>{
+public class AnimePresenter extends RxPresenter<AnimeFragment> implements AdapterDataHandler<Anime>{
     private static final String LAST_ANIME_BUNDLE_KEY = "last_anime";
 
     private Subscription animeSubscription;
@@ -202,10 +203,6 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
                 .subscribe(new Subscriber<Anime>() {
                     @Override
                     public void onNext(Anime anime) {
-                        // for AnimeBam which doesn't have alt-title on anime page
-                        if (lastAnime.getUrl().equals(anime.getUrl()) && lastAnime.getAlternateTitle() != null && anime.getAlternateTitle() == null) {
-                            anime.setAlternateTitle(lastAnime.getAlternateTitle());
-                        }
                         lastAnime = anime;
                         isRefreshing = false;
                         if (getView() != null) {
@@ -230,6 +227,10 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
                     }
 
                 });
+    }
+
+    public Anime getCurrentAnime() {
+        return lastAnime;
     }
 
     public void setNeedToGiveFavourite (boolean bool) {
@@ -269,6 +270,9 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
 
             downloadManager.enqueue(request);
         }
+    }
+    public void downloadEpisode(String url, int episodePosition) {
+        download(url, lastAnime.getEpisodes().get(episodePosition).getTitle() + ".mp4");
     }
 
     public void postIntent (String videoUrl) {
@@ -395,4 +399,8 @@ public class AnimePresenter extends RxPresenter<AnimeFragment>{
 
     }
 
+    @Override
+    public Anime getData() {
+        return lastAnime;
+    }
 }

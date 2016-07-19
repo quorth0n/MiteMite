@@ -15,14 +15,19 @@ import java.util.List;
 
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.R;
-import dulleh.akhyou.Search.Holder.SearchHolderFragment;
+import dulleh.akhyou.Utils.AdapterClickListener;
+import dulleh.akhyou.Utils.AdapterDataHandler;
 
 public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolder> {
-    private Context context;
-    private SearchFragment searchFragment;
+    private final Context context;
 
-    public SearchListAdapter(SearchFragment searchFragment) {
-        this.searchFragment = searchFragment;
+    private final AdapterClickListener<Anime> clickListener;
+    private final AdapterDataHandler<List<Anime>> dataHandler;
+
+    public SearchListAdapter(Context context, AdapterClickListener<Anime> adapterClickListener, AdapterDataHandler<List<Anime>> adapterDataHandler) {
+        this.context = context;
+        this.clickListener = adapterClickListener;
+        this.dataHandler = adapterDataHandler;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -42,8 +47,6 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
 
     @Override
     public SearchListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
-        context = parent.getContext();
-
         View v = LayoutInflater.from(context)
                 .inflate(R.layout.search_card, parent, false);
 
@@ -53,23 +56,27 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int position) {
         Anime anime = getItem(position);
-        viewHolder.titleView.setText(anime.getTitle());
-        viewHolder.descView.setText(anime.getDesc());
 
-        Picasso.with(context)
-                .load(anime.getImageUrl())
-                .error(R.drawable.placeholder)
-                .fit()
-                .centerCrop()
-                .into(viewHolder.imageView);
+        if (anime != null) {
 
-        viewHolder.relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                searchFragment.onCLick(getItem(position), null, viewHolder.imageView);
-            }
-        });
+            viewHolder.titleView.setText(anime.getTitle());
+            viewHolder.descView.setText(anime.getDesc());
 
+            Picasso.with(context)
+                    .load(anime.getImageUrl())
+                    .error(R.drawable.placeholder)
+                    .fit()
+                    .centerCrop()
+                    .into(viewHolder.imageView);
+
+            viewHolder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    clickListener.onCLick(getItem(position), null, viewHolder.imageView);
+                }
+            });
+
+        }
         //setTransitionName(viewHolder, String.valueOf(position));
     }
 /*
@@ -80,16 +87,18 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
     }
 */
 
-    private List<Anime> searchResults () {
-        return SearchHolderFragment.searchResultsCache.get(searchFragment.getPresenter().providerType);
-    }
-
     private Anime getItem (int position) {
-        return searchResults().get(position);
+        if (dataHandler.getData() != null) {
+            return dataHandler.getData().get(position);
+        }
+        return null;
     }
 
     @Override
     public int getItemCount() {
-        return searchResults().size();
+        if (dataHandler.getData() != null) {
+            return dataHandler.getData().size();
+        }
+        return 0;
     }
 }

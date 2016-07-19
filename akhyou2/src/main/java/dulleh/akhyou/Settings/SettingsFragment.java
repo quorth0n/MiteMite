@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,13 +19,19 @@ import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.nononsenseapps.filepicker.FilePickerActivity;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import de.greenrobot.event.EventBus;
 import dulleh.akhyou.BuildConfig;
 import dulleh.akhyou.MainActivity;
 import dulleh.akhyou.MainModel;
+import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.R;
 import dulleh.akhyou.Utils.Events.HummingbirdSettingsEvent;
 
@@ -33,6 +40,7 @@ public class SettingsFragment extends Fragment {
     public static final String THEME_PREFERENCE = "theme_preference";
     public static final String SEARCH_GRID_PREFERENCE = "search_grid_preference";
     public static final String DOWNLOAD_LOCATION_PREFERENCE = "download_location_preference";
+    public static final String ENABLED_PROVIDERS_PREF = "enabled_providers_preference";
 
     public static final int DOWNLOAD_LOCATION_REQUEST_CODE = 1;
 
@@ -41,6 +49,7 @@ public class SettingsFragment extends Fragment {
     private SharedPreferences.Editor editor;
     private CharSequence[] themeTitles;
     private String downloadLocationFilePath;
+    private ArrayList<String> enabledProviders;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +57,16 @@ public class SettingsFragment extends Fragment {
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         themeTitles = getResources().getStringArray(R.array.theme_entries);
+
+        enabledProviders = new ArrayList<>();
+        Set<String> enabledProvidersSet = sharedPreferences.getStringSet(ENABLED_PROVIDERS_PREF, new HashSet<>(0));
+        // set defaults
+        if (enabledProvidersSet.isEmpty()) {
+            enabledProviders.addAll(Providers.ALL_PROVIDER_TITLES);
+        } else {
+            enabledProviders.addAll(enabledProvidersSet);
+        }
+
         setHasOptionsMenu(true);
     }
 
@@ -87,6 +106,14 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        RelativeLayout enabledProvidersItem = (RelativeLayout) view.findViewById(R.id.enabled_providers_preference_item);
+        enabledProvidersItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showEnabledProvidersDialog();
+            }
+        });
+
         RelativeLayout searchGridItem = (RelativeLayout) view.findViewById(R.id.search_grid_preference_item);
         TextView searchGridSummary = (TextView) searchGridItem.findViewById(R.id.preference_summary_text);
         searchGridSummary.setText(getSummary(SEARCH_GRID_PREFERENCE));
@@ -99,7 +126,6 @@ public class SettingsFragment extends Fragment {
                         .itemsCallbackSingleChoice(sharedPreferences.getInt(SEARCH_GRID_PREFERENCE, 0), new MaterialDialog.ListCallbackSingleChoice() {
                             @Override
                             public boolean onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
-
                                 editor.putInt(SEARCH_GRID_PREFERENCE, i);
                                 editor.apply();
 
@@ -259,6 +285,43 @@ public class SettingsFragment extends Fragment {
 
     public void setToolbarTitle (String title) {
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(title);
+    }
+
+    private void showEnabledProvidersDialog () {
+        Integer[] selectedProviders = new Integer[enabledProviders.size()];
+        for (int i = 0; i < enabledProviders.size(); i++) {
+            selectedProviders[i] = Providers.ALL_PROVIDER_TITLES.indexOf(enabledProviders.get(i));
+        }
+        new MaterialDialog.Builder(getContext())
+                .title(R.string.enabled_providers_preference_title)
+                .items(Providers.ALL_PROVIDER_TITLES)
+                .positiveText(R.string.done)
+                .itemsCallbackMultiChoice(selectedProviders, new MaterialDialog.ListCallbackMultiChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                        return true;
+                    }
+                })
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        enabledProviders.clear();
+                        for (int i : dialog.getSelectedIndices()) {
+                            enabledProviders.add(Providers.ALL_PROVIDER_TITLES.get(i));
+                        }
+                        saveEnabledProviders();
+                    }
+                })
+                .neutralText(R.string.cancel)
+                .neutralColor(getResources().getColor(R.color.grey_dark))
+                .show();
+    }
+
+    private void saveEnabledProviders() {
+        Set<String> enabledProvidersSet = new HashSet<>(enabledProviders.size());
+        enabledProvidersSet.addAll(enabledProviders);
+        editor.putStringSet(ENABLED_PROVIDERS_PREF, enabledProvidersSet);
+        editor.apply();
     }
 
     private String getSummary (String key) {

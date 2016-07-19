@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -75,7 +74,7 @@ public class MainModel {
     public void refreshFavourites () {
         Set<String> favourites = new LinkedHashSet<>(sharedPreferences.getStringSet(FAVOURITES_PREF, new HashSet<>()));
 
-        favouritesMap = new LinkedHashMap<>(favourites.size());
+        favouritesMap = new HashMap<>(favourites.size());
         for (String favourite : favourites) {
             Anime anime = deserializeAnime(favourite);
             if (anime != null) {

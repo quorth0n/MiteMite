@@ -75,5 +75,8 @@
     <string name="reset_to_default">Reset to default</string>
     <string name="user_cover_description">User cover image</string>
     <string name="external_download_preference_title">Download externally?</string>
+    <string name="enabled_providers_preference_title">Providers</string>
+    <string name="enabled_providers_preference_summary">Enable or disable anime providers</string>
+    <string name="done">Done</string>
 
 </resources>

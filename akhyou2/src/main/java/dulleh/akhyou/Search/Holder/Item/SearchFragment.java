@@ -26,7 +26,6 @@ import de.greenrobot.event.EventBus;
 import dulleh.akhyou.MainActivity;
 import dulleh.akhyou.MainApplication;
 import dulleh.akhyou.Models.Anime;
-import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.R;
 import dulleh.akhyou.Search.Holder.SearchHolderAdapter;
 import dulleh.akhyou.Search.Holder.SearchHolderFragment;
@@ -48,7 +47,7 @@ public class SearchFragment extends NucleusSupportFragment<SearchPresenter> impl
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        getPresenter().setProviderType(getArguments().getInt(SearchHolderAdapter.PROVIDER_TYPE_KEY, Providers.RUSH));
+        getPresenter().setProviderType(getArguments().getInt(SearchHolderAdapter.PROVIDER_TYPE_KEY, -1));
     }
 
     @Nullable
@@ -59,7 +58,7 @@ public class SearchFragment extends NucleusSupportFragment<SearchPresenter> impl
         RecyclerView searchResultsView = (RecyclerView) view.findViewById(R.id.recycler_view);
         switch (SearchHolderFragment.SEARCH_GRID_TYPE) {
             case 0:
-                searchAdapter = new SearchGridAdapter(this);
+                searchAdapter = new SearchGridAdapter(getContext(), this, getPresenter());
 
                 int columns = 2;
 
@@ -79,7 +78,7 @@ public class SearchFragment extends NucleusSupportFragment<SearchPresenter> impl
                 break;
 
             case 1:
-                searchAdapter = new SearchListAdapter(this);
+                searchAdapter = new SearchListAdapter(getContext(), this, getPresenter());
                 searchResultsView.setLayoutManager(new LinearLayoutManager(container.getContext(), LinearLayoutManager.VERTICAL, false));
                 break;
         }

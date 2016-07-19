@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +27,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -43,10 +43,10 @@ import nucleus.factory.RequiresPresenter;
 import nucleus.view.NucleusSupportFragment;
 
 @RequiresPresenter(AnimePresenter.class)
-public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implements AdapterClickListener<Episode> {
+public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implements AdapterClickListener<Episode>, AnimeAdapterListener{
     private AnimeAdapter episodesAdapter;
-    private RelativeLayout relativeLayout;
     private SwipeRefreshLayout refreshLayout;
+    RelativeLayout relativeLayout;
     private SearchView searchView;
     public Integer position;
 
@@ -64,7 +64,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
         TypedValue colorPrimary = new TypedValue();
         getActivity().getTheme().resolveAttribute(R.attr.colorPrimary, colorPrimary, true);
 
-        episodesAdapter = new AnimeAdapter(new ArrayList<>(), this, getResources().getColor(android.R.color.black), getResources().getColor(colorPrimary.resourceId));
+        episodesAdapter = new AnimeAdapter(getContext(), getPresenter(), this, this, getResources().getColor(android.R.color.black), getResources().getColor(colorPrimary.resourceId));
 /*
         if (getArguments() != null) {
             episodesAdapter.setTransitionName(getArguments().getString(MainActivity.TRANSITION_NAME_KEY));
@@ -118,9 +118,9 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
             shareItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    if (getPresenter() != null && getPresenter().lastAnime != null) {
+                    if (getPresenter() != null && getPresenter().getCurrentAnime() != null) {
                         Intent intent = new Intent(Intent.ACTION_SEND);
-                        intent.putExtra(Intent.EXTRA_TEXT, getPresenter().lastAnime.getUrl());
+                        intent.putExtra(Intent.EXTRA_TEXT, getPresenter().getCurrentAnime().getUrl());
                         intent.setType("text/plain");
                         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
                             startActivity(intent);
@@ -160,7 +160,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
 
     public void setAnime (@NonNull Anime anime) {
         Picasso.with(getActivity()).invalidate(anime.getImageUrl());
-        episodesAdapter.setAnime(anime.getEpisodes(), isInFavourites(anime));
+        episodesAdapter.notifyDataSetChanged();
         setToolbarTitle(anime.getTitle());
         getPresenter().setNeedToGiveFavourite(false);
         updateRefreshing();
@@ -175,7 +175,6 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
             return false;
         }
     }
-
 
     public void notifyAdapter () {
         episodesAdapter.notifyDataSetChanged();
@@ -205,15 +204,12 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
         getPresenter().setNeedToGiveFavourite(false);
     }
 
-
-    private void setRefreshLayoutStatus (boolean setEnabled) {
-        refreshLayout.setEnabled(setEnabled);
-    }
-
     @Override
     public void onCLick(Episode episode, @Nullable Integer position, @Nullable View view) {
-        getPresenter().fetchSources(episode.getUrl());
-        this.position = position;
+        if (episode != null) {
+            getPresenter().fetchSources(episode.getUrl());
+            this.position = position;
+        }
     }
 
     @Override
@@ -296,11 +292,18 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
                 .show();
     }
 
-    public void showImageDialog () {
-        if (getPresenter().lastAnime != null) {
-            getActivity().getLayoutInflater().inflate(R.layout.full_width_image_view, relativeLayout);
+    @Override
+    public void onFavouriteCheckedChanged(boolean favourite) {
+        if (getPresenter() != null) {
+            getPresenter().onFavouriteCheckedChanged(favourite);
+        }
+    }
 
+    public void showImageDialog () {
+        if (getPresenter() != null && getPresenter().getCurrentAnime() != null) {
+            getActivity().getLayoutInflater().inflate(R.layout.full_width_image_view, relativeLayout);
             ImageView imageView = (ImageView) getActivity().findViewById(R.id.image_dialog_image_view);
+
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -309,12 +312,17 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
             });
 
             Picasso.with(getActivity())
-                    .load(getPresenter().lastAnime.getImageUrl())
+                    .load(getPresenter().getCurrentAnime().getImageUrl())
                     .fit()
                     .centerInside()
                     .into(imageView);
-        } else {
-            getPresenter().postError(new Throwable("Can't find the image."));
+        }
+    }
+
+    @Override
+    public void onMajorColourChanged(Palette palette) {
+        if (getPresenter() !=  null) {
+            getPresenter().setMajorColour(palette);
         }
     }
 
@@ -344,7 +352,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
 
     private void downloadOrStream (Video video, boolean download) {
         if (download) {
-            getPresenter().download(video.getUrl(), getPresenter().lastAnime.getEpisodes().get(position).getTitle() + ".mp4");
+            getPresenter().downloadEpisode(video.getUrl(), position);
         } else {
             getPresenter().postIntent(video.getUrl());
         }

@@ -1,5 +1,6 @@
 package dulleh.akhyou.Models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,7 +50,7 @@ public class Providers {
     public static final String BAM_SEARCH_URL = BAM_BASE_URL + BAM_SEARCH_EXT;
     public static final String KISS_SEARCH_URL = KISS_BASE_URL + KISS_SEARCH_EXT;
 
-    public static final Map<String, SourceProvider> sourceMap = getSourceList();
+    public static final Map<String, SourceProvider> SOURCE_MAP = getSourceList();
 
     private static Map<String, SourceProvider> getSourceList () {
         Map<String, SourceProvider> sourceMap = new HashMap<>();
@@ -64,5 +65,17 @@ public class Providers {
         return sourceMap;
     }
 
+    public static final ArrayList<String> ALL_PROVIDER_TITLES = getAllProviderTitles();
+
+    private static ArrayList<String> getAllProviderTitles() {
+        ArrayList<String> titles = new ArrayList<>(4);
+
+        titles.add(RUSH_TITLE.toString());
+        titles.add(RAM_TITLE.toString());
+        titles.add(BAM_TITLE.toString());
+        titles.add(KISS_TITLE.toString());
+
+        return titles;
+    }
 
 }

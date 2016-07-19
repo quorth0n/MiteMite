@@ -1,5 +1,6 @@
 package dulleh.akhyou.Anime;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.res.ResourcesCompat;
@@ -13,12 +14,13 @@ import android.widget.TextView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Episode;
 import dulleh.akhyou.R;
+import dulleh.akhyou.Utils.AdapterDataHandler;
+import dulleh.akhyou.Utils.AdapterClickListener;
 import dulleh.akhyou.Utils.PaletteTransform;
 
 public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -26,32 +28,24 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private static final int VIEW_TYPE_ITEM = 1;
     private static final int VIEW_TYPE_FOOTER = 2;
 
-    private final PaletteTransform paletteTransform;
-    private List<Episode> episodes;
-    private final AnimeFragment animeFragment;
+    private final Context context;
+
+    private final PaletteTransform paletteTransform = new PaletteTransform();
+    private final AdapterDataHandler<Anime> dataHandler;
+    private final AdapterClickListener<Episode> clickListener;
+    private final AnimeAdapterListener animeAdapterListener;
     private final int unwatchedColour;
     private final int watchedColour;
     private boolean isInFavourites;
     //private String transitionName;
 
-    public AnimeAdapter(List<Episode> episodes, AnimeFragment animeFragment, int unwatchedColour, int watchedColour) {
-        this.episodes = episodes;
-        this.animeFragment = animeFragment;
+    public AnimeAdapter(Context context, AdapterDataHandler<Anime> adapterDataHandler, AdapterClickListener<Episode> adapterClickListener, AnimeAdapterListener animeAdapterListener, int unwatchedColour, int watchedColour) {
+        this.context = context;
+        this.dataHandler = adapterDataHandler;
+        this.clickListener = adapterClickListener;
+        this.animeAdapterListener = animeAdapterListener;
         this.unwatchedColour = unwatchedColour;
         this.watchedColour = watchedColour;
-        paletteTransform = new PaletteTransform();
-    }
-
-    public void setAnime (List<Episode> episodes, boolean isInFavourites) {
-        this.clear();
-        this.episodes = episodes;
-        this.isInFavourites = isInFavourites;
-        this.notifyDataSetChanged();
-    }
-
-    public void clear() {
-        this.episodes = new ArrayList<>(0);
-        this.notifyDataSetChanged();
     }
 
     public static class EpisodeViewHolder extends RecyclerView.ViewHolder{
@@ -94,7 +88,7 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     @Override
                     public void onClick(View view) {
                         isInFavourites = !isInFavourites;
-                        animeFragment.getPresenter().onFavouriteCheckedChanged(isInFavourites);
+                        animeAdapterListener.onFavouriteCheckedChanged(isInFavourites);
                         headerViewHolder.favouriteFab.setImageDrawable(favouriteIcon());
                     }
                 });
@@ -102,7 +96,7 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 headerViewHolder.posterImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        animeFragment.showImageDialog();
+                        animeAdapterListener.showImageDialog();
                     }
                 });
 
@@ -124,66 +118,66 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, final int position) {
-        if (animeFragment.getPresenter().lastAnime != null) { // lazy fix for a null pointer
-            if (viewHolder instanceof HeaderViewHolder) {
-                Anime anime = animeFragment.getPresenter().lastAnime;
-                 HeaderViewHolder headerViewHolder = (HeaderViewHolder) viewHolder;
+        Anime anime = dataHandler.getData();
+        if (anime != null) { // lazy fix for a null pointer
+            List<Episode> episodes = anime.getEpisodes();
+
+            if (episodes != null) {
+                if (viewHolder instanceof HeaderViewHolder) {
+                    HeaderViewHolder headerViewHolder = (HeaderViewHolder) viewHolder;
 
                 /*
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     headerViewHolder.posterImageView.setTransitionName(transitionName);
                 */
 
-                 Picasso.with(animeFragment.getActivity())
-                         .load(anime.getImageUrl())
-                         .error(R.drawable.placeholder)
-                         .fit()
-                         .centerCrop()
-                         .transform(paletteTransform)
-                         .into(headerViewHolder.posterImageView, new Callback.EmptyCallback() {
-                             @Override
-                             public void onSuccess() {
-                                 if (animeFragment.getPresenter() != null) { // lazy fix for nulls pointers when the presenter has already been destroyed
-                                     animeFragment.getPresenter().setMajorColour(paletteTransform.getPallete());
-                                 }
-                             }
-                         });
+                    Picasso.with(context)
+                            .load(anime.getImageUrl())
+                            .error(R.drawable.error_stock)
+                            .fit()
+                            .centerCrop()
+                            .transform(paletteTransform)
+                            .into(headerViewHolder.posterImageView, new Callback.EmptyCallback() {
+                                @Override
+                                public void onSuccess() {
+                                    animeAdapterListener.onMajorColourChanged(paletteTransform.getPallete());
+                                }
+                            });
 
-                headerViewHolder.genresView.setText(anime.getGenresString());
-                headerViewHolder.descView.setText(anime.getDesc());
-                headerViewHolder.alternateTitleView.setText(anime.getAlternateTitle());
-                headerViewHolder.dateView.setText(anime.getDate());
-                headerViewHolder.statusView.setText(anime.getStatus());
-                headerViewHolder.favouriteFab.setImageDrawable(favouriteIcon());
+                    headerViewHolder.genresView.setText(anime.getGenresString());
+                    headerViewHolder.descView.setText(anime.getDesc());
+                    headerViewHolder.alternateTitleView.setText(anime.getAlternateTitle());
+                    headerViewHolder.dateView.setText(anime.getDate());
+                    headerViewHolder.statusView.setText(anime.getStatus());
+                    headerViewHolder.favouriteFab.setImageDrawable(favouriteIcon());
 
-            } else if (viewHolder instanceof EpisodeViewHolder) {
-                EpisodeViewHolder episodeViewHolder = (EpisodeViewHolder) viewHolder;
-                final int actualPosition = position - 1;
-                episodeViewHolder.titleView.setText(episodes.get(actualPosition).getTitle());
+                } else if (viewHolder instanceof EpisodeViewHolder) {
+                    EpisodeViewHolder episodeViewHolder = (EpisodeViewHolder) viewHolder;
+                    final int actualPosition = position - 1;
+                    episodeViewHolder.titleView.setText(episodes.get(actualPosition).getTitle());
 
-                if (episodes.get(actualPosition).isWatched()) {
-                    episodeViewHolder.titleView.setTextColor(this.watchedColour);
-                } else {
-                    episodeViewHolder.titleView.setTextColor(unwatchedColour);
+                    if (episodes.get(actualPosition).isWatched()) {
+                        episodeViewHolder.titleView.setTextColor(this.watchedColour);
+                    } else {
+                        episodeViewHolder.titleView.setTextColor(unwatchedColour);
+                    }
+
+                    episodeViewHolder.titleView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            clickListener.onCLick(episodes.get(actualPosition), actualPosition, view);
+                        }
+                    });
+
+                    episodeViewHolder.titleView.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View view) {
+                            clickListener.onLongClick(episodes.get(actualPosition), actualPosition);
+                            return false;
+                        }
+                    });
                 }
-
-                episodeViewHolder.titleView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        animeFragment.onCLick(episodes.get(actualPosition), actualPosition, view);
-                    }
-                });
-
-                episodeViewHolder.titleView.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View view) {
-                        animeFragment.onLongClick(episodes.get(actualPosition), actualPosition);
-                        return false;
-                    }
-                });
             }
-        } else {
-            animeFragment.getPresenter().postError(new Throwable("No anime to display."));
         }
     }
 /*
@@ -194,12 +188,18 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return episodes.size() + 2;
+        if (dataHandler.getData() != null && dataHandler.getData().getEpisodes() != null) {
+            return dataHandler.getData().getEpisodes().size() + 2;
+        }
+        return 0;
     }
 
     public void setWatched (int position) {
-        episodes.set(position, episodes.get(position).setWatched(true));
-        this.notifyItemChanged(position);
+        List<Episode> episodes = dataHandler.getData().getEpisodes();
+        if (episodes != null) {
+            episodes.set(position, episodes.get(position).setWatched(true));
+            this.notifyItemChanged(position);
+        }
     }
 
     @Override
@@ -212,18 +212,11 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         return VIEW_TYPE_FOOTER;
     }
 
-    public Episode getItemAtPosition (int position) {
-        if (episodes != null) {
-            return episodes.get(position);
-        }
-        return null;
-    }
-
     private Drawable favouriteIcon () {
         if (isInFavourites) {
-            return ResourcesCompat.getDrawable(animeFragment.getResources(), R.drawable.ic_favorite_white_24px, null);
+            return ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_favorite_white_24px, null);
         } else {
-            return ResourcesCompat.getDrawable(animeFragment.getResources(), R.drawable.ic_favorite_border_white_24px, null);
+            return ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_favorite_border_white_24px, null);
         }
     }
 

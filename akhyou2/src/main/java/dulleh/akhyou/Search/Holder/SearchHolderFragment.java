@@ -3,6 +3,7 @@ package dulleh.akhyou.Search.Holder;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -17,10 +18,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.greenrobot.event.EventBus;
-import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.R;
 import dulleh.akhyou.Settings.SettingsFragment;
@@ -28,27 +30,33 @@ import dulleh.akhyou.Utils.Events.SearchEvent;
 
 public class SearchHolderFragment extends Fragment{
     public static int SEARCH_GRID_TYPE = 0;
-    public static List<List<Anime>> searchResultsCache = new ArrayList<>(1);
 
-    public SearchHolderFragment () {
-        if (searchResultsCache.isEmpty()) {
-            searchResultsCache.add(Providers.RUSH, new ArrayList<>(0));
-            searchResultsCache.add(Providers.RAM, new ArrayList<>(0));
-            searchResultsCache.add(Providers.BAM, new ArrayList<>(0));
-            searchResultsCache.add(Providers.KISS, new ArrayList<>(0));
-        }
-    }
-
-    ViewPager searchPager;
+    private ViewPager pager;
+    private SearchHolderAdapter adapter;
+    private List<String> enabledProviders;
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        setHasOptionsMenu(true);
-        
-        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        SEARCH_GRID_TYPE = sharedPreferences.getInt(SettingsFragment.SEARCH_GRID_PREFERENCE, 0);
 
+        setHasOptionsMenu(true);
+
+        enabledProviders = new ArrayList<>();
+
+        SharedPreferences preferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+
+        SEARCH_GRID_TYPE = preferences.getInt(SettingsFragment.SEARCH_GRID_PREFERENCE, 0);
+    }
+
+    private void refreshEnabledProviders (@NonNull SharedPreferences preferences) {
+        enabledProviders = new ArrayList<>();
+        Set<String> enabledProvidersSet = preferences.getStringSet(SettingsFragment.ENABLED_PROVIDERS_PREF, new HashSet<>(0));
+        // set defaults
+        if (enabledProvidersSet.isEmpty()) {
+            enabledProviders.addAll(Providers.ALL_PROVIDER_TITLES);
+        } else {
+            enabledProviders.addAll(enabledProvidersSet);
+        }
     }
 
     @Nullable
@@ -56,13 +64,13 @@ public class SearchHolderFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_holder_fragment, container, false);
 
-        searchPager = (ViewPager) view.findViewById(R.id.search_view_pager);
+        pager = (ViewPager) view.findViewById(R.id.search_view_pager);
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
 
-        SearchHolderAdapter searchHolderAdapter = new SearchHolderAdapter(getChildFragmentManager());
+        adapter = new SearchHolderAdapter(getChildFragmentManager(), enabledProviders);
 
-        searchPager.setAdapter(searchHolderAdapter);
-        tabLayout.setupWithViewPager(searchPager);
+        pager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(pager);
 
         return view;
     }
@@ -92,7 +100,7 @@ public class SearchHolderFragment extends Fragment{
                     if (!query.isEmpty()) {
                         EventBus.getDefault().postSticky(new SearchEvent(query));
                         searchView.clearFocus();
-                        searchPager.requestFocus();
+                        pager.requestFocus();
                     }
                     return true;
                 }
@@ -103,7 +111,19 @@ public class SearchHolderFragment extends Fragment{
                 }
             });
             searchView.clearFocus();
-            searchPager.requestFocus();
+            pager.requestFocus();
+        }
+    }
+
+    @Override
+    public void onResume() { // not in onCreate so that tabs are updated when changed from settings
+        super.onResume();
+        refreshEnabledProviders(getActivity().getPreferences(Context.MODE_PRIVATE));
+        if (adapter == null) {
+            adapter = new SearchHolderAdapter(getChildFragmentManager(), enabledProviders);
+        } else {
+            adapter.setProviders(enabledProviders);
+            adapter.notifyDataSetChanged();
         }
     }
 

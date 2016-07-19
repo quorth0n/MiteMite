@@ -36,7 +36,7 @@ public class KissSearchProvider implements SearchProvider {
         Request search = new Request.Builder()
                 .url(Providers.KISS_SEARCH_URL)
                 .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0")
-                .addHeader("Referer", "http://kissanime.to/AdvanceSearch")
+                .addHeader("Referer", Providers.KISS_SEARCH_URL)
                 .post(query)
                 .build();
 

@@ -5,14 +5,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import java.util.List;
+
 import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.Search.Holder.Item.SearchFragment;
 
 public class SearchHolderAdapter extends FragmentStatePagerAdapter{
     public static final String PROVIDER_TYPE_KEY = "PROVIDER_TYPE_KEY";
 
-    public SearchHolderAdapter(FragmentManager fm) {
+    private List<String> providers;
+
+    public SearchHolderAdapter(FragmentManager fm, List<String> providers) {
         super(fm);
+        this.providers = providers;
     }
 
     @Override
@@ -20,19 +25,16 @@ public class SearchHolderAdapter extends FragmentStatePagerAdapter{
         Fragment searchFragment = new SearchFragment();
         Bundle args = new Bundle(1);
 
-        switch(position) {
-            case 0:
-                args.putInt(PROVIDER_TYPE_KEY, Providers.RUSH);
-                break;
-            case 1:
-                args.putInt(PROVIDER_TYPE_KEY, Providers.RAM);
-                break;
-            case 2:
-                args.putInt(PROVIDER_TYPE_KEY, Providers.BAM);
-                break;
-            case 3:
-                args.putInt(PROVIDER_TYPE_KEY, Providers.KISS);
-                break;
+        CharSequence providerTitle = providers.get(position);
+
+        if (providerTitle.equals(Providers.RUSH_TITLE)) {
+            args.putInt(PROVIDER_TYPE_KEY, Providers.RUSH);
+        } else if (providerTitle.equals(Providers.RAM_TITLE)) {
+            args.putInt(PROVIDER_TYPE_KEY, Providers.RAM);
+        } else if (providerTitle.equals(Providers.BAM_TITLE)) {
+            args.putInt(PROVIDER_TYPE_KEY, Providers.BAM);
+        } else if (providerTitle.equals(Providers.KISS_TITLE)) {
+            args.putInt(PROVIDER_TYPE_KEY, Providers.KISS);
         }
 
         searchFragment.setArguments(args);
@@ -41,22 +43,15 @@ public class SearchHolderAdapter extends FragmentStatePagerAdapter{
 
     @Override
     public int getCount() {
-        return 4;
+        return providers.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        switch(position) {
-            case 0:
-                return Providers.RUSH_TITLE;
-            case 1:
-                return Providers.RAM_TITLE;
-            case 2:
-                return Providers.BAM_TITLE;
-            case 3:
-                return Providers.KISS_TITLE;
-            default:
-                throw new RuntimeException("No title for this tab number. (sea)");
-        }
+        return providers.get(position);
+    }
+
+    public void setProviders(List<String> providers) {
+        this.providers = providers;
     }
 }

@@ -1,9 +1,7 @@
 package dulleh.akhyou.Utils;
 
-import android.app.DownloadManager;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
@@ -146,9 +144,9 @@ public class GeneralUtils {
 
 
     public static SourceProvider determineSourceProvider (String lowerCaseTitle) {
-        for (String sourceName : Providers.sourceMap.keySet()) {
+        for (String sourceName : Providers.SOURCE_MAP.keySet()) {
             if (lowerCaseTitle.contains(sourceName)) {
-                return Providers.sourceMap.get(sourceName);
+                return Providers.SOURCE_MAP.get(sourceName);
             }
         }
         return null;

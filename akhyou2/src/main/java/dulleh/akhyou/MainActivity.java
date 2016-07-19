@@ -62,6 +62,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
         setContentView(R.layout.activity_main);
 
         sharedPreferences = getPreferences(MODE_PRIVATE);
+
         fragmentManager = getSupportFragmentManager();
 
         getPresenter().setSharedPreferences(sharedPreferences);
@@ -358,7 +359,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
 
     private void setFavouritesAdapter () {
         drawerAdapter = new DrawerAdapter(this, this, getPresenter().getFavourites());
-        drawerAdapter.setAvatarLength((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, Resources.getSystem().getDisplayMetrics()));
+        drawerAdapter.setAvatarLength(avatarLength);
         favouritesList.setAdapter(drawerAdapter);
     }
 
@@ -382,7 +383,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
 
     public void promptForUpdate (String newUpdateVersion) {
         new MaterialDialog.Builder(this)
-                .title(getString(R.string.update_title))
+                .title(R.string.update_title)
                 .content(newUpdateVersion)
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
@@ -391,8 +392,9 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
                         getPresenter().downloadUpdate(MainModel.LATEST_RELEASE_LINK);
                     }
                 })
-                .positiveText(getString(R.string.update))
-                .negativeText(getString(R.string.cancel))
+                .positiveText(R.string.update)
+                .neutralText(R.string.cancel)
+                .neutralColor(getResources().getColor(R.color.grey_dark))
                 .show();
     }
 

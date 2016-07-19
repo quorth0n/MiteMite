@@ -17,7 +17,7 @@ import dulleh.akhyou.Models.SearchProviders.RushSearchProvider;
 import dulleh.akhyou.Models.SearchProviders.SearchProvider;
 import dulleh.akhyou.R;
 import dulleh.akhyou.Search.Holder.SearchHolderAdapter;
-import dulleh.akhyou.Search.Holder.SearchHolderFragment;
+import dulleh.akhyou.Utils.AdapterDataHandler;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
 import dulleh.akhyou.Utils.Events.SearchEvent;
 import dulleh.akhyou.Utils.Events.SnackbarEvent;
@@ -30,13 +30,14 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func0;
 import rx.schedulers.Schedulers;
 
-public class SearchPresenter extends RxPresenter<SearchFragment> {
+public class SearchPresenter extends RxPresenter<SearchFragment> implements AdapterDataHandler<List<Anime>> {
     private static Throwable CLOUDFLARE_THROWABLE = new Throwable("Wait 5 seconds and try again (or don't).");
-    public int providerType;
 
     private Subscription subscription;
     private SearchProvider searchProvider;
+    public int providerType;
 
+    public List<Anime> searchResults;
     private String searchTerm;
     public boolean isRefreshing;
 
@@ -62,7 +63,6 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
     @Override
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
-
         if (savedState != null) {
             setProviderType(savedState.getInt(SearchHolderAdapter.PROVIDER_TYPE_KEY, 0));
         }
@@ -111,7 +111,8 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
 
         if (searchTerm == null || searchTerm.trim().isEmpty()) {
             isRefreshing = false;
-            SearchHolderFragment.searchResultsCache.set(providerType, new ArrayList<>(0));
+
+            searchResults = new ArrayList<>();
             getView().updateSearchResults();
 
             postError(new Throwable("Please enter a search term."));
@@ -143,7 +144,7 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
                     .subscribe(new Subscriber<List<Anime>>() {
                         @Override
                         public void onNext(List<Anime> animes) {
-                            SearchHolderFragment.searchResultsCache.set(providerType, animes);
+                            searchResults = animes;
                             isRefreshing = false;
                             getView().updateSearchResults();
                             this.unsubscribe();
@@ -158,7 +159,7 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
                         @Override
                         public void onError(Throwable e) {
                             isRefreshing = false;
-                            SearchHolderFragment.searchResultsCache.set(providerType, new ArrayList<>(0));
+                            searchResults = new ArrayList<>();
                             getView().updateSearchResults();
 
                             postError(e);
@@ -187,6 +188,11 @@ public class SearchPresenter extends RxPresenter<SearchFragment> {
                 getView().getResources().getColor(R.color.accent)
         ));
 
+    }
+
+    @Override
+    public List<Anime> getData() {
+        return searchResults;
     }
 
 }
