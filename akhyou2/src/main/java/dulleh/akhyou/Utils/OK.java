@@ -15,7 +15,15 @@ public enum OK {
     public OkHttpClient Client;
 
     public OkHttpClient createClient (Context context) {
-        ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context));
+        ClearableCookieJar cookieJar;
+        try {
+            cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            // TODO: fix the bug in SharedPrefsCookiePersistor that causes the need for this (null pointers on app update from dev -> release)
+            context.getSharedPreferences("CookiePersistence", Context.MODE_PRIVATE).edit().clear().apply();
+            cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context));
+        }
 
         Client = new OkHttpClient.Builder()
                 .cookieJar(cookieJar)
@@ -24,5 +32,4 @@ public enum OK {
 
         return Client;
     }
-
 }
