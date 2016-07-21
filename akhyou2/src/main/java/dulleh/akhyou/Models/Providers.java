@@ -42,7 +42,7 @@ public class Providers {
     public static final String RUSH_SEARCH_EXT = "/search.php?searchquery=";
     public static final String RAM_SEARCH_EXT = "/search?search=";
     public static final String BAM_SEARCH_EXT = "/search?search=";
-    public static final String KISS_SEARCH_EXT = "/AdvanceSearch";
+    public static final String KISS_SEARCH_EXT = "/Search/Anime";
 
     // Base search URLs
     public static final String RUSH_SEARCH_URL = RUSH_BASE_URL + RUSH_SEARCH_EXT;

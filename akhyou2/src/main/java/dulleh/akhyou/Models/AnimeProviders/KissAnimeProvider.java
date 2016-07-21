@@ -40,16 +40,19 @@ public class KissAnimeProvider implements AnimeProvider {
        // if (!CloudflareHttpClient.INSTANCE.isInitialized()) {
         //    throw new CloudFlareInitializationException();
         //}
-
         String body = GeneralUtils.getWebPage(url);
 
         Document doc = Jsoup.parse(body);
 
+        return parse(doc, url);
+    }
+
+    public static Anime parse (Document doc, String url) {
         Anime anime = new Anime()
                 .setUrl(url)
                 .setProviderType(Providers.KISS);
         anime = parseInfo(doc, anime);
-        anime.setEpisodes(parseEpisodes(doc));
+        anime.setEpisodes(KissAnimeProvider.parseEpisodes(doc));
 
         return anime;
     }
@@ -92,7 +95,7 @@ public class KissAnimeProvider implements AnimeProvider {
         return source.setVideos(videos);
     }
 
-    private Anime parseInfo(Document doc, Anime anime) {
+    private static Anime parseInfo(Document doc, Anime anime) {
         Elements info = doc .select("#leftside > .bigBarContainer:first-of-type > .barContent > div > p:not(:empty)");
 
         String title = doc.select(".bigChar").text();
@@ -140,7 +143,7 @@ public class KissAnimeProvider implements AnimeProvider {
         return anime;
     }
 
-    private List<Episode> parseEpisodes(Document doc) {
+    private static List<Episode> parseEpisodes(Document doc) {
         Elements episodeElements = doc.select(".episodeList .listing").first().select("[title]");
         List<Episode> episodes = new ArrayList<>(episodeElements.size());
 

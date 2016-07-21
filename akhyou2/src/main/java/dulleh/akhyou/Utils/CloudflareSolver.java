@@ -51,13 +51,12 @@ public class CloudflareSolver {
 
 
     public static Request solveCloudflare (Response response) throws InterruptedException, IOException, CloudflareException {
+        System.out.println("attempting to solve cloudflare");
+
         Thread.sleep(5000);
 
         Request request = response.request();
         String host = request.url().host();
-
-        System.out.println("request url: " + request.url());
-        System.out.println("host: " + host);
 
         Document doc = Jsoup.parse(response.body().string());
         String challenge = doc.select("[name=jschl_vc]").first().attr("value");
@@ -66,7 +65,7 @@ public class CloudflareSolver {
         String function = transformFunction(doc.select("head script").first().html());
 
         Duktape duktape = Duktape.create();
-        int answer = Integer.valueOf(duktape.evaluate(function)) + host.length();
+        Integer answer = Integer.valueOf(duktape.evaluate(function)) + host.length();
         duktape.close();
 
         HttpUrl submitUrl = HttpUrl.parse(request.url().uri().getScheme() + "://" + host +"/cdn-cgi/l/chk_jschl").newBuilder()

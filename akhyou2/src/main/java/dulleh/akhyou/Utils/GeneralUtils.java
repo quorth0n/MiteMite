@@ -24,10 +24,9 @@ import rx.exceptions.OnErrorThrowable;
 
 public class GeneralUtils {
 
-    public static Response makeRequest (final Request request) {
+    public static Response makeRequest (final Request request) throws OnErrorThrowable {
         try {
-            Response response = OK.INSTANCE.Client.newCall(request).execute();
-            return response;
+            return OK.INSTANCE.Client.newCall(request).execute();
         } catch (IOException io) {
             throw OnErrorThrowable.from(io);
         }

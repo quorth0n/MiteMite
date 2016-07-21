@@ -4,23 +4,26 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import dulleh.akhyou.Models.Anime;
+import dulleh.akhyou.Models.AnimeProviders.KissAnimeProvider;
 import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
 import dulleh.akhyou.Utils.GeneralUtils;
 import okhttp3.FormBody;
 import okhttp3.Request;
-import okhttp3.RequestBody;
+import okhttp3.Response;
 import rx.exceptions.OnErrorThrowable;
 
 public class KissSearchProvider implements SearchProvider {
     private static final Pattern PARSER = Pattern.compile(".*src=\"(.*?)\".*href=\"(.*)\">(.*?)</a>.*<p>\\s*(.*?)\\s*</p>", Pattern.DOTALL);
-    private static final int NUM_GENRES = 47;
+
+    private int retries = 0;
 
     @Override
     public List<Anime> searchFor(String searchTerm) throws OnErrorThrowable, CloudFlareInitializationException {
@@ -29,6 +32,8 @@ public class KissSearchProvider implements SearchProvider {
         //    throw new CloudFlareInitializationException();
         //}
 
+/*
+This was meant for /AdvanceSearch but no longer works after an update to the site. Not sure why.
         RequestBody query = searchTemplate()
                 .add("animeName", searchTerm)
                 .build();
@@ -39,18 +44,50 @@ public class KissSearchProvider implements SearchProvider {
                 .addHeader("Referer", Providers.KISS_SEARCH_URL)
                 .post(query)
                 .build();
+*/
+        Request search = new Request.Builder()
+                .url(Providers.KISS_SEARCH_URL)
+                .addHeader("Referer", Providers.KISS_BASE_URL)
+                .post(new FormBody.Builder().add("keyword", searchTerm).build())
+                .build();
 
-        String responseBody = GeneralUtils.getWebPage(search);
+        Response response = GeneralUtils.makeRequest(search);
+
+        String responseBody;
+
+        try {
+            responseBody = response.body().string();
+        } catch (IOException io) {
+            throw OnErrorThrowable.from(new Throwable("Conection failed."));
+        }
+
+        if (responseBody.isEmpty()) {
+            throw OnErrorThrowable.from(new Throwable("Connection failed."));
+        }
+
+        // handle redirects straight to anime page (for searches with only one result)
+        if (!response.request().url().pathSegments().contains("Search")) {
+            List<Anime> animes = new ArrayList<>(1);
+            animes.add(KissAnimeProvider.parse(Jsoup.parse(responseBody), response.request().url().toString()));
+            return animes;
+        }
 
         Element resultTable = isolate(responseBody);
 
         if (resultTable == null) {
 
             if (responseBody.contains("allow_5_secs")) {
-                throw new CloudFlareInitializationException();
+                if (retries < 2) {
+                    retries++;
+                    GeneralUtils.getWebPage(Providers.KISS_BASE_URL);
+                    searchFor(searchTerm);
+                } else {
+                    throw new CloudFlareInitializationException();
+                }
+            } else {
+                throw OnErrorThrowable.from(new Throwable("Parsing failed."));
             }
 
-            throw OnErrorThrowable.from(new Throwable("No search results"));
         }
 
         return parseElements(resultTable.select("td[title]"));
@@ -58,7 +95,7 @@ public class KissSearchProvider implements SearchProvider {
 
     @Override
     public Element isolate(String document) {
-        return Jsoup.parse(document).select("table.listing").first();
+        return Jsoup.parse(document).select("table.listing > tbody").first();
     }
 
     @Override
@@ -82,6 +119,10 @@ public class KissSearchProvider implements SearchProvider {
         }
         return results;
     }
+/*
+This was meant for /AdvanceSearch but no longer works after an update to the site. Not sure why.
+
+    private static final int NUM_GENRES = 47;
 
     private FormBody.Builder searchTemplate() {
         FormBody.Builder searchTemplate = new FormBody.Builder();
@@ -91,4 +132,6 @@ public class KissSearchProvider implements SearchProvider {
         searchTemplate.add("status", "");
         return searchTemplate;
     }
+
+*/
 }
