@@ -82,4 +82,6 @@
  public static final org.codehaus.jackson.annotate.JsonAutoDetect$Visibility *;
 }
 
+-keep class com.squareup.duktape.** { *; }
+
 -dontobfuscate
