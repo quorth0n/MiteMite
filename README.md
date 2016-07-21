@@ -39,5 +39,5 @@ I welcome PRs. ^^
 10. [NoNonsense-FilePicker](https://github.com/spacecowboy/NoNonsense-FilePicker)
 11. [FlexibleAdapter](https://github.com/davideas/FlexibleAdapter)
 12. [Retrofit](https://github.com/square/retrofit)
-13. [Rhino](https://github.com/mozilla/rhino)
-14. [RxBinding](https://github.com/JakeWharton/RxBinding)
+13. [RxBinding](https://github.com/JakeWharton/RxBinding)
+14. [Duktape](https://github.com/svaarala/duktape)
