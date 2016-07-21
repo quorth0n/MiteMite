@@ -237,21 +237,20 @@ public class MainPresenter extends RxPresenter<MainActivity>{
             }
         }
 
-        if (mainModel != null) {
-            try {
-                if (event.addToFavourites) {
-                    mainModel.addToFavourites(event.anime);
-                } else {
-                    mainModel.removeFromFavourites(event.anime);
-                }
-                mainModel.saveFavourites();
-                if (getView() != null) {
-                    getView().favouritesChanged(getFavourites());
-                }
-            } catch (Exception e) {
-                postError(e);
+        try {
+            if (event.addToFavourites) {
+                mainModel.addToFavourites(event.anime);
+            } else {
+                mainModel.removeFromFavourites(event.anime);
             }
+            mainModel.saveFavourites();
+            if (getView() != null) {
+                getView().favouritesChanged(getFavourites());
+            }
+        } catch (Exception e) {
+            postError(e);
         }
+
     }
 
     public void onEvent (LastAnimeEvent event) {
