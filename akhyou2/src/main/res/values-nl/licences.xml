@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="licences">
-        <b>OkHttp:</b>
+        <b><font color="#ffd8383d">OkHttp</font></b>
+        <font size="10">
 \n
 \n
         Copyright 2014 Square, Inc.
@@ -19,7 +20,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 \n
 \n
-        <b>Picasso:</b>
+        </font>
+        <b><font color="#ffd8383d">Picasso</font></b>
+        <font size="10">
 \n
 \n
         Copyright 2013 Square, Inc.
@@ -37,7 +40,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 \n
 \n
-        <b>Nucleus:</b>
+        </font>
+        <b><font color="#ffd8383d">Nucleus</font></b>
+        <font size="10">
 \n
 \n
 The MIT License (MIT)
@@ -63,19 +68,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 \n
 \n
-       <b>EventBus:</b>
+        </font>
+       <b><font color="#ffd8383d">EventBus</font></b>
+        <font size="10">
 \n
 \n
        http://www.apache.org/licenses/LICENSE-2.0
 \n
 \n
-        <b>RxAndroid:</b>
+        </font>
+        <b><font color="#ffd8383d">RxAndroid</font></b>
+        <font size="10">
 \n
 \n
        http://www.apache.org/licenses/LICENSE-2.0
 \n
 \n
-        <b>jsoup:</b>
+        </font>
+        <b><font color="#ffd8383d">jsoup</font></b>
+        <font size="10">
 \n
 \n
         Copyright © 2009 - 2013 Jonathan Hedley (jonathan@hedley.net)
@@ -87,7 +98,9 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 \n
 \n
-        <b>Material Dialogs:</b>
+        </font>
+        <b><font color="#ffd8383d">Material Dialogs</font></b>
+        <font size="10">
 \n
 \n
         The MIT License (MIT)
@@ -113,7 +126,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 \n
 \n
-        <b>LeakCanary:</b>
+        </font>
+        <b><font color="#ffd8383d">LeakCanary</font></b>
+        <font size="10">
 \n
 \n
 Copyright 2015 Square, Inc.
@@ -129,5 +144,74 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+\n
+\n
+        </font>
+        <b><font color="#ffd8383d">Jackson</font></b>
+        <font size="10">
+\n
+\n
+(no license)
+\n
+\n
+        </font>
+        <b><font color="#ffd8383d">NoNonsense-FilePicker</font></b>
+        <font size="10">
+\n
+\n
+Mozilla Public License Version 2.0
+\n
+\n
+        </font>
+        <b><font color="#ffd8383d">FlexibleAdapter</font></b>
+        <font size="10">
+\n
+\n
+http://www.apache.org/licenses/LICENSE-2.0
+\n
+\n
+        </font>
+        <b><font color="#ffd8383d">Retrofit</font></b>
+         <font size="10">
+\n
+\n
+http://www.apache.org/licenses/LICENSE-2.0
+\n
+\n
+        </font>
+        <b><font color="#ffd8383d">RxBinding</font></b>
+         <font size="10">
+\n
+\n
+http://www.apache.org/licenses/LICENSE-2.0
+\n
+\n
+        </font>
+        <b><font color="#ffd8383d">Duktape</font></b>
+ <font size="10">
+\n
+\n
+(http://opensource.org/licenses/MIT)
+
+Copyright (c) 2013-2016 by Duktape authors (see AUTHORS.rst)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+</font>
     </string>
 </resources>

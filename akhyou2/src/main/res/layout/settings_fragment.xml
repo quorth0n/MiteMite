@@ -62,8 +62,6 @@
             <include layout="@layout/settings_item_contact"
                 android:id="@+id/contact_preference_item" />
 
-            <include layout="@layout/settings_divider" />
-
         </LinearLayout>
 
     </ScrollView>
