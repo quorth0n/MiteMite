@@ -188,7 +188,7 @@ public class MainPresenter extends RxPresenter<MainActivity>{
         } else {
             mainActivity.requestFragment(MainActivity.SEARCH_FRAGMENT, null);
         }
-        if (mainModel.shouldAutoUpdate()) {
+        if (!BuildConfig.isFdroidFlav && mainModel.shouldAutoUpdate()) {
             checkForUpdate();
         }
     }

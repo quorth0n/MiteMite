@@ -205,26 +205,28 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        boolean shouldAutoUpdateVal = sharedPreferences.getBoolean(MainModel.AUTO_UPDATE_PREF, true);
-        RelativeLayout autoUpdateItem = (RelativeLayout) view.findViewById(R.id.auto_update_preference_item);
-        CheckBox autoUpdateCheckBox = (CheckBox) autoUpdateItem.findViewById(R.id.preference_check_box);
-        autoUpdateCheckBox.setClickable(false);
-        ((TextView) autoUpdateItem.findViewById(R.id.preference_summary_text))
-                .setText("Current version: " + BuildConfig.VERSION_NAME);
-        autoUpdateCheckBox.setChecked(shouldAutoUpdateVal);
-        autoUpdateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                editor.putBoolean(MainModel.AUTO_UPDATE_PREF, b);
-                editor.apply();
-            }
-        });
-        autoUpdateItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                autoUpdateCheckBox.toggle();
-            }
-        });
+        if (!BuildConfig.isFdroidFlav) {
+            boolean shouldAutoUpdateVal = sharedPreferences.getBoolean(MainModel.AUTO_UPDATE_PREF, true);
+            RelativeLayout autoUpdateItem = (RelativeLayout) view.findViewById(R.id.auto_update_preference_item);
+            CheckBox autoUpdateCheckBox = (CheckBox) autoUpdateItem.findViewById(R.id.preference_check_box);
+            autoUpdateCheckBox.setClickable(false);
+            ((TextView) autoUpdateItem.findViewById(R.id.preference_summary_text))
+                    .setText("Current version: " + BuildConfig.VERSION_NAME);
+            autoUpdateCheckBox.setChecked(shouldAutoUpdateVal);
+            autoUpdateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    editor.putBoolean(MainModel.AUTO_UPDATE_PREF, b);
+                    editor.apply();
+                }
+            });
+            autoUpdateItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    autoUpdateCheckBox.toggle();
+                }
+            });
+        }
 
         RelativeLayout licencesItem = (RelativeLayout) view.findViewById(R.id.licences_preference_item);
         licencesItem.setOnClickListener(new View.OnClickListener() {

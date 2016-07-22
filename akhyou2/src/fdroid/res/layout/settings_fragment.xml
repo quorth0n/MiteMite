@@ -49,11 +49,6 @@
 
             <include layout="@layout/settings_divider" />
 
-            <include layout="@layout/settings_item_auto_update"
-                android:id="@id/auto_update_preference_item" />
-
-            <include layout="@layout/settings_divider" />
-
             <include layout="@layout/settings_item_licences"
                 android:id="@+id/licences_preference_item" />
 

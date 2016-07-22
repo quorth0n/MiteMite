@@ -32,6 +32,16 @@ android {
     lintOptions {
           abortOnError false
     }
+    productFlavors {
+        independent {
+            applicationId "dulleh.akhyou"
+            buildConfigField "boolean", "isFdroidFlav", "false"
+        }
+        fdroid {
+            applicationId "dulleh.akhyou.fdroid"
+            buildConfigField "boolean", "isFdroidFlav", "true"
+        }
+    }
 }
 
 buildscript {
