@@ -112,7 +112,6 @@ public class KissAnimeProvider implements AnimeProvider {
                 .collect(Collectors.toList());
         String genreString = Stream.of(genres).collect(Collectors.joining(", "));
 
-
         Element date = info.select("p:contains(Date)").first();
         if (date != null) {
             String text = date.text();

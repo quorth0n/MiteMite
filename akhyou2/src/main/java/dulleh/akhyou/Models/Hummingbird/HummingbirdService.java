@@ -3,7 +3,6 @@ package dulleh.akhyou.Models.Hummingbird;
 import java.util.Map;
 
 import retrofit.http.GET;
-import retrofit.http.Header;
 import retrofit.http.POST;
 import retrofit.http.Path;
 import retrofit.http.Query;

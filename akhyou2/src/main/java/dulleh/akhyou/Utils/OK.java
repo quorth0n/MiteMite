@@ -7,8 +7,6 @@ import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 
-import java.util.concurrent.TimeUnit;
-
 import okhttp3.OkHttpClient;
 
 public enum OK {
@@ -30,7 +28,6 @@ public enum OK {
         Client = new OkHttpClient.Builder()
                 .cookieJar(cookieJar)
                 .addInterceptor(new CloudflareInterceptor())
-                //.connectTimeout(6, TimeUnit.SECONDS)
                 .build();
 
         return Client;
