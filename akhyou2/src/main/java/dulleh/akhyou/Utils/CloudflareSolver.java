@@ -53,7 +53,7 @@ public class CloudflareSolver {
     public static Request solveCloudflare (Response response) throws InterruptedException, IOException, CloudflareException {
         System.out.println("attempting to solve cloudflare");
 
-        Thread.sleep(5000);
+        Thread.sleep(4000);
 
         Request request = response.request();
         String host = request.url().host();
