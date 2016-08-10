@@ -1,17 +1,22 @@
 package dulleh.akhyou;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
 import org.jsoup.Jsoup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.greenrobot.event.EventBus;
 import dulleh.akhyou.Models.Anime;
 import dulleh.akhyou.Models.Hummingbird.HummingbirdApi;
+import dulleh.akhyou.Utils.C;
 import dulleh.akhyou.Utils.Events.FavouriteEvent;
 import dulleh.akhyou.Utils.Events.HbUserEvent;
 import dulleh.akhyou.Utils.Events.HummingbirdCredentialsUpdatedEvent;
@@ -131,14 +136,6 @@ public class MainPresenter extends RxPresenter<MainActivity>{
     public void launchFromMalLink (String url) {
         Observable.just(url)
                 .subscribeOn(Schedulers.io())
-                .map(a -> a.substring(a.indexOf("http://")).trim())
-                .map(a -> {
-                    if (a.contains(" ")) {
-                        return a.substring(0, a.indexOf(" "));
-                    } else {
-                        return a;
-                    }
-                })
                 .map(u -> GeneralUtils.getWebPage(u))
                 .map(body -> Jsoup.parse(body).select("head > title").first())
                 .map(element -> element.text().substring(0, element.text().lastIndexOf("-") - 1))
@@ -180,13 +177,67 @@ public class MainPresenter extends RxPresenter<MainActivity>{
         return mainModel.getFavourites();
     }
 
+    public void onStart(Bundle savedInstanceState, Intent openingIntent, OnlyFragmentManager onlyFragmentManager) {
+        String action = openingIntent.getAction();
+
+        if (action == null) {
+            if (savedInstanceState != null) {
+                return;
+            }
+        } else if (action.equals(Intent.ACTION_MAIN)) {
+            if (savedInstanceState != null) {
+                return;
+            }
+        } else if (action.equals(Intent.ACTION_VIEW)) {
+            Uri uri = openingIntent.getData();
+
+            if (uri == null || uri.getPath().isEmpty() || uri.getHost() == null || uri.getHost().isEmpty()) {
+                if (savedInstanceState != null) {
+                    return;
+                }
+            } else {
+                String host = uri.getHost();
+                String path = uri.getPath();
+                if ((host.equalsIgnoreCase(C.HOST_HUMMINGBIRD) || host.equalsIgnoreCase(C.HOST_WWW_HUMMINGBIRD))
+                        && (path.toLowerCase().contains("/anime/") || path.toLowerCase().contains("/a/"))) {
+                    launchFromHbLink(uri.toString());
+                    return;
+                } else if ((host.equalsIgnoreCase(C.HOST_MYANIMELIST) || host.equalsIgnoreCase(C.HOST_WWW_MYANIMELIST))
+                        && uri.getPath().toLowerCase().contains("/anime/")) {
+                    launchFromMalLink(uri.toString());
+                    return;
+                } else if (savedInstanceState != null) {
+                    return;
+                }
+            }
+        } else if (action.equals(Intent.ACTION_SEND)) {
+            String extra = openingIntent.getStringExtra(Intent.EXTRA_TEXT);
+            if (extra != null && !extra.isEmpty()) {
+                Pattern pattern = Pattern.compile("\\S*(" + C.HOST_HUMMINGBIRD + "|" + C.HOST_MYANIMELIST + ")\\S*");
+                Matcher matcher = pattern.matcher(extra);
+                if (matcher.find()) {
+                    String url = matcher.group(0);
+                    onStart(savedInstanceState, new Intent(Intent.ACTION_VIEW, Uri.parse(url)), onlyFragmentManager);
+                    return;
+                } else {
+                    onEvent(new SearchSubmittedEvent(extra));
+                    return;
+                }
+            } else {
+                onEvent(new SearchSubmittedEvent(extra));
+                return;
+            }
+        }
+        onFreshStart(onlyFragmentManager);
+    }
+
     // Must have run setSharedPreferences() before this.
-    public void onFreshStart (MainActivity mainActivity) {
+    public void onFreshStart (OnlyFragmentManager onlyFragmentManager) {
         if (mainModel.getLastAnime() != null && MainModel.openToLastAnime) {
             EventBus.getDefault().postSticky(new OpenAnimeEvent(mainModel.getLastAnime()));
-            mainActivity.requestFragment(MainActivity.ANIME_FRAGMENT, null);
+            onlyFragmentManager.requestFragment(MainActivity.ANIME_FRAGMENT, null);
         } else {
-            mainActivity.requestFragment(MainActivity.SEARCH_FRAGMENT, null);
+            onlyFragmentManager.requestFragment(MainActivity.SEARCH_FRAGMENT, null);
         }
         if (!BuildConfig.isFdroidFlav && mainModel.shouldAutoUpdate()) {
             checkForUpdate();
@@ -309,5 +360,4 @@ public class MainPresenter extends RxPresenter<MainActivity>{
     public void downloadUpdate (String url) {
         GeneralUtils.lazyDownload(getView(), url);
     }
-
 }

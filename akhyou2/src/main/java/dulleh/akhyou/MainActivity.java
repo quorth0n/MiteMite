@@ -1,6 +1,5 @@
 package dulleh.akhyou;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
@@ -38,7 +37,7 @@ import nucleus.factory.RequiresPresenter;
 import nucleus.view.NucleusAppCompatActivity;
 
 @RequiresPresenter(MainPresenter.class)
-public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implements DrawerAdapterClickListener{
+public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implements DrawerAdapterClickListener, OnlyFragmentManager{
     private SharedPreferences sharedPreferences;
     private android.support.v4.app.FragmentManager fragmentManager;
     private FrameLayout parentLayout;
@@ -100,23 +99,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> implem
             }
         });
 
-        Intent openingIntent = getIntent();
-
-        if (openingIntent.getAction() != null && openingIntent.getAction().equals(Intent.ACTION_SEND)) {
-            String intentExtra = openingIntent.getStringExtra(Intent.EXTRA_TEXT);
-
-            if (intentExtra != null) {
-                intentExtra = intentExtra.toLowerCase();
-                if (intentExtra.contains("hummingbird.me/anime/")) {
-                    getPresenter().launchFromHbLink(intentExtra);
-                } else if (intentExtra.contains("myanimelist.net/anime/")) {
-                    getPresenter().launchFromMalLink(intentExtra);
-                }
-            }
-
-        } else if (savedInstanceState == null){
-            getPresenter().onFreshStart(this);
-        }
+        getPresenter().onStart(savedInstanceState, getIntent(), this);
 
     }
 
