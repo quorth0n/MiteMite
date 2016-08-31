@@ -73,6 +73,8 @@ public class AnimePresenter extends RxPresenter<AnimeFragment> implements Adapte
 
         if (lastAnime != null && lastAnime.getUrl() != null) {
 
+            if (animeProvider == null) setAnimeProvider(lastAnime);
+
             if (lastAnime.getEpisodes() != null) {
                 view.setAnime(lastAnime);
             } else if (lastAnime.getTitle() != null) {
