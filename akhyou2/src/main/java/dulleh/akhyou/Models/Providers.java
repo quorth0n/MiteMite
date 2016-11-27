@@ -34,7 +34,7 @@ public class Providers {
 
     // Base URLs
     public static final String RUSH_BASE_URL = "http://www.animerush.tv";
-    public static final String RAM_BASE_URL = "http://www.animeram.io";
+    public static final String RAM_BASE_URL = "http://www.animeram.cc";
     public static final String BAM_BASE_URL = "http://www.animebam.net";
     public static final String KISS_BASE_URL = "http://kissanime.to";
 
