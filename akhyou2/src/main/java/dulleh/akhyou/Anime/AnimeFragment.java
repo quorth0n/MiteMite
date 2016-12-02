@@ -275,7 +275,7 @@ public class AnimeFragment extends NucleusSupportFragment<AnimePresenter> implem
                     .cancelable(true)
                     .show();
         } else {
-            getPresenter().postError(new Throwable("Error: No sources found."));
+            getPresenter().postError(new Throwable("No sources found."));
         }
     }
 
