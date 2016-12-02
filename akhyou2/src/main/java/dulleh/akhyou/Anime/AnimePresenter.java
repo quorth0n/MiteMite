@@ -49,7 +49,7 @@ public class AnimePresenter extends RxPresenter<AnimeFragment> implements Adapte
     private Subscription videoSubscription;
     private AnimeProvider animeProvider;
 
-    Anime lastAnime;
+    private Anime lastAnime;
     public boolean isRefreshing;
     private static boolean needToGiveFavouriteState = false;
 
