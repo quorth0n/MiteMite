@@ -33,6 +33,7 @@ import com.squareup.duktape.Duktape;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -59,8 +60,16 @@ public class CloudflareSolver {
         String host = request.url().host();
 
         Document doc = Jsoup.parse(response.body().string());
-        String challenge = doc.select("[name=jschl_vc]").first().attr("value");
-        String challengePass = doc.select("[name=pass]").first().attr("value");
+
+        Element challengeEle = doc.select("[name=jschl_vc]").first();
+        Element challengePassEle = doc.select("[name=pass]").first();
+
+        if (challengeEle == null || challengePassEle == null) {
+            throw new CloudflareException("challenge element not found");
+        }
+
+        String challenge = challengeEle.attr("value");
+        String challengePass = challengePassEle.attr("value");
 
         String function = transformFunction(doc.select("head script").first().html());
 
