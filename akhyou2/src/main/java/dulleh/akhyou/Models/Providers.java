@@ -25,12 +25,12 @@ public class Providers {
     public static final CharSequence RAM_TITLE = "ANIMERAM";
     public static final CharSequence BAM_TITLE = "ANIMEBAM";
     public static final CharSequence KISS_TITLE = "KISSANIME";
-    public static final String MP4UPLOAD_TITLE = "mp4upload";
+    //public static final String MP4UPLOAD_TITLE = "mp4upload";
     public static final String DAILYMOTION_TITLE = "dailymotion";
     public static final String ENGINE_TITLE = "engine";
-    public static final String YOURUPLOAD_TITLE = "yourupload";
+    //public static final String YOURUPLOAD_TITLE = "yourupload";
     public static final String GO_TITLE = "go";
-    public static final String ABVIDEO_TITLE = "abvideo";
+    //public static final String ABVIDEO_TITLE = "abvideo";
 
     // Base URLs
     public static final String RUSH_BASE_URL = "http://www.animerush.tv";
@@ -55,12 +55,12 @@ public class Providers {
     private static Map<String, SourceProvider> getSourceList () {
         Map<String, SourceProvider> sourceMap = new HashMap<>();
 
-        sourceMap.put(MP4UPLOAD_TITLE, new Mp4UploadSourceProvider());
+        //sourceMap.put(MP4UPLOAD_TITLE, new Mp4UploadSourceProvider());
         sourceMap.put(DAILYMOTION_TITLE, new DailyMotionSourceProvider());
         sourceMap.put(ENGINE_TITLE, new EngineSourceProvider());
-        sourceMap.put(YOURUPLOAD_TITLE, new YourUploadSourceProvider());
+        //sourceMap.put(YOURUPLOAD_TITLE, new YourUploadSourceProvider());
         sourceMap.put(GO_TITLE, new GoSourceProvider());
-        sourceMap.put(ABVIDEO_TITLE, new AnimeBamSourceProvider());
+        //sourceMap.put(ABVIDEO_TITLE, new AnimeBamSourceProvider());
 
         return sourceMap;
     }
