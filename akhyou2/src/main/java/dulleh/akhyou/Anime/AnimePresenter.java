@@ -180,6 +180,8 @@ public class AnimePresenter extends RxPresenter<AnimeFragment> implements Adapte
             animeSubscription.unsubscribe();
         }
 
+        if (animeProvider == null) setAnimeProvider(lastAnime);
+
         animeSubscription = Observable.defer(new Func0<Observable<Anime>>() {
             @Override
             public Observable<Anime> call() {
