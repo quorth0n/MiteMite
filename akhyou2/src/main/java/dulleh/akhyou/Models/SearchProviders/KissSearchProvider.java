@@ -1,13 +1,13 @@
 package dulleh.akhyou.Models.SearchProviders;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import dulleh.akhyou.Models.Anime;
@@ -15,7 +15,6 @@ import dulleh.akhyou.Models.AnimeProviders.KissAnimeProvider;
 import dulleh.akhyou.Models.Providers;
 import dulleh.akhyou.Utils.CloudFlareInitializationException;
 import dulleh.akhyou.Utils.GeneralUtils;
-import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.Response;
 import rx.exceptions.OnErrorThrowable;
@@ -46,9 +45,8 @@ This was meant for /AdvanceSearch but no longer works after an update to the sit
                 .build();
 */
         Request search = new Request.Builder()
-                .url(Providers.KISS_SEARCH_URL)
+                .url(Providers.KISS_SEARCH_URL + GeneralUtils.encodeForUtf8(searchTerm))
                 .addHeader("Referer", Providers.KISS_BASE_URL)
-                .post(new FormBody.Builder().add("keyword", searchTerm).build())
                 .build();
 
         Response response = GeneralUtils.makeRequest(search);
@@ -77,6 +75,7 @@ This was meant for /AdvanceSearch but no longer works after an update to the sit
         if (resultTable == null) {
 
             if (responseBody.contains("allow_5_secs")) {
+
                 if (retries < 2) {
                     retries++;
                     GeneralUtils.getWebPage(Providers.KISS_BASE_URL);
@@ -84,18 +83,19 @@ This was meant for /AdvanceSearch but no longer works after an update to the sit
                 } else {
                     throw new CloudFlareInitializationException();
                 }
+
             } else {
                 throw OnErrorThrowable.from(new Throwable("Parsing failed."));
             }
 
         }
 
-        return parseElements(resultTable.select("td[title]"));
+        return parseElements(resultTable.children().removeClass("head"));
     }
 
     @Override
     public Element isolate(String document) {
-        return Jsoup.parse(document).select("table.listing > tbody").first();
+        return Jsoup.parse(document).select("#leftside > div > div.barContent.full > div.listing.full").first();
     }
 
     @Override
@@ -105,17 +105,23 @@ This was meant for /AdvanceSearch but no longer works after an update to the sit
 
     private List<Anime> parseElements(Elements rows) {
         List<Anime> results = new ArrayList<>(rows.size());
-        for (Element row : rows) {
-            Anime anime = new Anime().setProviderType(Providers.KISS);
-            String titleTag = row.attr("title");
-            Matcher matcher = PARSER.matcher(titleTag);
-            if (matcher.find()) {
-                anime.setImageUrl(matcher.group(1))
-                     .setUrl(Providers.KISS_BASE_URL + matcher.group(2))
-                     .setTitle(matcher.group(3))
-                     .setDesc(matcher.group(4));
+        for (Element row : rows) { //ignore headings in divs
+            String popupHtml = row.children().attr("title");
+
+            if (popupHtml != null && !popupHtml.isEmpty()) {
+                Anime anime = new Anime().setProviderType(Providers.KISS);
+
+                Document popup = Jsoup.parse(popupHtml);
+
+                Element title = popup.select("a.bigChar").first();
+                anime.setTitle(title.text());
+                anime.setUrl("http:" + title.attr("href"));
+
+                anime.setImageUrl("http:" + popup.select("img").first().attr("src"));
+                anime.setDesc(popup.select("p").text());
+
+                results.add(anime);
             }
-            results.add(anime);
         }
         return results;
     }
