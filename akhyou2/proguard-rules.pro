@@ -67,6 +67,7 @@
 -keep class rx.** { *; }
 
 -keepnames class com.fasterxml.jackson.** { *; }
+-keep class com.fasterxml.jackson.** { *; }
  -dontwarn com.fasterxml.jackson.databind.**
 -keep class org.codehaus.** { *; }
 -keepclassmembers public final enum org.codehaus.jackson.annotate.JsonAutoDetect$Visibility {

@@ -38,7 +38,8 @@ public class MainModel {
     public static final String HB_AUTH_TOKEN_PREF = "hb_auth_token_preference";
 
     private static final String LATEST_VERSION_LINK = "https://api.github.com/gists/d67e3b97a672e8c3f544";
-    public static final String LATEST_RELEASE_LINK = "https://github.com/dulleh/akhyou/blob/master/akhyou-latest.apk?raw=true";
+
+    private String updateUrl = "https://github.com/dulleh/akhyou/blob/master/akhyou-latest.apk?raw=true";
 
     private SharedPreferences sharedPreferences;
     private HummingbirdApi hummingbirdApi;
@@ -223,7 +224,9 @@ public class MainModel {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             JsonNode rootNode = objectMapper.readValue(GeneralUtils.getWebPage(LATEST_VERSION_LINK), JsonNode.class);
-            String newUpdateVersion = rootNode.get("description").textValue();
+            String newUpdateVersionAndDownloadLink = rootNode.get("description").textValue();
+            String newUpdateVersion = newUpdateVersionAndDownloadLink.split(";")[0];
+            updateUrl = newUpdateVersionAndDownloadLink.split(";")[1];
             if (!newUpdateVersion.equals(versionName)) {
                 return newUpdateVersion + rootNode.get("files").get("latestRelease").get("content").textValue();
             } else {
@@ -233,6 +236,10 @@ public class MainModel {
             io.printStackTrace();
             throw OnErrorThrowable.from(new Throwable("Checking update failed."));
         }
+    }
+
+    public String getUpdateUrl() {
+        return updateUrl;
     }
 
 

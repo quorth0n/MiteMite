@@ -357,7 +357,7 @@ public class MainPresenter extends RxPresenter<MainActivity>{
         EventBus.getDefault().post(new SnackbarEvent(GeneralUtils.formatError(e)));
     }
 
-    public void downloadUpdate (String url) {
-        GeneralUtils.lazyDownload(getView(), url);
+    public void downloadUpdate () {
+        GeneralUtils.lazyDownload(getView(), mainModel.getUpdateUrl());
     }
 }
