@@ -37,7 +37,7 @@ public class MainModel {
     public static final String HB_PASSWORD_PREF = "hb_password_preference";
     public static final String HB_AUTH_TOKEN_PREF = "hb_auth_token_preference";
 
-    private static final String LATEST_VERSION_LINK = "https://api.github.com/gists/d67e3b97a672e8c3f544";
+    private static final String LATEST_VERSION_LINK = "https://api.github.com/gists/f8b16e729db53ca7364dc6427ca756ec";
 
     private String updateUrl = "https://github.com/dulleh/akhyou/blob/master/akhyou-latest.apk?raw=true";
 
@@ -225,10 +225,11 @@ public class MainModel {
         try {
             JsonNode rootNode = objectMapper.readValue(GeneralUtils.getWebPage(LATEST_VERSION_LINK), JsonNode.class);
             String newUpdateVersionAndDownloadLink = rootNode.get("description").textValue();
-            String newUpdateVersion = newUpdateVersionAndDownloadLink.split(";")[0];
+            String newUpdateVersion;
+            newUpdateVersion = newUpdateVersionAndDownloadLink.split(";")[0];
             updateUrl = newUpdateVersionAndDownloadLink.split(";")[1];
             if (!newUpdateVersion.equals(versionName)) {
-                return newUpdateVersion + rootNode.get("files").get("latestRelease").get("content").textValue();
+                return newUpdateVersion + rootNode.get("files").get("latestRelease2.0.7Plus").get("content").textValue();
             } else {
                 return null;
             }
