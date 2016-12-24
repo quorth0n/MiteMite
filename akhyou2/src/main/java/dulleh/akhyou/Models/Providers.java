@@ -25,7 +25,7 @@ public class Providers {
     public static final CharSequence RAM_TITLE = "ANIMERAM";
     public static final CharSequence BAM_TITLE = "ANIMEBAM";
     public static final CharSequence KISS_TITLE = "KISSANIME";
-    //public static final String MP4UPLOAD_TITLE = "mp4upload";
+    public static final String MP4UPLOAD_TITLE = "mp4upload";
     public static final String DAILYMOTION_TITLE = "dailymotion";
     public static final String ENGINE_TITLE = "engine";
     //public static final String YOURUPLOAD_TITLE = "yourupload";
@@ -36,7 +36,7 @@ public class Providers {
     public static final String RUSH_BASE_URL = "http://www.animerush.tv";
     public static final String RAM_BASE_URL = "http://www.animeram.cc";
     public static final String BAM_BASE_URL = "http://www.animebam.net";
-    public static final String KISS_BASE_URL = "http://kissanime.to";
+    public static final String KISS_BASE_URL = "http://kissanime.ru";
 
     // Base search paths (must start with / )
     public static final String RUSH_SEARCH_EXT = "/search.php?searchquery=";
@@ -55,7 +55,7 @@ public class Providers {
     private static Map<String, SourceProvider> getSourceList () {
         Map<String, SourceProvider> sourceMap = new HashMap<>();
 
-        //sourceMap.put(MP4UPLOAD_TITLE, new Mp4UploadSourceProvider());
+        sourceMap.put(MP4UPLOAD_TITLE, new Mp4UploadSourceProvider());
         sourceMap.put(DAILYMOTION_TITLE, new DailyMotionSourceProvider());
         sourceMap.put(ENGINE_TITLE, new EngineSourceProvider());
         //sourceMap.put(YOURUPLOAD_TITLE, new YourUploadSourceProvider());

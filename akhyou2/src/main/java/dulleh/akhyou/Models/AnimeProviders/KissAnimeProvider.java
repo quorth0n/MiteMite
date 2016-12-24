@@ -1,8 +1,5 @@
 package dulleh.akhyou.Models.AnimeProviders;
 
-import com.annimon.stream.Collectors;
-import com.annimon.stream.Stream;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,7 +8,6 @@ import org.jsoup.select.Elements;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import dulleh.akhyou.Models.Anime;
@@ -96,60 +92,45 @@ public class KissAnimeProvider implements AnimeProvider {
     }
 
     private static Anime parseInfo(Document doc, Anime anime) {
-        Elements info = doc .select("#leftside > .bigBarContainer:first-of-type > .barContent > div > p:not(:empty)");
+        Element info = doc.select("div.bigBarContainer:nth-child(1) > div:nth-child(2) > div:nth-child(2)").first();
 
-        String title = doc.select(".bigChar").text();
+        String title = info.select("a[href]").first().text();
 
-        String image = doc.select(".rightBox img").attr("src");
+        String imageUrl = doc.select("#rightside > div:nth-child(1) > div.barContent > div:nth-child(2) > img").first().attr("src");
 
-        String altNames = Stream.of(info.select("p:contains(Other name)").select("[title]"))
-                .map(Element::text)
-                .collect(Collectors.joining(", "));
+        String alternateTitle = info.select("p").get(0).select("a").text();
 
-        List<String> genres = Stream.of(info.select("p:contains(Genres)").select("a"))
-                .map(g -> g.attr("href"))
-                .map(g -> g.substring(g.lastIndexOf('/') + 1))
-                .collect(Collectors.toList());
-        String genreString = Stream.of(genres).collect(Collectors.joining(", "));
+        String genresString = info.select("p").get(1).select("a").text();
 
-        Element date = info.select("p:contains(Date)").first();
-        if (date != null) {
-            String text = date.text();
-            anime.setDate(text.substring(text.indexOf(':') + 2));
-        } else {
-            anime.setDate("-");
-        }
+        String status = info.select("p").get(2).ownText().substring(1, 12).trim();
 
-        Element status = info.select("p:contains(Status)").first();
-        if (status != null) {
-            Matcher statusMatcher = EXTRACT_STATUS.matcher(status.text());
-            if (statusMatcher.find()) {
-                anime.setStatus(statusMatcher.group(1));
-            } else {
-                anime.setStatus("-");
-            }
-        } else {
-            anime.setStatus("-");
-        }
+        String desc = info.select("p").get(4).text();
 
         anime.setTitle(title)
-             .setAlternateTitle(altNames)
-             .setGenres(genres.toArray(new String[genres.size()]))
-             .setGenresString(genreString)
-             .setDesc(info.last().text())
-             .setImageUrl(image);
+             .setAlternateTitle(alternateTitle)
+             //.setGenres(genres.toArray(new String[genres.size()]))
+             .setGenresString(genresString)
+             .setDesc(desc)
+             .setStatus(status)
+             .setImageUrl(imageUrl);
 
         return anime;
     }
 
     private static List<Episode> parseEpisodes(Document doc) {
-        Elements episodeElements = doc.select(".episodeList .listing").first().select("[title]");
-        List<Episode> episodes = new ArrayList<>(episodeElements.size());
+        Elements episodeElements = doc.select("#leftside > div:nth-child(2) > div.barContent.episodeList > div:nth-child(2) > table > tbody > tr > td");
+
+        List<Episode> episodes = new ArrayList<>(episodeElements.size() / 2);
 
         for (Element episode : episodeElements) {
-            episodes.add(new Episode()
-                .setTitle(episode.text())
-                .setUrl(Providers.KISS_BASE_URL + episode.attr("href")));
+            String episodeTitle = episode.text();
+            String episodeLink = episode.select("a[href]").attr("href");
+
+            if (!episodeLink.isEmpty()) {
+                episodes.add(new Episode()
+                        .setTitle(episodeTitle)
+                        .setUrl(Providers.KISS_BASE_URL + episodeLink));
+            }
         }
 
         return episodes;

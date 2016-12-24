@@ -64,15 +64,6 @@
     java.lang.Object readResolve();
 }
 
--keep class com.annimon.stream.** { *; }
--keep interface com.annimon.stream.** { *; }
--keepclasseswithmembers class * {
-    @com.annimon.stream.** *;
-}
--keepclassmembers class * {
-    @com.annimon.stream.** *;
-}
-
 -keep class rx.** { *; }
 
 -keepnames class com.fasterxml.jackson.** { *; }

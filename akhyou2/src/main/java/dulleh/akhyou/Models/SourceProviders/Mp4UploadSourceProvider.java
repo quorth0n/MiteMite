@@ -1,14 +1,10 @@
 package dulleh.akhyou.Models.SourceProviders;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import dulleh.akhyou.Models.Video;
 import dulleh.akhyou.Utils.GeneralUtils;
-import rx.exceptions.OnErrorThrowable;
 
 public class Mp4UploadSourceProvider implements SourceProvider{
 
@@ -16,19 +12,12 @@ public class Mp4UploadSourceProvider implements SourceProvider{
     public List<Video> fetchSource(String embedPageUrl) {
         String body = GeneralUtils.getWebPage(embedPageUrl);
 
-        Element playerScript = Jsoup.parse(body).select("script").get(6);
+        String videoURL = GeneralUtils.jwPlayerIsolate(body);
 
-        if (playerScript == null) {
-            throw OnErrorThrowable.from(new Throwable("MP4Upload video retrieval failed."));
-        }
-
-        String elementHtml = playerScript.html();
+        System.out.println(videoURL);
 
         List<Video> videos = new ArrayList<>(1);
-        videos.add(new Video(null, elementHtml.substring(elementHtml.indexOf("jwplayer(\"player_code\").setup({\n" +
-                "\t  \"file\": ") + 44).split("\",")[0]));
-
-        System.out.println(videos.get(0).getUrl());
+        videos.add(new Video(null, videoURL));
 
         return videos;
     }

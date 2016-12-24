@@ -14,10 +14,10 @@ public class YourUploadSourceProvider implements SourceProvider{
 
         String body = GeneralUtils.getWebPage(embedPageUrl);
 
-        String elementHtml = GeneralUtils.jwPlayerIsolate(body);
+        String videoUrl = GeneralUtils.jwPlayerIsolate(body);
 
         List<Video> videos = new ArrayList<>(1);
-        videos.add(new Video(null, elementHtml.substring(elementHtml.indexOf("file: '") + 7, elementHtml.indexOf("',"))));
+        videos.add(new Video(null, videoUrl));
 
         return videos;
     }

@@ -94,7 +94,11 @@ public class GeneralUtils {
     }
 
     public static String jwPlayerIsolate (String body) {
-        return Jsoup.parse(body).select("div#player").first().nextElementSibling().html();
+        String javascriptShit = Jsoup.parse(body).select("div#player_code").first().child(0).html();
+
+        String almostVideoURL = javascriptShit.substring(javascriptShit.indexOf("\"file\": \"") + 9);
+
+        return almostVideoURL.substring(0, almostVideoURL.indexOf("\","));
     }
 
     public static String formattedGenres(String[] genres) {
