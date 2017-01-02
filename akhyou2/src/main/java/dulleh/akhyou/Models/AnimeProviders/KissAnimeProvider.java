@@ -92,7 +92,7 @@ public class KissAnimeProvider implements AnimeProvider {
     }
 
     private static Anime parseInfo(Document doc, Anime anime) {
-        Element info = doc.select("div.bigBarContainer:nth-child(1) > div:nth-child(2) > div:nth-child(2)").first();
+        Element info = doc.select("#leftside > div:nth-child(1) > div.barContent > div:not(.arrow-general)").first();
 
         String title = info.select("a[href]").first().text();
 
@@ -112,13 +112,14 @@ public class KissAnimeProvider implements AnimeProvider {
              .setGenresString(genresString)
              .setDesc(desc)
              .setStatus(status)
-             .setImageUrl(imageUrl);
+             .setImageUrl(imageUrl)
+             .setDate("-");
 
         return anime;
     }
 
     private static List<Episode> parseEpisodes(Document doc) {
-        Elements episodeElements = doc.select("#leftside > div:nth-child(2) > div.barContent.episodeList > div:nth-child(2) > table > tbody > tr > td");
+        Elements episodeElements = doc.select("#leftside > div:nth-child(4) > div.barContent.episodeList > div:nth-child(2) > table > tbody > tr > td > a");
 
         List<Episode> episodes = new ArrayList<>(episodeElements.size() / 2);
 
