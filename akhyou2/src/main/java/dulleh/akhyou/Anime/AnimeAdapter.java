@@ -146,9 +146,21 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
                     headerViewHolder.genresView.setText(anime.getGenresString());
                     headerViewHolder.descView.setText(anime.getDesc());
-                    headerViewHolder.alternateTitleView.setText(anime.getAlternateTitle());
-                    headerViewHolder.dateView.setText(anime.getDate());
-                    headerViewHolder.statusView.setText(anime.getStatus());
+                    if(anime.getAlternateTitle() != null && !anime.getAlternateTitle().isEmpty()) {
+                        headerViewHolder.alternateTitleView.setText(anime.getAlternateTitle());
+                    } else {
+                        headerViewHolder.alternateTitleView.setText("-");
+                    }
+                    if(anime.getDate() != null && !anime.getDate().isEmpty()) {
+                        headerViewHolder.dateView.setText(anime.getDate());
+                    } else {
+                        headerViewHolder.dateView.setText("-");
+                    }
+                    if(anime.getStatus() != null && !anime.getStatus().isEmpty()) {
+                        headerViewHolder.statusView.setText(anime.getStatus());
+                    } else {
+                        headerViewHolder.statusView.setText("-");
+                    }
                     headerViewHolder.favouriteFab.setImageDrawable(favouriteIcon());
 
                 } else if (viewHolder instanceof EpisodeViewHolder) {
@@ -162,19 +174,11 @@ public class AnimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                         episodeViewHolder.titleView.setTextColor(unwatchedColour);
                     }
 
-                    episodeViewHolder.titleView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            clickListener.onCLick(episodes.get(actualPosition), actualPosition, view);
-                        }
-                    });
+                    episodeViewHolder.titleView.setOnClickListener(view -> clickListener.onCLick(episodes.get(actualPosition), actualPosition, view));
 
-                    episodeViewHolder.titleView.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View view) {
-                            clickListener.onLongClick(episodes.get(actualPosition), actualPosition);
-                            return false;
-                        }
+                    episodeViewHolder.titleView.setOnLongClickListener(view -> {
+                        clickListener.onLongClick(episodes.get(actualPosition), actualPosition);
+                        return false;
                     });
                 }
             }
