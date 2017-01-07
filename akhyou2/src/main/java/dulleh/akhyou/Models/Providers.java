@@ -27,7 +27,7 @@ public class Providers {
     public static final CharSequence KISS_TITLE = "KISSANIME";
     public static final String MP4UPLOAD_TITLE = "mp4upload";
     public static final String DAILYMOTION_TITLE = "dailymotion";
-    public static final String ENGINE_TITLE = "engine";
+    //public static final String ENGINE_TITLE = "engine";
     //public static final String YOURUPLOAD_TITLE = "yourupload";
     public static final String GO_TITLE = "go";
     //public static final String ABVIDEO_TITLE = "abvideo";
@@ -57,7 +57,7 @@ public class Providers {
 
         sourceMap.put(MP4UPLOAD_TITLE, new Mp4UploadSourceProvider());
         sourceMap.put(DAILYMOTION_TITLE, new DailyMotionSourceProvider());
-        sourceMap.put(ENGINE_TITLE, new EngineSourceProvider());
+        //sourceMap.put(ENGINE_TITLE, new EngineSourceProvider());
         //sourceMap.put(YOURUPLOAD_TITLE, new YourUploadSourceProvider());
         sourceMap.put(GO_TITLE, new GoSourceProvider());
         //sourceMap.put(ABVIDEO_TITLE, new AnimeBamSourceProvider());
