@@ -1,6 +1,8 @@
 # Akhyou! [![Travis](https://img.shields.io/travis/dulleh/akhyou.svg?maxAge=60)](https://travis-ci.org/dulleh/akhyou) [![GitHub release](https://img.shields.io/github/release/dulleh/akhyou.svg?maxAge=3600)](https://github.com/dulleh/akhyou/releases)
 **An anime streaming app for Android. [Download now.](https://github.com/dulleh/akhyou/blob/master/akhyou-latest.apk?raw=true)**
 
+<a href="https://f-droid.org/repository/browse/?fdfilter=akhyou&fdid=dulleh.akhyou.fdroid" target="_blank"><img src="https://f-droid.org/badge/get-it-on.png" height="90"/></a>
+
 ![Akhyou! Logo Large](/AKHYOU-FINAL-LOGO-SMALL.png "AKHYOU!")
 
 Akhyou! is a material design android app that scrapes streaming sites to provide users with an ad-free *intuitive* method of streaming and downloading the anime of their choice to the media player of their choice. Currently it scrapes from four anime streaming sites and is built to be expandable. 

@@ -4,7 +4,7 @@
     <string name="settings_item">Paramètres</string>
     <string name="search_item">Recherche</string>
     <string name="favourites_item">Favoris</string>
-    <string name="imageContentDesc">Poster de l\'anime</string>
+    <string name="imageContentDesc">Poster de l\'animé</string>
     <string name="update_title">Une mise à jour est disponible !</string>
     <string name="update">METTRE À JOUR</string>
 
@@ -17,7 +17,7 @@
 
     <string name="auto_update_preference_title">Mise à jour automatique ?</string>
 
-    <string name="open_to_last_anime_preference_title">Open to last viewed anime?</string>
+    <string name="open_to_last_anime_preference_title">Ouvrir le dernier animé visionné?</string>
 
     <string name="search_grid_preference_title">Mise en page de la page de recherche</string>
     <string name="search_grid_option_card">Posters et détails</string>
@@ -53,25 +53,25 @@
     <string name="status_title">Statut:</string>
     <string name="alternate_title_title">Titre alternatif:</string>
     <string name="date_title">Date de sortie:</string>
-    <string name="contact_preference_summary">Email the developer.</string>
-    <string name="contact_preference_title">Send feedback</string>
-    <string name="usernameOrEmail">Username / Email</string>
-    <string name="hb_username_hint">Your hummingbird.me username or email</string>
-    <string name="hb_password_hint">Your password (shh)</string>
-    <string name="password">Password</string>
-    <string name="hummingbird_preference_title">Hummingbird Account Settings</string>
-    <string name="hummingbird_preference_summary">Scrobbling settings for Hummingbird.me</string>
-    <string name="settings_tab">SETTINGS</string>
-    <string name="history_tab">HISTORY</string>
-    <string name="hummingbird_username_placeholder">Sync with hummingbird.me</string>
+    <string name="contact_preference_summary">Envoyer un e-mail au développeur.</string>
+    <string name="contact_preference_title">Envoyer un avis sur l\'application</string>
+    <string name="usernameOrEmail">Pseudo / Email</string>
+    <string name="hb_username_hint">Votre pseudo ou email pour hummingbird.me</string>
+    <string name="hb_password_hint">Votre mot de passe (shh)</string>
+    <string name="password">Mot de passe</string>
+    <string name="hummingbird_preference_title">Paramètres du compte Hummingbird</string>
+    <string name="hummingbird_preference_summary">Paramètres du scrobbling pour Hummingbird.me</string>
+    <string name="settings_tab">PARAMÈTRES</string>
+    <string name="history_tab">HISTORIQUE</string>
+    <string name="hummingbird_username_placeholder">Sync avec hummingbird.me</string>
     <string name="hummingbird_history_placeholder">sorry, but currently this part of the app is all looks and no bang :P</string>
-    <string name="share">Share</string>
-    <string name="download_preference_title">Internal download location</string>
-    <string name="reset_to_default">Reset to default</string>
-    <string name="user_cover_description">User cover image</string>
+    <string name="share">Partager</string>
+    <string name="download_preference_title">Emplacement des téléchargements</string>
+    <string name="reset_to_default">Rétablir les paramètres par défaut</string>
+    <string name="user_cover_description">Image de couverture de l\'utilisateur</string>
     <string name="external_download_preference_title">Download externally?</string>
-    <string name="enabled_providers_preference_title">Providers</string>
-    <string name="enabled_providers_preference_summary">Enable or disable anime providers</string>
-    <string name="done">Done</string>
+    <string name="enabled_providers_preference_title">Contributeurs</string>
+    <string name="enabled_providers_preference_summary">Activer ou désactiver un fournisseur d\'animé</string>
+    <string name="done">Fait</string>
 
 </resources>
