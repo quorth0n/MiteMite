@@ -1,3 +1,7 @@
+
+##            DEVELOPMENT SUSPENDED
+I don't have the time to maintain the app right now. Development is therefore being suspended. You may want to consider legal apps (which are usually free with ads) or else use your browser/download until development resumes.
+
 # Akhyou! [![Travis](https://img.shields.io/travis/dulleh/akhyou.svg?maxAge=60)](https://travis-ci.org/dulleh/akhyou) [![GitHub release](https://img.shields.io/github/release/dulleh/akhyou.svg?maxAge=3600)](https://github.com/dulleh/akhyou/releases)
 **An anime streaming app for Android. [Download now.](https://github.com/dulleh/akhyou/blob/master/akhyou-latest.apk?raw=true)**
 
